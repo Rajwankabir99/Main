@@ -1,5 +1,6 @@
 ﻿using Main.Common;
-namespace Main.Model.Repository;
+using Main.Model;
+namespace IRepository;
 
 public interface IAdminPostImageRepository
 {
