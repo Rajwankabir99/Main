@@ -1,4 +1,5 @@
 ﻿// File: MyApp.Infrastructure/DependencyInjection.cs
+using Main.Model.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,14 +12,24 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration )
     {
-        // EF Core registration happens safely inside this library
+        
         services.AddDbContext<WebBusinessEntityContext> ( options =>
             options.UseSqlServer (
                 configuration.GetConnectionString ( "DefaultConnection" ),
                 b => b.MigrationsAssembly ( typeof ( WebBusinessEntityContext ).Assembly.FullName ) ) );
 
-        // Register your implementations against domain interfaces
-        //services.AddScoped<IUserRepository,UserRepository> ( );
+
+        services.AddDbContext<ApplicationDbContext> ( options =>
+            options.UseSqlServer (
+                configuration.GetConnectionString ( "DefaultConnection" ),
+                b => b.MigrationsAssembly ( typeof ( ApplicationDbContext ).Assembly.FullName ) ) );
+
+
+        services.AddScoped<IAdminPostImageRepository,AdminPostImageRepository> ( );
+        services.AddScoped<IAdminPostRepository,AdminPostRepository> ( );
+        services.AddScoped<IProductImageRepository,ProductImageRepository> ( );
+        services.AddScoped<IProductRepository,ProductRepository> ( );
+        services.AddScoped<IPageRepository,PageRepository> ( );
 
         return services;
     }

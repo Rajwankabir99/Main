@@ -1,8 +1,7 @@
-﻿using Main.Common;
-using Data;
-using Microsoft.EntityFrameworkCore;
-using Main.Infrastructure;
-using SkiaSharp;
+﻿using Microsoft.EntityFrameworkCore;
+using Main.Model.Repository;
+using Main.Model;
+namespace Main.Infrastructure.Repository;
 
 namespace Main.Model.Repository
 {

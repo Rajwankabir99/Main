@@ -9,16 +9,15 @@
 
   <ItemGroup>
     <Compile Remove="DataContextStores\**" />
+    <Compile Remove="IRepository\**" />
     <EmbeddedResource Remove="DataContextStores\**" />
+    <EmbeddedResource Remove="IRepository\**" />
     <None Remove="DataContextStores\**" />
+    <None Remove="IRepository\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Main.Common\Main.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IRepository\" />
   </ItemGroup>
 
 </Project>
