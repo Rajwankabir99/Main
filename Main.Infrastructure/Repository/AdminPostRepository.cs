@@ -7,9 +7,9 @@ namespace Repository;
 
 public class AdminPostRepository : IAdminPostRepository
 {
-    private readonly WebAppDbContext _Context;
+    private readonly AppDbContext _Context;
 
-    public AdminPostRepository( WebAppDbContext context )
+    public AdminPostRepository( AppDbContext context )
     {
         _Context = context;
     }

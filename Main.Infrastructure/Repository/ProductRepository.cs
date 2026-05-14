@@ -7,9 +7,9 @@ namespace Repository;
 
 public class ProductRepository : IProductRepository
 {
-    private readonly WebAppDbContext _Context;
+    private readonly AppDbContext _Context;
 
-    public ProductRepository( WebAppDbContext context )
+    public ProductRepository( AppDbContext context )
     {
         _Context = context;
     }

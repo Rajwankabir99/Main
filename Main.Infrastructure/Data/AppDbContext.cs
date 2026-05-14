@@ -4,7 +4,7 @@ using Main.Model;
 
 namespace Data;
 
-public class WebAppDbContext : DbContext
+public class AppDbContext ( DbContextOptions<AppDbContext> options ): DbContext ( options )
 {
     // You can add custom code to this file. Changes will not be overwritten.
     // 
@@ -14,10 +14,6 @@ public class WebAppDbContext : DbContext
     // Note: this will destroy and re-create your database with every model change.
     // 
     //System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<Model.Context.WebBusinessEntityContext>());
-
-
-    // Constructor used by DI/EF Core
-    public WebAppDbContext(DbContextOptions<WebAppDbContext> options) : base(options) { }
 
     public DbSet<Page> Pages { get; set; }
 
