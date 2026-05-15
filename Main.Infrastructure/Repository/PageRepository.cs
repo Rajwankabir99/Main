@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Main.Model.Repository;
 using Main.Model;
 using Main.Common;
-namespace Main.Infrastructure.Repository;
+using IRepository;
+using Data;
+
+namespace Repository;
 
 public class PageRepository: IPageRepository
 {
-    private readonly WebBusinessEntityContext _context;
+    private readonly BussinessAppDbContext _context;
 
-    public PageRepository ( WebBusinessEntityContext context )
+    public PageRepository ( BussinessAppDbContext context )
     {
         _context = context;
     }
@@ -20,7 +22,11 @@ public class PageRepository: IPageRepository
         await _context.Pages.Where ( a => a.HostCompanyName == company ).ToListAsync<Page> ( );
 
 
-    public async Task<Page?> GetSinglePage ( int? id ) => await _context.Pages.FirstOrDefaultAsync ( m => m.PageID == id.Value );
+    public async Task<Page?> GetSinglePage ( int? id ) 
+    {
+        return await _context.Pages.FirstOrDefaultAsync ( 
+            m => m.PageID == (id ??  -1 ));
+    }
 
 
     public async Task<bool> UpdatePage ( Page page )

@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Main.Model.Repository;
 using Main.Model;
 using Main.Common;
-namespace Main.Infrastructure.Repository;
+using Data;
+using IRepository;
+
+namespace Repository;
 
 public class ProductImageRepository : IProductImageRepository
 {
-    private readonly WebBusinessEntityContext _context;
+    private readonly BussinessAppDbContext _context;
 
-    public ProductImageRepository(WebBusinessEntityContext context)
+    public ProductImageRepository( BussinessAppDbContext context )
     {
         _context = context;
     }

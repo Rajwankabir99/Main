@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Main.Model.Repository;
+using IRepository;
 using Main.Model;
 using Main.Common;
-namespace Main.Infrastructure.Repository;
+using Data;
+
+namespace Repository;
 
 public class AdminPostImageRepository: IAdminPostImageRepository
 {
 
-    private readonly WebBusinessEntityContext _context;
+    private readonly BussinessAppDbContext _context;
 
-    public AdminPostImageRepository(WebBusinessEntityContext context) 
+    public AdminPostImageRepository( BussinessAppDbContext context ) 
     { 
         _context = context;
     }
