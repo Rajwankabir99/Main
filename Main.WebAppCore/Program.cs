@@ -1,17 +1,17 @@
-//using Main.Infrastructure;
+using Main.Infrastructure;
 
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-    //builder.Services.AddControllersWithViews ( );
+builder.Services.AddInfrastructureServices ( builder.Configuration );
 
-    //builder.Services.AddInfrastructureServices ( builder.Configuration );
+builder.Services.AddControllersWithViews ( );
 
-    var app = builder.Build();
+var app = builder.Build();
 
-    app.UseExceptionHandler ( );
+app.UseExceptionHandler ( );
 
-    app.UseStatusCodePages ( );
+app.UseStatusCodePages ( );
 
-    app.MapControllers ( );
+app.MapControllers ( );
 
-    app.Run();
+app.Run();
