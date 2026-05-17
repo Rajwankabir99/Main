@@ -4,7 +4,7 @@ using BusinessModel;
 
 using System.Reflection.Metadata.Ecma335;
 
-using Main.Common.Enum;
+using Main.Common.Enums;
 
 namespace Main.Service;
 

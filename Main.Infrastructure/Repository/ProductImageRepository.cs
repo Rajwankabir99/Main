@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Main.Common.Enum;
+using Main.Common.Enums;
 using Entity.Model;
 using Data;
 using IRepository;

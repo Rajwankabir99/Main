@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Main.BusineesModel\Main.Businees.Model.csproj" />
     <ProjectReference Include="..\Main.Model\Main.Model.csproj" />
     <ProjectReference Include="..\ResourceLibrary\ResourceLibrary.csproj" />
   </ItemGroup>

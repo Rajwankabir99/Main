@@ -1,7 +1,7 @@
 ﻿using Main.Common.Model;
 using System.ComponentModel;
 using System.Reflection;
-using Main.Common.Enum;
+using Main.Common.Enums;
 
 namespace Main.Common.Enums;
 

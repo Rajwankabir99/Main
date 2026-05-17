@@ -1,4 +1,5 @@
-﻿
+﻿namespace Main.Common.Enums;
+
 public static class EnumDescription
 {
     public static string GetDescription<TEnum>(TEnum value) where TEnum : Enum

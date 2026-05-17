@@ -1,4 +1,4 @@
-﻿using Main.Common.Enum;
+﻿using Main.Common.Enums;
 using Entity.Model;
 
 namespace IRepository;

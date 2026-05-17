@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Main.Common.Enum;
+using Main.Common.Enums;
 
 namespace Entity.Model;
 

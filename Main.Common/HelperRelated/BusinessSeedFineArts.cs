@@ -1,5 +1,5 @@
 ﻿using Main.Common;
-using Main.Common.Enum;
+using Main.Common.Enums;
 using Main.Common.Model;
 using Microsoft.Extensions.Localization;
 using ResourceLibrary;

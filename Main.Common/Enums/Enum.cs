@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Main.Common.Enum;
+namespace Main.Common.Enums;
 
 public enum EnumAccountType
 {
