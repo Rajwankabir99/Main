@@ -5,7 +5,7 @@ namespace IRepository;
 
 public interface IAdminPostRepository
 {
-    Task<AdminPost> GetAdminPostByPostID ( int postId );
+    Task<AdminPostDataModel> GetAdminPostByPostID ( int postId );
 
     Task<List<AdminPostDataModel>> GetAllAdminContentPosts();
 

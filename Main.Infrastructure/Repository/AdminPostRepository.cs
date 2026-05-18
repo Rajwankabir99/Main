@@ -24,15 +24,17 @@ public class AdminPostRepository : IAdminPostRepository
 
     public async Task<List<AdminPostDataModel>> GetAllAdminContentPosts()
     {
-        List<AdminPostDataModel> listPostDataModel  = new List<BusinessModel.AdminPostDataModel>();
+        List<AdminPostDataModel> listPostDataModel  
+            = new List<AdminPostDataModel>();
 
-        var listPostEntity = await _Context.AdminPosts.ToListAsync();
+        var listPostEntity = await _Context.AdminPosts
+                                           .ToListAsync();
 
         AdminPostDataModel objDataModel;
 
         listPostEntity.ForEach ( postEntity =>
         {
-            objDataModel = new BusinessModel.AdminPostDataModel();
+            objDataModel = new AdminPostDataModel();
 
             objDataModel.AdminPostID = postEntity.AdminPostID;
             objDataModel.PosterName = postEntity.PosterName;
@@ -74,10 +76,68 @@ public class AdminPostRepository : IAdminPostRepository
         return result > 0;
     }
 
-    public async Task<Entity.Model.AdminPost> GetAdminPostByPostID(int postId)
+    public async Task<AdminPostDataModel> GetAdminPostByPostID(
+                                                     int postId)
     {
-        var post = await _Context.AdminPosts.SingleAsync(a => a.AdminPostID == postId);
-        return post;
+        var postEntity = await _Context.AdminPosts.SingleAsync
+                           (a => a.AdminPostID == postId);
+
+        if ( postEntity == null )
+        {
+            return new AdminPostDataModel ( );
+        }
+
+        List<AdminImageFileDataModel> objListFiles = new List<AdminImageFileDataModel>();
+
+        if ( postEntity.ListAdminImageFiles != null && postEntity.ListAdminImageFiles.Count > 0 )
+        {
+            postEntity.ListAdminImageFiles.ToList ( ).ForEach ( fileEntity =>
+            {
+                AdminImageFileDataModel objFileVM = new AdminImageFileDataModel()
+                {
+                    AdminImageFileID = fileEntity.AdminImageFileID,
+                    ImageFileContent = fileEntity.ImageFileContent,
+                    AdminPostID = fileEntity.AdminPostID
+                };
+                objListFiles.Add ( objFileVM );
+            } );
+        }
+
+
+        List<AdminPostCommentDataModel> objListComments = new List<AdminPostCommentDataModel>();
+
+        if ( postEntity.ListAdminPostComments != null && postEntity.ListAdminPostComments.Count > 0 )
+        {
+            postEntity.ListAdminPostComments.ToList ( ).ForEach ( commentEntity =>
+            {
+                AdminPostCommentDataModel objCommentVM = new AdminPostCommentDataModel()
+                {
+                    AdminPostCommentID = commentEntity.AdminPostCommentID,
+                    Comment = commentEntity.Comment,
+                    AdminPostID = commentEntity.AdminPostID
+                };
+                objListComments.Add ( objCommentVM );
+            } );
+        }
+
+        AdminPostDataModel objModel = new AdminPostDataModel()
+        {
+            AdminPostID = postEntity.AdminPostID,
+            PosterName = postEntity.PosterName,
+            PostTitle = postEntity.Title,
+            PosterContactNumber = postEntity.PosterContactNumber,
+            WebsiteUrl = postEntity.WebsiteUrl,
+            ShortNote = postEntity.ShortNote,
+            SearchTag = postEntity.SearchTag,
+            UserID = postEntity.UserID,
+            PostTypeID = (int)postEntity.PostType,
+            ListAdminPostFileImages = objListFiles,
+            ListAdminPostComments = objListComments,
+            HostCompanyName = postEntity.HostCompanyName,
+            HostCountry = postEntity.HostCountry
+        };
+
+        return objModel;
     }
 
     public async Task<bool> SaveNewAdminPost(AdminPostDataModel postObject, List<AdminImageFileDataModel> objListFiles)
