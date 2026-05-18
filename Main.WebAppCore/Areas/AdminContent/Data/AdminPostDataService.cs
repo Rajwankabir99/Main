@@ -41,8 +41,9 @@ namespace FineArtsWebApp
             objAdminPostDataModel.UserID = objAdminPostVM.UserID;
             
 
-
-            List<AdminImageFileDataModel> objListFileDataModel = _AdminPostMappingService.MapAdmiFileViweModelToAdminFileEntity(objAdminPostVM);
+            List<AdminImageFileDataModel>objListFileDataModel =        
+                _AdminPostMappingService
+                .MapAdmiFileViweModelToAdminFileEntity(objAdminPostVM);
 
             var result = await _AdminPostRepository.SaveNewAdminPost(objAdminPostDataModel, objListFileDataModel);
             
