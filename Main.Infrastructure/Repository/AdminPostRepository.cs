@@ -171,7 +171,7 @@ public class AdminPostRepository : IAdminPostRepository
 
         List<AdminImageFile> images = new List<AdminImageFile>();
 
-        images.AddRange ( MapAdmiFileDataModelToAdminFileEntity ( objPostDm ) );
+        images.AddRange ( postEntity.ListAdminImageFiles );
 
         objPostDm.ListAdminPostFileImages.ForEach ( fileVM =>
         {
