@@ -1,5 +1,4 @@
 ﻿using BusinessModel;
-
 using Data;
 using Entity.Model;
 using IRepository;
@@ -20,7 +19,8 @@ public class PageRepository: IPageRepository
 
     public async Task<List<PageDataModel>> GetAllPages ( EnumCompanyName company )
     {
-        var listPages = await _context.Pages
+        var listPages = 
+            await _context.Pages
             .Where ( a => a.HostCompanyName == company )
             .ToListAsync<Page> ( );
 
@@ -35,8 +35,9 @@ public class PageRepository: IPageRepository
                          company ) ) );
 
 
-        return objListPageDM.OrderBy ( a => a.PageName ).ToList ( );
-
+        return objListPageDM
+            .OrderBy ( a => a.PageName )
+            .ToList ( );
     }
 
     public async Task<PageDataModel> GetSinglePage ( int id ) 
@@ -53,12 +54,14 @@ public class PageRepository: IPageRepository
 
             var listPanels = pageContent.ListPagePanels.ToList();
 
-            PageDataModel objPageDataModel = new PageDataModel ( );
+            PageDataModel objPageDataModel 
+                = new PageDataModel ( );
 
             List<PagePanelDataModel> panelListDM 
                 = new List<PagePanelDataModel>();
 
             PagePanelDataModel panelDM;
+
             PanelPostDataModel postDM;
 
             listPanels.ForEach ( panel =>
@@ -69,7 +72,10 @@ public class PageRepository: IPageRepository
                 panelDM.PanelTemplate = panel.PanelTemplate;
                 panelDM.PanelTitle = panel.PanelTitle;
 
-                panel.ListPanelPosts.ToList ( ).ForEach ( post =>
+                panel
+                .ListPanelPosts
+                .ToList ( )
+                .ForEach (post =>
                 {
                     postDM = new PanelPostDataModel ( );
 

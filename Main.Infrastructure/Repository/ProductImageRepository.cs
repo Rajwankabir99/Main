@@ -1,11 +1,7 @@
 ﻿using BusinessModel;
-
 using Data;
-
 using Entity.Model;
-
 using IRepository;
-
 using Main.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,24 +18,29 @@ public class ProductImageRepository : IProductImageRepository
 
     public async Task<List<PanelPostDataModel>> GetSelectProducts(EnumCompanyName company) 
     {  
-        List<Product> list = await _context.Products
-                                    .Where( a => a.HostCompanyName == company)
-                                    .ToListAsync();
+        List<Product> list = 
+            await _context.Products
+                        .Where( a => a.HostCompanyName == company)
+                        .ToListAsync();
 
         if ( list == null )
         {
             return new List<PanelPostDataModel> ( );
         }
 
-        List<PanelPostDataModel> listSelectPanelPostDM = new List<PanelPostDataModel>();
+        List<PanelPostDataModel> listSelectPanelPostDM 
+            = new List<PanelPostDataModel>();
 
         PanelPostDataModel objDM;
 
         int id = 1;
 
-        list.ForEach ( entity => {
-
-            entity.ListImageFiles.ToList ( ).ForEach ( file =>
+        list.ForEach ( entity => 
+        {
+            entity
+            .ListImageFiles
+            .ToList ( )
+            .ForEach ( file =>
             {
                 objDM = new PanelPostDataModel ( );
 
@@ -53,12 +54,14 @@ public class ProductImageRepository : IProductImageRepository
                 objDM.ImageFileID = file.ProductImageFileID;
 
                 id += 1;
+
                 listSelectPanelPostDM.Add ( objDM );
             } );
-
         } );
 
-        return listSelectPanelPostDM.OrderBy ( a => a.CategoryID ).ToList ( );
+        return listSelectPanelPostDM
+            .OrderBy ( a => a.CategoryID )
+            .ToList ( );
     }
 }
 

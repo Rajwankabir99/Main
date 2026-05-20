@@ -3,7 +3,6 @@ using Data;
 using Entity.Model;
 using IRepository;
 using Main.Common.Enums;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository;
@@ -37,7 +36,8 @@ public class ProductRepository : IProductRepository
     {
         var listProducts = await _Context.Products.ToListAsync();
 
-        List<ProductDataModel> objListPostVM = new List<ProductDataModel>();
+        List<ProductDataModel> objListPostVM 
+            = new List<ProductDataModel>();
 
         ProductDataModel objModel;
 
@@ -49,12 +49,16 @@ public class ProductRepository : IProductRepository
 
             objListPostVM.Add ( objModel );
         }
+
         return objListPostVM;
     }
 
     public async Task<bool> DeleteProduct(int productId)
     {
-        var product = _Context.Products.ToList().Single<Product>(a => a.ProductID == productId);
+        var product = _Context
+            .Products
+            .ToList()
+            .Single<Product>(a => a.ProductID == productId);
 
         if (product != null)
         {
@@ -68,21 +72,31 @@ public class ProductRepository : IProductRepository
 
     public async Task<bool> DeleteProductImage(int id, int productId)
     {
-        var image = await _Context.ProductImageFiles.Where(a => a.ProductImageFileID == id && a.ProductID == productId).FirstOrDefaultAsync();
+        var image = await 
+            _Context
+            .ProductImageFiles
+            .Where(a => 
+                a.ProductImageFileID == id && 
+                a.ProductID == productId)
+            .FirstOrDefaultAsync();
 
         if (image != null)
         {
-            _Context.ProductImageFiles.Remove(image);
+            _Context
+                .ProductImageFiles
+                .Remove(image);
         }
 
         var result = await _Context.SaveChangesAsync();
+
         return result > 0;
     }
 
     public async Task<ProductDataModel> GetProductByProductID(int postId)
     {
-        var productEntity = await _Context.Products.SingleAsync<Product>
-             (a => a.ProductID == postId);
+        var productEntity = await _Context
+            .Products
+            .SingleAsync<Product>(a => a.ProductID == postId);
 
         List<ProductFileDataModel> objListFiles = new List<ProductFileDataModel>();
 
