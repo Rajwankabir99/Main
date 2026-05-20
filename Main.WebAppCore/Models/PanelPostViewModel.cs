@@ -1,5 +1,6 @@
 ﻿using Main.Common;
-using Main.Common.EnumClasses;
+using Main.Common.Enums;
+using Main.Common.Settings;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -8,13 +9,14 @@ namespace WebApp.ViewModel;
 public class PanelPostViewModel : BaseViewModel
 {
     public PanelPostViewModel() {
-        AV_Category = DropDownSelectListItem.GetCategoryList(StaticAppSettings.CategoryFor);
+        AV_Category = SelectListItemDropDown.GetCategoryList((EnumCategoryFor)AppSettings.Current.EnumCategoryFor);
     }
 
 
-    public PanelPostViewModel(EnumPostType enumPostType, int rootId, int imageId, int order)
+    public PanelPostViewModel(EnumPostType enumPostType, int rootId, int imageId, int order )
     {
-        AV_Category = DropDownSelectListItem.GetCategoryList(StaticAppSettings.CategoryFor);
+        AV_Category = SelectListItemDropDown.GetCategoryList ((EnumCategoryFor) AppSettings.Current.EnumCategoryFor );
+
         EnumPostType = enumPostType;
         RootID = rootId;
         ImageFileID = imageId;

@@ -1,5 +1,4 @@
-﻿using Main.Common.EnumClasses;
-
+﻿using Main.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModel;
@@ -7,7 +6,6 @@ namespace WebApp.ViewModel;
 public class PageViewModel : BaseViewModel
 {
     public PageViewModel() {
-       
         ListPagePanels = new List<PagePanelViewModel>();
     }
 
@@ -20,9 +18,9 @@ public class PageViewModel : BaseViewModel
         
         EnumPublicPage = enumPublicPage;
 
-        PageName = ListEnumObjects.GetPageDescription(enumPublicPage);
+        PageName = ListEnum.GetPageDescription(enumPublicPage);
 
-        CompanyName = ListEnumObjects.GetCompanyDescription(enumCompany);
+        CompanyName = ListEnum.GetCompanyDescription(enumCompany);
     }
 
 
@@ -33,7 +31,7 @@ public class PageViewModel : BaseViewModel
 
 
     [Display(Name = "Configurable Page Name")]
-    public string PageName { get; set; }
+    public string? PageName { get; set; }
 
 
     [Display(Name = "Company Name")]

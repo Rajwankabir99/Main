@@ -1,6 +1,4 @@
-﻿using Main.Common;
-using Data;
-using BusinessModel;
+﻿using BusinessModel;
 using IRepository;
 
 namespace FineArtsWebApp

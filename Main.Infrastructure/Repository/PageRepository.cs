@@ -39,7 +39,7 @@ public class PageRepository: IPageRepository
 
     }
 
-    public async Task<PageDataModel?> GetSinglePage ( int id ) 
+    public async Task<PageDataModel> GetSinglePage ( int id ) 
     {
         var paeEntity = await _context.Pages
                                       .FirstOrDefaultAsync 

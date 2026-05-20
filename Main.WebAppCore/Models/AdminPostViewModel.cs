@@ -1,4 +1,4 @@
-﻿using Main.Common;
+﻿using Main.Common;                             
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +8,7 @@ public class AdminPostViewModel : BaseViewModel
 {
     public AdminPostViewModel()
     {
-        AV_PostType = DropDownSelectListItem.GetPostTypeList();
+        AV_PostType = SelectListItemDropDown.GetPostTypeList();
     }
 
     public int AdminPostID { get; set; }

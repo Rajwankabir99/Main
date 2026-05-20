@@ -8,7 +8,7 @@ public interface IPageRepository
 {
     Task<List<PageDataModel>> GetAllPages(EnumCompanyName company);
 
-    Task<PageDataModel?> GetSinglePage(int id);
+    Task<PageDataModel> GetSinglePage(int id);
 
     //Task<bool> UpdatePage(PageDataModel page);
 
