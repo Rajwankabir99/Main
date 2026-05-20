@@ -6,23 +6,20 @@ namespace IService;
 
 public interface IPagePanelDataService
 {
-    Task<List<PanelPostDataModel>> GetSelectProducts(EnumCompanyName company);
+    Task<List<PanelPostDataModel>>
+        GetSelectProducts ( EnumCompanyName company );
 
-    Task<List<PanelPostDataModel>> GetSelectAdminPosts(EnumCompanyName company);
+    Task<bool> CreateNewPanels (
+        LocalModel model,
+        EnumCompanyName enumCompany,
+        List<PanelPostDataModel> listUserSelectedPosts,
+        ModelBase modelBase
+        );
 
-    Task<int> CreateNewPanels (
-            LocalModel model,
+    //Task<List<PanelPostDataModel>> GetSelectAdminPosts              (EnumCompanyName company);
 
-            EnumCompanyName enumCompany,
+    //Task<PagePanelDataModel> GetPreviewPanel ( int panelId );
 
-            List<PanelPostDataModel> listUserSelectedPosts,
-
-            ModelBase modelBase
-
-    );
-
-    Task<PagePanelDataModel> GetPreviewPanel ( int panelId );
-
-    Task<List<PagePanelDataModel>> GetPanelList ( int pageID );
+    Task<PageDataModel> GetPanelList ( int pageID );
 }
 

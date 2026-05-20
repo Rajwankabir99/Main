@@ -1,6 +1,4 @@
-﻿using Main.Common;
-using Main.Common.EnumClasses;
-
+﻿using Main.Common.Enums;  
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +9,7 @@ public class PagePanelViewModel: BaseViewModel
     public PagePanelViewModel()
     {
         ListPanelPosts = new List<PanelPostViewModel>();
-        AV_PanelTemplate = DropDownSelectListItem.GetPanelTempletList();
+        AV_PanelTemplate = SelectListItemDropDown.GetPanelTempletList();
         
     }
 
@@ -19,7 +17,7 @@ public class PagePanelViewModel: BaseViewModel
     public PagePanelViewModel(EnumPanelTemplate enumPanelTemplate)
     {
         ListPanelPosts = new List<PanelPostViewModel>();
-        AV_PanelTemplate = DropDownSelectListItem.GetPanelTempletList();
+        AV_PanelTemplate = SelectListItemDropDown.GetPanelTempletList();
         PanelTemplate = enumPanelTemplate;
     }
 

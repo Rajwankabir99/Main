@@ -1,6 +1,6 @@
-﻿using Main.Common;
-using Main.Common.EnumClasses;
+﻿using Main.Common.Enums;
 using Main.Common.Model;
+using Main.Common.Settings;
 
 namespace WebApp.ViewModel;
 
@@ -8,7 +8,7 @@ public class BaseViewModel
 {
         public BaseViewModel()
         {
-            Currency = StaticAppSettings.Currency;
+            Currency = (EnumCurrency) AppSettings.Current.EnumCurrency;
         }
 
         public string? PageName { get; set; } = string.Empty;
