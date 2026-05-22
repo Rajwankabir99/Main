@@ -1,9 +1,12 @@
-﻿using BusinessModel;
-using Data;
-using Entity.Model;
+﻿using Data;
+
+using Domain.Model;
+
 using IRepository;
 using Main.Common.Enums;
 using Microsoft.EntityFrameworkCore;
+
+using System.Xml.Linq;
 
 namespace Repository;
 
@@ -22,7 +25,8 @@ public class ProductRepository : IProductRepository
         return result > 0;
     }
 
-    private void MapProductEntityToProductViewModelListModel ( Product postEntity,ProductDataModel productViewModel )
+    private void MapProductEntityToProductViewModelListModel ( Pro
+        duct postEntity,Product productViewModel )
     {
         productViewModel.ProductID = postEntity.ProductID;
         productViewModel.CategoryID = postEntity.CategoryID;
@@ -32,18 +36,18 @@ public class ProductRepository : IProductRepository
         productViewModel.Discount = postEntity.Discount;
     }
 
-    public async Task<List<ProductDataModel>> GetAllProducts()
+    public async Task<List<Product>> GetAllProducts()
     {
         var listProducts = await _Context.Products.ToListAsync();
 
-        List<ProductDataModel> objListPostVM 
-            = new List<ProductDataModel>();
+        List<Product> objListPostVM 
+            = new List<Product>();
 
-        ProductDataModel objModel;
+        Product objModel;
 
         foreach ( Product item in listProducts.ToList ( ) )
         {
-            objModel = new ProductDataModel ( );
+            objModel = new Product ( );
 
             MapProductEntityToProductViewModelListModel ( item,objModel );
 
@@ -92,13 +96,13 @@ public class ProductRepository : IProductRepository
         return result > 0;
     }
 
-    public async Task<ProductDataModel> GetProductByProductID(int postId)
+    public async Task<Product> GetProductByProductID(int postId)
     {
         var productEntity = await _Context
             .Products
             .SingleAsync<Product>(a => a.ProductID == postId);
 
-        List<ProductFileDataModel> objListFiles = new List<ProductFileDataModel>();
+        List<ProductImageFile> objListFiles = new List<ProductImageFile>();
 
         if ( productEntity.ListImageFiles != null && productEntity.ListImageFiles.Count > 0 )
         {
@@ -115,7 +119,7 @@ public class ProductRepository : IProductRepository
         }
 
 
-        List<ProductCommentDataModel> objListComments = new List<ProductCommentDataModel>();
+        List<ProductComment> objListComments = new List<ProductComment>();
 
         if ( productEntity.ListComments != null && productEntity.ListComments.Count > 0 )
         {
@@ -131,7 +135,7 @@ public class ProductRepository : IProductRepository
             } );
         }
 
-        ProductDataModel objModel = new ProductDataModel()
+        Product objModel = new Product()
         {
             ProductID = productEntity.ProductID,
             ProductName = productEntity.ProductName,
@@ -142,20 +146,20 @@ public class ProductRepository : IProductRepository
             Description = productEntity.Description,
             CategoryID = productEntity.CategoryID,
             SubCategoryID = productEntity.SubCategoryID,
-            UnitPrice = productEntity.Price,
+            //UnitPrice = productEntity.Price,
             UserID = productEntity.UserID,
-            ListComments = objListComments,
-            ImageFiles = objListFiles
+            ListComments = objListComments//,
+            //ImageFiles = objListFiles
         };
 
         return objModel;
     }
 
-    public async Task<bool> SaveNewProduct(ProductDataModel objPostDM, List<ProductFileDataModel> objListFiles)
+    public async Task<bool> SaveNewProduct(Product objPostDM, List<ProductImageFile> objListFiles)
     {
         Product objProductEntity = MapProductViweModelToProductEntity(objPostDM);
 
-        objProductEntity.CreateBaseData ( objPostDM.ModelBase );
+        //objProductEntity.CreateBaseData ( objPostDM.ModelBase );
 
         objProductEntity.UserID = objPostDM.UserID;
         objProductEntity.User = null;
@@ -175,7 +179,7 @@ public class ProductRepository : IProductRepository
         return result > 0;
     }
 
-    private Product MapProductViweModelToProductEntity ( ProductDataModel productDM )
+    private Product MapProductViweModelToProductEntity ( Product productDM )
     {
         return new Product ( )
         {
@@ -185,7 +189,7 @@ public class ProductRepository : IProductRepository
                     ? null 
                     : productDM.SearchTag,
 
-            Price = productDM.UnitPrice,
+            //Price = productDM.UnitPrice,
             Discount = productDM.Discount,
             SaleCommission = productDM.SaleCommission,
             CategoryID = productDM.CategoryID,
@@ -200,7 +204,7 @@ public class ProductRepository : IProductRepository
     }
 
     private List<ProductImageFile> MapProductViweModelToProductFileEntity 
-        ( ProductDataModel productFileDM )
+        ( Product productFileDM )
     {
         List<ProductImageFile> objListFileEntity = new List<ProductImageFile>();
         productFileDM.ImageFiles.ForEach ( fileVM =>
@@ -210,12 +214,12 @@ public class ProductRepository : IProductRepository
         return objListFileEntity;
     }
 
-    public async Task<bool> UpdateProduct ( ProductDataModel objPostDm )
+    public async Task<bool> UpdateProduct ( Product objPostDm )
     {
         var product = await _Context.Products.SingleAsync<Product>
              (a => a.ProductID == objPostDm.ProductID);
 
-        product.ModifyBaseData ( objPostDm.ModelBase );
+        //product.ModifyBaseData ( objPostDm.ModelBase );
 
         product.UserID = objPostDm.UserID;
         product.User = null;
@@ -225,7 +229,7 @@ public class ProductRepository : IProductRepository
 
         images.AddRange ( product.ListImageFiles );
 
-        objPostDm.ImageFiles.ForEach ( fileDM =>
+        objPostDm.ListImageFiles.ForEach ( fileDM =>
         {
             var objFile = new ProductImageFile(fileDM.ImageFileContent);
             objFile.ProductID = product.ProductID;

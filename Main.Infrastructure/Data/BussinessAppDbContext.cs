@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Entity.Model;
+
 using Main.Common.Enums;
+using Main.Model.IRepository.Main.Model;
 
 namespace Data;
 

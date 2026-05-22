@@ -1,6 +1,6 @@
-﻿using BusinessModel;
+﻿using DataTransferModel;
 
-namespace IService;
+namespace Application.Service;
 
 public interface ICommandProductService
 {

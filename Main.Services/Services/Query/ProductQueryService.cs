@@ -1,8 +1,7 @@
-﻿using BusinessModel;
+﻿using DataTransferModel;
 using IRepository;
-using IServices;
 
-namespace Services.Query;
+namespace Application.Service;
 
 public class ProductQueryService : IQueryProductService
 {

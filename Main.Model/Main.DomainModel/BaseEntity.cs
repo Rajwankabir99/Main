@@ -1,7 +1,7 @@
 ﻿using Main.Common.Enums;
 using Main.Common.Model;
 
-namespace Entity.Model;
+namespace Domain.Model;
 
 public class BaseEntity
 {        

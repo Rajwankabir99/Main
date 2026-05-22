@@ -1,9 +1,9 @@
-﻿using BusinessModel;
+﻿using Domain.Model;
 using Main.Common.Enums;
 
 namespace IRepository;
 
 public interface IAdminPostImageRepository
 {
-    Task<List<PanelPostDataModel>> GetSelectAdminPosts ( EnumCompanyName company );
+    Task<List<PanelPost>> GetSelectAdminPosts ( EnumCompanyName company );
 }

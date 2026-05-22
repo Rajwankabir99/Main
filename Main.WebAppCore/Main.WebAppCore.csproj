@@ -10,20 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Area.Data\**" />
-    <Compile Remove="Areas\**" />
     <Compile Remove="Controllers\**" />
     <Compile Remove="Service\**" />
-    <Content Remove="Area.Data\**" />
-    <Content Remove="Areas\**" />
     <Content Remove="Controllers\**" />
     <Content Remove="Service\**" />
-    <EmbeddedResource Remove="Area.Data\**" />
-    <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Service\**" />
-    <None Remove="Area.Data\**" />
-    <None Remove="Areas\**" />
     <None Remove="Controllers\**" />
     <None Remove="Service\**" />
   </ItemGroup>
@@ -38,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Main.BusineesModel\Main.Businees.Model.csproj" />
     <ProjectReference Include="..\Main.Common\Main.Common.csproj" />
     <ProjectReference Include="..\Main.Infrastructure\Main.Infrastructure.csproj" />
     <ProjectReference Include="..\ResourceLibrary\ResourceLibrary.csproj" />

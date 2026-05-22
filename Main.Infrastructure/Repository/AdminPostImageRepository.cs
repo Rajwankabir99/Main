@@ -1,9 +1,8 @@
-﻿using BusinessModel;
-using Data;
-using Entity.Model;
+﻿using Data;
 using IRepository;
 using Main.Common.Enums;
 using Microsoft.EntityFrameworkCore;
+using Domain.Model;
 
 namespace Repository;
 
@@ -18,7 +17,7 @@ public class AdminPostImageRepository: IAdminPostImageRepository
     }
 
 
-    public async Task<List<PanelPostDataModel>> 
+    public async Task<List<PanelPost>> 
         GetSelectAdminPosts(EnumCompanyName company)
     {
         List<AdminPost> listAdminPost = 
@@ -28,19 +27,19 @@ public class AdminPostImageRepository: IAdminPostImageRepository
 
         if ( listAdminPost == null )
         {
-            return new List<PanelPostDataModel> ( );
+            return new List<PanelPost> ( );
         }
 
-        List<PanelPostDataModel> listSelectPanelPostDM 
-            = new List<PanelPostDataModel>();
+        List<PanelPost> listSelectPanelPostDM 
+            = new List<PanelPost>();
 
-        PanelPostDataModel objDM;
+        PanelPost objDM;
 
         listAdminPost.ForEach ( entity => 
         {
             entity.ListAdminImageFiles.ToList ( ).ForEach ( file =>
             {
-                objDM = new PanelPostDataModel ( );
+                objDM = new PanelPost ( );
 
                 objDM.RootID = entity.AdminPostID;
                 objDM.EnumPostType = entity.PostType;
@@ -54,7 +53,7 @@ public class AdminPostImageRepository: IAdminPostImageRepository
 
         return listSelectPanelPostDM
             .OrderBy ( a => a.PostTitle )
-            .ToList<PanelPostDataModel> ( );
+            .ToList<PanelPost> ( );
     }
 }
 

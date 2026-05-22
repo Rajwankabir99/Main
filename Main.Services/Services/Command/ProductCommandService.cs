@@ -1,8 +1,7 @@
-﻿using BusinessModel;
+﻿using DataTransferModel;
 using IRepository;
-using IService;
 
-namespace Services.Command;
+namespace Application.Service;
 
 public class ProductDataService : ICommandProductService
 {

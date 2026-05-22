@@ -1,9 +1,8 @@
-﻿using BusinessModel;
-using IServices;
+﻿using DataTransferModel;
 using IRepository;
 using Main.Common.Enums;
 
-namespace Services.Query;
+namespace Application.Service;
 
 public class PagePanelQueryService: IQueryPagePanelService
 {

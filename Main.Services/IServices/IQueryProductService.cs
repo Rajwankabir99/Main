@@ -1,6 +1,6 @@
-﻿using BusinessModel;
+﻿using DataTransferModel;
 
-namespace IServices;
+namespace Application.Service;
 
 public interface IQueryProductService
 {

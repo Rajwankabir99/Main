@@ -1,7 +1,7 @@
-﻿using BusinessModel;
+﻿using DataTransferModel;
 using Main.Common.Enums;
 
-namespace IServices;
+namespace Application.Service;
 
 public interface IQueryPagePanelService
 {

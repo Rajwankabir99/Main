@@ -1,8 +1,4 @@
-﻿using IService;
-using IRepository;
-using BusinessModel;
-
-namespace Services.Command;
+﻿namespace Application.Service;
 
 public class AdminPostDataService: ICommandAdminPostService
 {

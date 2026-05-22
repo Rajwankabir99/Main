@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Main.Common.Enums;
 
-namespace Entity.Model;
+namespace Domain.Model;
 
 public class User : BaseEntity
 {                

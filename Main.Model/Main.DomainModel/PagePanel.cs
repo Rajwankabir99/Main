@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entity.Model;
+namespace Domain.Model;
 
 public class PagePanel: BaseEntity
 {

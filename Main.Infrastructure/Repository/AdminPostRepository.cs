@@ -1,9 +1,8 @@
-﻿using BusinessModel;
-using Data;
-using Entity.Model;
+﻿using Data;
+using Domain.Model;
 using IRepository;
 using Main.Common.Enums;
-using Microsoft.EntityFrameworkCore;               
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository;
 
@@ -22,26 +21,26 @@ public class AdminPostRepository : IAdminPostRepository
         return result > 0;
     }
 
-    public async Task<List<AdminPostDataModel>> GetAllAdminContentPosts()
+    public async Task<List<AdminPost>> GetAllAdminContentPosts()
     {
-        List<AdminPostDataModel> listPostDataModel  
-            = new List<AdminPostDataModel>();
+        List<AdminPost> listPostDataModel  
+            = new List<AdminPost>();
 
         var listPostEntity = await _Context.AdminPosts
                                            .ToListAsync();
 
-        AdminPostDataModel objDataModel;
+        AdminPost objDataModel;
 
         listPostEntity.ForEach ( postEntity =>
         {
-            objDataModel = new AdminPostDataModel();
+            objDataModel = new AdminPost();
 
             objDataModel.AdminPostID = postEntity.AdminPostID;
             objDataModel.PosterName = postEntity.PosterName;
             objDataModel.HostCompanyName = postEntity.HostCompanyName;
 
-            objDataModel.PostTitle = postEntity.Title;
-            objDataModel.PostTypeID =  (int) postEntity.PostType;
+            objDataModel.Title = postEntity.Title;
+            objDataModel.PostType =  (int) postEntity.PostType;
 
             listPostDataModel.Add( objDataModel );
 
@@ -87,7 +86,7 @@ public class AdminPostRepository : IAdminPostRepository
             return new AdminPostDataModel ( );
         }
 
-        List<AdminImageFileDataModel> objListFiles = new List<AdminImageFileDataModel>();
+        List<AdminImageFile> objListFiles = new List<AdminImageFile>();
 
         if ( postEntity.ListAdminImageFiles != null && postEntity.ListAdminImageFiles.Count > 0 )
         {
@@ -104,7 +103,7 @@ public class AdminPostRepository : IAdminPostRepository
         }
 
 
-        List<AdminPostCommentDataModel> objListComments = new List<AdminPostCommentDataModel>();
+        List<AdminPostComment> objListComments = new List<AdminPostComment>();
 
         if ( postEntity.ListAdminPostComments != null && postEntity.ListAdminPostComments.Count > 0 )
         {
@@ -120,18 +119,18 @@ public class AdminPostRepository : IAdminPostRepository
             } );
         }
 
-        AdminPostDataModel objModel = new AdminPostDataModel()
+        AdminPost objModel = new AdminPost()
         {
             AdminPostID = postEntity.AdminPostID,
             PosterName = postEntity.PosterName,
-            PostTitle = postEntity.Title,
+            Title = postEntity.Title,
             PosterContactNumber = postEntity.PosterContactNumber,
             WebsiteUrl = postEntity.WebsiteUrl,
             ShortNote = postEntity.ShortNote,
             SearchTag = postEntity.SearchTag,
             UserID = postEntity.UserID,
-            PostTypeID = (int)postEntity.PostType,
-            ListAdminPostFileImages = objListFiles,
+            PostType = (int)postEntity.PostType,
+            ListAdminImageFiles = objListFiles,
             ListAdminPostComments = objListComments,
             HostCompanyName = postEntity.HostCompanyName,
             HostCountry = postEntity.HostCountry
@@ -141,8 +140,8 @@ public class AdminPostRepository : IAdminPostRepository
     }
 
     public async Task<bool> SaveNewAdminPost(
-        AdminPostDataModel postObject, 
-        List<AdminImageFileDataModel> objListFiles)
+        AdminPost postObject, 
+        List<AdminImageFile> objListFiles)
     {
         AdminPost adminPostEntity = 
             MapEntityModelFull(postObject, objListFiles);
@@ -155,7 +154,7 @@ public class AdminPostRepository : IAdminPostRepository
     }
 
     public async Task<bool> UpdateAdminPost ( 
-        AdminPostDataModel objPostDm )
+        AdminPost objPostDm )
     {
         var postEntity = await _Context.AdminPosts.SingleAsync
                            (a => a.AdminPostID == objPostDm.AdminPostID);
@@ -165,7 +164,6 @@ public class AdminPostRepository : IAdminPostRepository
             return false; 
         }
 
-        postEntity.ModifyBaseData ( objPostDm.ModelBase );
         postEntity.UserID = objPostDm.UserID;
         postEntity.User = null;
 
@@ -173,35 +171,36 @@ public class AdminPostRepository : IAdminPostRepository
 
         images.AddRange ( postEntity.ListAdminImageFiles );
 
-        objPostDm.ListAdminPostFileImages.ForEach ( fileVM =>
-        {
-            var objFile = 
-                    new AdminImageFile(fileVM.ImageFileContent);
-            objFile.AdminPostID = objPostDm.AdminPostID;
-            images.Add ( objFile );
-        } );
+        //objPostDm.ListAdminImageFiles
+        //    .ForEach ( fileVM =>
+        //{
+        //    var objFile = 
+        //            new AdminImageFile(fileVM.ImageFileContent);
+        //    objFile.AdminPostID = objPostDm.AdminPostID;
+        //    images.Add ( objFile );
+        //} );
 
         
-        List<AdminPostComment> comments = 
-            new List<AdminPostComment>();
+        //List<AdminPostComment> comments = 
+        //    new List<AdminPostComment>();
 
-        objPostDm.ListAdminPostComments.ForEach ( commentDM =>
-        {
-            var objComment = new AdminPostComment();
-            objComment.AdminPostID = objPostDm.AdminPostID;
-            objComment.Comment = commentDM.Comment;
-            comments.Add ( objComment );
-        } );
+        //objPostDm.ListAdminPostComments.ForEach ( commentDM =>
+        //{
+        //    var objComment = new AdminPostComment();
+        //    objComment.AdminPostID = objPostDm.AdminPostID;
+        //    objComment.Comment = commentDM.Comment;
+        //    comments.Add ( objComment );
+        //} );
 
         postEntity.PosterName = objPostDm.PosterName;
-        postEntity.Title = objPostDm.PostTitle;
+        postEntity.Title = objPostDm.Title;
         postEntity.PosterContactNumber = objPostDm.PosterContactNumber;
         postEntity.WebsiteUrl = objPostDm.WebsiteUrl;
         postEntity.ShortNote = objPostDm.ShortNote;
         postEntity.SearchTag = objPostDm.SearchTag;
-        postEntity.PostType = ( EnumPostType ) objPostDm.PostTypeID;
-        postEntity.ListAdminPostComments = comments;
-        postEntity.ListAdminImageFiles = images;
+        postEntity.PostType = ( EnumPostType ) objPostDm.PostType;
+        //postEntity.ListAdminPostComments = comments;
+        //postEntity.ListAdminImageFiles = images;
         postEntity.AdminPostID = objPostDm.AdminPostID;
 
         _Context.AdminPosts.Update ( postEntity );
@@ -213,13 +212,13 @@ public class AdminPostRepository : IAdminPostRepository
 
     private AdminPost MapEntityModelFull
     ( 
-        AdminPostDataModel from,
-        List<AdminImageFileDataModel> fromListImages                 
+        AdminPost from,
+        List<AdminImageFile> fromListImages                 
     )
     {
         AdminPost objAdminPostEntity = MapAdminPostDataModelToAdminPostEntity ( from );
 
-        objAdminPostEntity.CreateBaseData ( from.ModelBase );
+        //objAdminPostEntity.CreateBaseData ( from.ModelBase );
         objAdminPostEntity.UserID = from.UserID;
         objAdminPostEntity.User = null;
 
@@ -231,13 +230,13 @@ public class AdminPostRepository : IAdminPostRepository
         return objAdminPostEntity;
     }
 
-    private AdminPost MapAdminPostDataModelToAdminPostEntity ( AdminPostDataModel objAdminPostDM )
+    private AdminPost MapAdminPostDataModelToAdminPostEntity ( AdminPost objAdminPostDM )
     {
         return new AdminPost ( )
         {
             PosterName = objAdminPostDM.PosterName,
-            Title = objAdminPostDM.PostTitle,
-            PostType = ( EnumPostType ) objAdminPostDM.PostTypeID,
+            Title = objAdminPostDM.Title,
+            PostType = ( EnumPostType ) objAdminPostDM.PostType,
             WebsiteUrl = objAdminPostDM.WebsiteUrl,
             SearchTag = objAdminPostDM.SearchTag,
             ShortNote = objAdminPostDM.ShortNote,
@@ -247,13 +246,13 @@ public class AdminPostRepository : IAdminPostRepository
         };
     }
 
-    private List<AdminImageFile> MapAdmiFileDataModelToAdminFileEntity ( AdminPostDataModel adminFileDM )
+    private List<AdminImageFile> MapAdmiFileDataModelToAdminFileEntity ( AdminPost adminFileDM )
     {
         List<AdminImageFile> objListFileEntity = new List<AdminImageFile>();
-        adminFileDM.ListAdminPostFileImages.ForEach ( fileVM =>
-        {
-            objListFileEntity.Add ( new AdminImageFile ( fileVM.ImageFileContent ) );
-        } );
+        //adminFileDM.ListAdminPostFileImages.ForEach ( fileVM =>
+        //{
+        //    objListFileEntity.Add ( new AdminImageFile ( fileVM.ImageFileContent ) );
+        //} );
         return objListFileEntity;
     }
 }

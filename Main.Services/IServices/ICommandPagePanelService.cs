@@ -1,8 +1,7 @@
-﻿using BusinessModel;
-using Main.Common.Enums;
-using Main.Common.Model;
+﻿using DataTransferModel;
+using DataTransferModel;
 
-namespace IService;
+namespace Application.Service;
 
 public interface ICommandPagePanelService
 {

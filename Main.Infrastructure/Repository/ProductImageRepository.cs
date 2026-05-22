@@ -1,6 +1,7 @@
-﻿using BusinessModel;
-using Data;
-using Entity.Model;
+﻿using Data;
+
+using Domain.Model;
+
 using IRepository;
 using Main.Common.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class ProductImageRepository : IProductImageRepository
         _context = context;
     }
 
-    public async Task<List<PanelPostDataModel>> GetSelectProducts(EnumCompanyName company) 
+    public async Task<List<PanelPost>> GetSelectProducts(EnumCompanyName company) 
     {  
         List<Product> list = 
             await _context.Products
@@ -25,13 +26,13 @@ public class ProductImageRepository : IProductImageRepository
 
         if ( list == null )
         {
-            return new List<PanelPostDataModel> ( );
+            return new List<PanelPost> ( );
         }
 
-        List<PanelPostDataModel> listSelectPanelPostDM 
-            = new List<PanelPostDataModel>();
+        List<PanelPost> listSelectPanelPostDM 
+            = new List<PanelPost>();
 
-        PanelPostDataModel objDM;
+        PanelPost objDM;
 
         int id = 1;
 
@@ -42,16 +43,16 @@ public class ProductImageRepository : IProductImageRepository
             .ToList ( )
             .ForEach ( file =>
             {
-                objDM = new PanelPostDataModel ( );
+                objDM = new PanelPost ( );
 
-                objDM.CategoryID = entity.CategoryID;
+                //objDM.CategoryID = entity.CategoryID;
                 objDM.PanelPostID = id;
                 objDM.RootID = entity.ProductID;
                 objDM.EnumPostType = entity.PostType;
                 objDM.Price = entity.Price;
                 objDM.PostTitle = entity.ProductName;
                 objDM.ImageFileContent = file.ImageFileContent;
-                objDM.ImageFileID = file.ProductImageFileID;
+                //objDM.Id = file.ProductImageFileID;
 
                 id += 1;
 
@@ -60,7 +61,7 @@ public class ProductImageRepository : IProductImageRepository
         } );
 
         return listSelectPanelPostDM
-            .OrderBy ( a => a.CategoryID )
+            //.OrderBy ( a => a.CategoryID )
             .ToList ( );
     }
 }

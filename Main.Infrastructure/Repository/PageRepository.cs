@@ -1,10 +1,9 @@
-﻿using BusinessModel;
-using Data;
-using Entity.Model;
+﻿using Data;
 using IRepository;
 using Main.Common.Enums;
 using Main.Common.Model;
 using Microsoft.EntityFrameworkCore;
+using Domain.Model;
 
 namespace Repository;
 
@@ -17,30 +16,30 @@ public class PageRepository: IPageRepository
         _context = context;
     }
 
-    public async Task<List<PageDataModel>> GetAllPages ( EnumCompanyName company )
+    public async Task<List<Page>> GetAllPages ( EnumCompanyName company )
     {
         var listPages = 
             await _context.Pages
             .Where ( a => a.HostCompanyName == company )
             .ToListAsync<Page> ( );
 
-        List<PageDataModel> objListPageDM 
-                            = new List<PageDataModel> ();
+        List<Page> objListPageDM 
+                            = new List
+                            <Page> ();
 
         listPages.ForEach ( 
             pageEntity => objListPageDM
-                     .Add ( new PageDataModel ( 
+                     .Add ( new Page ( 
                          pageEntity.PageID,
                          pageEntity.EnumPublicPage,
                          company ) ) );
 
 
         return objListPageDM
-            .OrderBy ( a => a.PageName )
             .ToList ( );
     }
 
-    public async Task<PageDataModel> GetSinglePage ( int id ) 
+    public async Task<Page> GetSinglePage ( int id ) 
     {
         var paeEntity = await _context.Pages
                                       .FirstOrDefaultAsync 
@@ -54,19 +53,19 @@ public class PageRepository: IPageRepository
 
             var listPanels = pageContent.ListPagePanels.ToList();
 
-            PageDataModel objPageDataModel 
-                = new PageDataModel ( );
+            Page objPageDataModel 
+                = new Page( );
 
-            List<PagePanelDataModel> panelListDM 
-                = new List<PagePanelDataModel>();
+            List<PagePanel> panelListDM 
+                = new List<PagePanel>();
 
-            PagePanelDataModel panelDM;
+            PagePanel panelDM;
 
-            PanelPostDataModel postDM;
+            PanelPost postDM;
 
             listPanels.ForEach ( panel =>
             {
-                panelDM = new PagePanelDataModel ( );
+                panelDM = new PagePanel ( );
 
                 panelDM.PanelID = panel.PanelID;
                 panelDM.PanelTemplate = panel.PanelTemplate;
@@ -77,25 +76,26 @@ public class PageRepository: IPageRepository
                 .ToList ( )
                 .ForEach (post =>
                 {
-                    postDM = new PanelPostDataModel ( );
+                    postDM = new PanelPost ( );
 
                     postDM.PanelPostID = post.PanelPostID;
                     postDM.PostTitle = post.PostTitle;
                     postDM.Price = post.Price;
                     postDM.PostDescription = post.PostDescription;
                     postDM.ImageFileContent = post.ImageFileContent;
-                    postDM.ImageOrderID = post.PostOrder;
+                    postDM.PostOrder = post.PostOrder;
 
                     panelDM.CreatePanelPost ( postDM );
                 } );
 
-                objPageDataModel.CreatePageContent ( panelDM );
+                //objPageDataModel
+                //.CreatePageContent ( panelDM );
             } );
 
             return objPageDataModel;
         }
 
-        return new PageDataModel ( );
+        return new Page ( );
     }
 
     //public async Task<bool> UpdatePage ( Page page )
@@ -122,7 +122,7 @@ public class PageRepository: IPageRepository
     ( 
         LocalModel model,
         EnumCompanyName enumCompany,
-        List<PanelPostDataModel> listUserSelectedPosts,
+        List<PanelPost> listUserSelectedPosts,
         ModelBase modelBase 
     )
     {
@@ -136,10 +136,7 @@ public class PageRepository: IPageRepository
 
         listUserSelectedPosts.ForEach ( obj => {
 
-            PanelPost panelPost = new PanelPost ( 
-                obj.EnumPostType, 
-                obj.RootID, 
-                obj.PageID )
+            PanelPost panelPost = new PanelPost ( )
             {
                 ImageFileContent = obj.ImageFileContent,
                 Price = obj.Price,
