@@ -1,8 +1,14 @@
 using Infrastructure.Localization;
 using Main.Common.Settings;
 using Main.Infrastructure;
+using Main.Services;
+using WebApp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor ( );
+
+builder.Services.AddScoped<IUserContext,UserContext> ( );
 
 AppSettings.Current = 
      builder.Configuration

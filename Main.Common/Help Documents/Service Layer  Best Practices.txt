@@ -229,14 +229,15 @@ namespace WebMvc.Infrastructure
 Use code with caution.
 
 ⚙️ Step 3: 
-Register Dependencies in Program.csRegister the IHttpContextAccessor and your 
-new IUserContext in your Web project's Program.cs file.csharp// Required to 
-read user claims outside of controllers
+Register Dependencies in Program.csRegister the IHttpContextAccessor 
+and your new IUserContext in your Web project's Program.cs 
+file.csharp 
 
+// Required to read user claims outside of controllers
 builder.Services.AddHttpContextAccessor();
 
-// Scoped registration guarantees data isolation per HTTP request/user session
-
+// Scoped registration guarantees data isolation per HTTP request/user 
+// session
 builder.Services.AddScoped<IUserContext, UserContext>();
 
 Use code with caution.
@@ -245,9 +246,9 @@ Use code with caution.
 
 Write Claims during the Sign-In Action:
 
-When your user signs in, pack all the session metadata (Company, Currency, etc.) 
-directly into their Cookie Identity claims.This removes the need for unsafe 
-global static variables.csharpusing.
+When your user signs in, pack all the session metadata (Company, 
+Currency, etc.) directly into their Cookie Identity claims.
+This removes the need for unsafe global static (variables.csharpusing).
 
 Microsoft.AspNetCore.Authentication;
 

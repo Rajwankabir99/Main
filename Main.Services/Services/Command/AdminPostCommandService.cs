@@ -1,4 +1,6 @@
-﻿namespace Application.Service;
+﻿using DataTransferModel;
+
+namespace Application.Service;
 
 public class AdminPostDataService: ICommandAdminPostService
 {

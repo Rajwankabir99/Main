@@ -10,13 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
     <Compile Remove="Service\**" />
-    <Content Remove="Controllers\**" />
     <Content Remove="Service\**" />
-    <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Service\**" />
-    <None Remove="Controllers\**" />
     <None Remove="Service\**" />
   </ItemGroup>
 
@@ -37,6 +33,10 @@
 
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
   </ItemGroup>
 
 </Project>

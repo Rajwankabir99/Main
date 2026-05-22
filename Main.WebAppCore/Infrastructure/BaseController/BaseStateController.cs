@@ -2,7 +2,7 @@
 using System.Text.Json;
 using WebApp.ViewModel;
 
-namespace FineArtsWebApp;
+namespace WebApp.Infrastructure;
 
 public partial class BaseController
 {

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
+using WebApp.Infrastructure;
+
 namespace FineArtsWebApp;
 
 [Area("AdminContent")]
