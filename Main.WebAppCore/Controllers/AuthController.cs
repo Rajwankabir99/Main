@@ -1,16 +1,15 @@
-﻿using Main.Common.HelperRelated;
-using Main.Services;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+
 using ResourceLibrary;
 using System.Security.Claims;
-using System.Web.Mvc;
 using WebApp.Infrastructure;
 using WebApp.ViewModel;
+using Main.Common.HelperRelated;
+using Main.Services;
 
 namespace FineArtsWebApp;
 
@@ -20,23 +19,16 @@ public class AuthController : BaseController
     private readonly IConfiguration _configuration; 
     private readonly IUserContext _userContext;
     private readonly ILogger<AuthController> _logger;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IAccountCommandService _userAccountService;
-    
 
-    public AuthController(
+    public AuthController (
         ILogger<AuthController> logger,
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
         IConfiguration configuration,
         IStringLocalizer<SharedResource> localizer,
         IAccountCommandService userAccountService,
         IUserContext userContext
        )
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
         _configuration = configuration;
         _userAccountService = userAccountService;
         _localizer = localizer;
@@ -55,54 +47,31 @@ public class AuthController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(AccountViewModel model)
     {
-        bool result = false;
+        UserAccountDataModel modelData =            MapToDataModel(model);
 
-        var userIdentity = new IdentityUser
-        {
-            Email = model.Email,
-            PhoneNumber = model.Phone,
-            NormalizedUserName = model.Email.ToUpper(),
-            UserName = 
-            StringRelated.GetUserNameFromEmail(model.Email)
-        };
+        bool result 
+            = await _userAccountService.CreateUserAccount ( modelData );
 
-        UserAccountDataModel modelData = new UserAccountDataModel();
-        modelData.Email = model.Email;
-        modelData.UserName = model.Email;
-
-        var resultreateIdentity = 
-            await _userManager
-            .CreateAsync(userIdentity, model.Password);
-
-        if ( resultreateIdentity.Succeeded )
-        {
-            var userSame = 
-                await _userManager.FindByIdAsync(model.Email);
-
-            if ( userSame != null )
-            {
-                result =
-                    await _userAccountService
-                          .CreateUserAccount ( userSame.Id,modelData );
-            }
-
-            if ( !result )
-            {
-                var user = 
-                    await _userManager
-                    .FindByIdAsync (model.Email);
-
-                if ( user != null )
-                {
-                    var resultDelete = await _userManager
-                            .DeleteAsync(user);
-                }
-            }
-        }
-        
-        await _userManager.AddToRoleAsync(userIdentity, "User"); 
-      
         return RedirectToAction("Login");    
+    }
+
+    private UserAccountDataModel MapToDataModel ( AccountViewModel model )
+    {
+        UserAccountDataModel modelData
+            = new UserAccountDataModel();
+
+        modelData.Email = model.Email;
+        modelData.PhoneNumber = model.Phone;
+        modelData.UserName
+          = StringRelated
+            .GetUserNameFromEmail ( model.Email );
+
+        modelData.NormalizedUserName
+            = model.Email.ToUpper ( );
+
+        modelData.Password = model.Password;
+
+        return modelData;
     }
 
     public IActionResult Login()

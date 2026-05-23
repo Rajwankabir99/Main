@@ -3,6 +3,7 @@
 public interface IAccountCommandService
 {
     Task<bool> CreateUserAccount ( 
-        string idetytyId, UserAccountDataModel userAccountDM );
+        UserAccountDataModel userAccountDM )
+
     Task<int> GetSingleUser ( string id );
 }
