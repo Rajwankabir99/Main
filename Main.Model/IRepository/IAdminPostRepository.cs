@@ -8,7 +8,7 @@ public interface IAdminPostRepository
 
     Task<List<AdminPost>> GetAllAdminContentPosts();
 
-    Task<bool> SaveNewAdminPost ( AdminPost postObject,List<AdminImageFile> objListFiles );
+    Task<bool> SaveNewAdminPost ( AdminPost adminPostEntity );
 
     Task<bool> DeleteAdminPost ( int postId );
 

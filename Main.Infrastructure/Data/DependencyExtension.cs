@@ -52,9 +52,13 @@ public static class DependencyInjection
         services.AddScoped<IProductImageRepository,ProductImageRepository> ( );
         services.AddScoped<IProductRepository,ProductRepository> ( );
         services.AddScoped<IPageRepository,PageRepository> ( );
-        
 
-        
+
+        services.AddScoped<IQueryAdminPostService,AdminPostDataService> ( );
+        services.AddScoped<ICommandAdminPostService,AdminPostDataService> ( );
+
+
+
 
         return services;
 

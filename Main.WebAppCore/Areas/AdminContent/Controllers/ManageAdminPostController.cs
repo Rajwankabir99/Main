@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.Service;
+using DataTransferModel;
+using Main.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-
 using WebApp.Infrastructure;
+using WebApp.ViewModel;
 
 namespace FineArtsWebApp;
 
@@ -10,31 +13,36 @@ namespace FineArtsWebApp;
 [Authorize(Roles = "Admin")]
 public class ManageAdminPostController : BaseController
 {
-    private readonly IAdminPostDataService _AdminPostDataService;
+    private readonly ICommandAdminPostService _AdminPostDataService;
 
     private readonly IMemoryCache _cache;
 
+    private readonly IUserContext _UserContext;
+
     private readonly ILogger<ManageAdminPostController> _Logger;
 
-    public ManageAdminPostController(IAdminPostDataService adminPostDataService,
+    public ManageAdminPostController( ICommandAdminPostService adminPostDataService,
         IMemoryCache cache, 
-        ILogger<ManageAdminPostController> logger)
+        ILogger<ManageAdminPostController> logger,
+        IUserContext userContext)
     {
         _AdminPostDataService = adminPostDataService;
 
         _cache = cache;
 
         _Logger = logger;
+
+        _UserContext = userContext;
     }
 
-
-    private void SetImageInViewModel(AdminPostViewModel objPostVm)
+    private void SetImageInDataModel(AdminPostDataModel objPostDm)
     {
-        List<AdminImageFileViewModel> objFileList = new List<AdminImageFileViewModel>();
+        List<AdminImageFileDataModel> objFileList 
+            = new List<AdminImageFileDataModel>();
 
         objFileList = GetSessionNewAdminPostImage();
 
-        objPostVm.ListAdminPostFileImages = objFileList;
+        objPostDm.ListAdminPostFileImages = objFileList;
 
         ClearNewAdminPostImageSessions();
     }
@@ -68,18 +76,9 @@ public class ManageAdminPostController : BaseController
             ClearNewAdminPostImageSessions();
 
             var objPostViewModel = new AdminPostViewModel();
-
-            objPostViewModel.AV_PostType = DropDownSelectListItem.GetPostTypeList().Where(pt => pt.Value != ((int)EnumPostType.Post).ToString() &&
-                                                                                          pt.Value != ((int)EnumPostType.Product).ToString()).ToList();
-            
-            //objPostViewModel.PostTypeID = (int)EnumPostType.AdSpace;
-            
-            //objPostViewModel.EnumAdminPostTypeDescription = objPostViewModel.EnumAdminPostTypeDescription = DropDownSelectListItem.GetPostTypeList().Where(pt => pt.Value == objPostViewModel.PostTypeID.ToString()).Select(pt => pt.Text).FirstOrDefault();
             
             objPostViewModel.PageName = "Add Admin Post";
             
-            objPostViewModel.SetModelBase(GetModelBaseSession(EnumModelBase.Create));
-
             return View("~/Areas/AdminContent/Views/ManageAdminPost/NewAdmiinContent.cshtml", objPostViewModel);
         }
         catch
@@ -101,13 +100,13 @@ public class ManageAdminPostController : BaseController
 
         try
         {
-            SetImageInViewModel(collection);
+            AdminPostDataModel postDataModel = new AdminPostDataModel();
 
-            collection.SetModelBase(GetModelBaseSession(EnumModelBase.Create));
+            postDataModel = MapNewDataModel ( collection );
 
-            collection.UserID = GetSessionUserId();
+            SetImageInDataModel ( postDataModel );
 
-            var result = await _AdminPostDataService.SaveNewAdminPost(collection);
+            var result = await _AdminPostDataService.SaveNewAdminPost(postDataModel);
 
             string? urlGo = Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" });
 
@@ -120,6 +119,31 @@ public class ManageAdminPostController : BaseController
         }
     }
 
+    private AdminPostDataModel MapNewDataModel ( AdminPostViewModel collection )
+    {
+        AdminPostDataModel postDataModel = new AdminPostDataModel();
+
+        postDataModel.AdminPostID 
+            = collection.AdminPostID;
+
+        postDataModel.UserID 
+            = Convert.ToInt32 ( _UserContext.UserId );
+
+        postDataModel.PostTitle = collection.PostTitle;
+        postDataModel.PosterName = collection.PosterName;
+
+        postDataModel.PosterContactNumber 
+            = collection.PosterContactNumber;
+
+        postDataModel.Currency = _UserContext.EnumCurrency;
+
+        postDataModel.HostCountry = _UserContext.EnumCountry;
+        
+        postDataModel.HostCompanyName 
+            = _UserContext.EnumCompanyName;
+
+        return postDataModel;
+    }
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
@@ -131,18 +155,14 @@ public class ManageAdminPostController : BaseController
 
             var objAdminPostViewModel = new AdminPostViewModel();
 
-            objAdminPostViewModel = await _AdminPostDataService.GetAdminPostForEditPostID(id);
-
-            objAdminPostViewModel.AV_PostType = DropDownSelectListItem.GetPostTypeList().Where(pt => pt.Value != ((int)EnumPostType.Post).ToString() &&
-                                                                                         pt.Value != ((int)EnumPostType.Product).ToString()).ToList();
-
-
-            objAdminPostViewModel.EnumAdminPostTypeDescription = objAdminPostViewModel.EnumAdminPostTypeDescription = DropDownSelectListItem.GetPostTypeList().Where(pt => pt.Value == objAdminPostViewModel.PostTypeID.ToString()).Select(pt => pt.Text).FirstOrDefault();
+            objAdminPostViewModel = 
+               await _AdminPostDataService
+                     .GetAdminPostForEditPostID(id);
             
-            objAdminPostViewModel.PageName = "Edit Admin Post";
+            objAdminPostViewModel.PageName 
+                = "Edit Admin Post";
             
-            objAdminPostViewModel.SetModelBase(GetModelBaseSession(EnumModelBase.Create));
-
+            
             return View(objAdminPostViewModel);
         }
         catch
@@ -164,7 +184,7 @@ public class ManageAdminPostController : BaseController
 
         try
         {
-            SetImageInViewModel(collection);
+            SetImageInDataModel(collection);
 
             collection.SetModelBase(GetModelBaseSession(EnumModelBase.Update));
 

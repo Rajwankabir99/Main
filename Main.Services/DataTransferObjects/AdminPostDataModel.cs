@@ -1,12 +1,9 @@
-﻿using Main.Common.Model;
-
-namespace DataTransferModel;
+﻿namespace DataTransferModel;
 
 public class AdminPostDataModel : BaseDataModel
 {
     public AdminPostDataModel()
     {
-        ModelBase = new ModelBase();
     }
 
     public int AdminPostID { get; set; }

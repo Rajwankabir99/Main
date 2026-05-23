@@ -1,6 +1,4 @@
 ﻿using Main.Common.Enums;
-using Main.Common.Model;
-using Main.Common.Settings;
 
 namespace DataTransferModel;
 
@@ -8,10 +6,6 @@ public class BaseDataModel
 {
         public BaseDataModel()
         {
-            Currency = ( EnumCurrency? )  AppSettings.Current
-                         .EnumCurrency;
-
-            ModelBase = new ModelBase ( );
         }
 
         public string? PageName { get; set; } = string.Empty;
@@ -22,15 +16,11 @@ public class BaseDataModel
        
         public EnumCountry? HostCountry { get; set; }
 
-        public ModelBase ModelBase
-        {
-            get; set;
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public void SetModelBase ( ModelBase modelBase )
-        {
-            ModelBase = new ModelBase ( );
-            ModelBase = modelBase;
-        }
+        public DateTime ModifiedDate { get; set; }
 
+        public int CreatedBy { get; set; }
+
+        public int ModifiedBy { get; set; }
 }

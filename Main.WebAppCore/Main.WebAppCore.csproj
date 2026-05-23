@@ -10,9 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\AdminContent\Data\**" />
+    <Compile Remove="Areas\CompanyContent\Data\**" />
+    <Compile Remove="Areas\CompanyContent\Models\**" />
+    <Compile Remove="Areas\PageContent\Data\**" />
+    <Compile Remove="Areas\PageContent\Models\**" />
     <Compile Remove="Service\**" />
+    <Content Remove="Areas\AdminContent\Data\**" />
+    <Content Remove="Areas\CompanyContent\Data\**" />
+    <Content Remove="Areas\CompanyContent\Models\**" />
+    <Content Remove="Areas\PageContent\Data\**" />
+    <Content Remove="Areas\PageContent\Models\**" />
     <Content Remove="Service\**" />
+    <EmbeddedResource Remove="Areas\AdminContent\Data\**" />
+    <EmbeddedResource Remove="Areas\CompanyContent\Data\**" />
+    <EmbeddedResource Remove="Areas\CompanyContent\Models\**" />
+    <EmbeddedResource Remove="Areas\PageContent\Data\**" />
+    <EmbeddedResource Remove="Areas\PageContent\Models\**" />
     <EmbeddedResource Remove="Service\**" />
+    <None Remove="Areas\AdminContent\Data\**" />
+    <None Remove="Areas\CompanyContent\Data\**" />
+    <None Remove="Areas\CompanyContent\Models\**" />
+    <None Remove="Areas\PageContent\Data\**" />
+    <None Remove="Areas\PageContent\Models\**" />
     <None Remove="Service\**" />
   </ItemGroup>
 
