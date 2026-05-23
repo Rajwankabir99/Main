@@ -1,21 +1,32 @@
 ﻿using DataTransferModel;
+
+using Domain.Model;
+
 using IRepository;
 
-namespace Application.Service;
+using Main.Services.Extensions;
 
-public class ProductDataService : ICommandProductService
+namespace Main.Services.Services;
+
+public class ProductService : IProductService
 {
     private readonly IProductRepository _ProductRepository;
 
-    public ProductDataService(IProductRepository productRepository)
+    public ProductService ( IProductRepository productRepository)
     {
         _ProductRepository = productRepository;
     }
 
-    public async Task<List<ProductDataModel>> GetAllProducts()
+    public async Task<List<ProductDisplayModel>> GetAllProducts()
     {
-        return await _ProductRepository.GetAllProducts();
+        var listProducts = await _ProductRepository.GetAllProducts();
+
+        List<ProductDisplayModel> objListPostDisplayModel
+              = ProductServiceMapping.GetProductDisplayModels(listProducts);
+
+        return objListPostDisplayModel;
     }
+
 
     public async Task<bool> SaveNewProduct(ProductDataModel objProductDM)
     {

@@ -1,26 +1,28 @@
 ﻿using DataTransferModel;
+
 using Domain.Model;
+
 using IRepository;
+
 using Services.Extensions;
 
-namespace Application.Service;
+namespace Main.Services;
 
-public class AdminPostDataService: 
-    ICommandAdminPostService, IQueryAdminPostService
+public class AdminPostService: IAdminPostService
 {
     private readonly IAdminPostRepository _AdminPostRepository;
     
-    public AdminPostDataService 
+    public AdminPostService 
            ( IAdminPostRepository adminPostRepository )
     {
         _AdminPostRepository = adminPostRepository;
     }
 
-    public async Task<List<AdminPostDataModel>> GetAllAdminPosts ( )
+    public async Task<List<AdminPostDisplayModel>> GetAllAdminPosts ( )
     {
         var listadminPostEntities = await _AdminPostRepository.GetAllAdminContentPosts();
 
-        List<AdminPostDataModel> listPostDataModel =
+        List<AdminPostDisplayModel> listPostDataModel =
             AdminPostServiceMappings.MapListDataModel ( listadminPostEntities );
 
         return listPostDataModel;

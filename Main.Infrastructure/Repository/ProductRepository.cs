@@ -25,36 +25,9 @@ public class ProductRepository : IProductRepository
         return result > 0;
     }
 
-    private void MapProductEntityToProductViewModelListModel ( Pro
-        duct postEntity,Product productViewModel )
-    {
-        productViewModel.ProductID = postEntity.ProductID;
-        productViewModel.CategoryID = postEntity.CategoryID;
-        productViewModel.SubCategoryID = postEntity.SubCategoryID;
-        productViewModel.ProductName = postEntity.ProductName;
-        productViewModel.UnitPrice = postEntity.Price;
-        productViewModel.Discount = postEntity.Discount;
-    }
-
     public async Task<List<Product>> GetAllProducts()
     {
-        var listProducts = await _Context.Products.ToListAsync();
-
-        List<Product> objListPostVM 
-            = new List<Product>();
-
-        Product objModel;
-
-        foreach ( Product item in listProducts.ToList ( ) )
-        {
-            objModel = new Product ( );
-
-            MapProductEntityToProductViewModelListModel ( item,objModel );
-
-            objListPostVM.Add ( objModel );
-        }
-
-        return objListPostVM;
+        return await _Context.Products.ToListAsync();
     }
 
     public async Task<bool> DeleteProduct(int productId)

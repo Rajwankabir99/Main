@@ -6,16 +6,16 @@ namespace Services.Extensions;
 
 public static class AdminPostServiceMappings
 {
-    public static List<AdminPostDataModel> MapListDataModel ( List<AdminPost> listadminPostEntities )
+    public static List<AdminPostDisplayModel> MapListDataModel ( List<AdminPost> listadminPostEntities )
     {
-        AdminPostDataModel objDataModel;
+        AdminPostDisplayModel objDataModel;
 
-        List<AdminPostDataModel> listPostDataModel
-            = new List<AdminPostDataModel>();
+        List<AdminPostDisplayModel> listPostDataModel
+            = new List<AdminPostDisplayModel>();
 
         listadminPostEntities.ForEach ( postEntity =>
         {
-            objDataModel = new AdminPostDataModel ( );
+            objDataModel = new AdminPostDisplayModel ( );
 
             objDataModel.AdminPostID = postEntity.AdminPostID;
             objDataModel.PosterName = postEntity.PosterName;
@@ -100,22 +100,6 @@ public static class AdminPostServiceMappings
         };
 
         return objDataModel;
-    }
-
-    public static AdminPostDataModel MapAdminPostDataModel ( AdminPostViewModel objAdminPostVM )
-    {
-        return new AdminPostDataModel ( )
-        {
-            PosterName = objAdminPostVM.PosterName,
-            PostTitle = objAdminPostVM.PostTitle,
-            PostTypeID = objAdminPostVM.PostTypeID,
-            WebsiteUrl = objAdminPostVM.WebsiteUrl,
-            SearchTag = objAdminPostVM.SearchTag,
-            ShortNote = objAdminPostVM.ShortNote,
-            ListAdminPostFileImages = new List<AdminImageFileDataModel> ( ),
-            ListAdminPostComments = new List<AdminPostCommentDataModel> ( ),
-            PosterContactNumber = objAdminPostVM.PosterContactNumber
-        };
     }
 
     public static AdminPost MapAdminPostEntity

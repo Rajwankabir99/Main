@@ -1,8 +1,8 @@
 ﻿using DataTransferModel;
 
-namespace Application.Service;
+namespace Main.Services;
 
-public interface ICommandProductService
+public interface IProductService
 {
     Task<bool> SaveNewProduct(ProductDataModel objPostDm );
 
@@ -11,5 +11,9 @@ public interface ICommandProductService
     Task<bool> DeleteProductImage(int id, int productId);
 
     Task<bool> DeleteProduct(int productId);
+
+    Task<ProductDataModel> GetProductForEditProductID ( int productID );
+
+    Task<List<ProductDisplayModel>> GetAllProducts ( );
 }
 

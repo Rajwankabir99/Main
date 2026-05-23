@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
+
 using Domain.Model;
+
 using IRepository;
+
 using Main.Common.HelperRelated;
 
 namespace Main.Services;
 
-public class AccountCommandService : IAccountCommandService
+public class AccountService : IAccountService
 {
     private readonly IUserContext _userContext;
     private readonly IUserRepository _userRepository;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AccountCommandService ( 
+    public AccountService ( 
         IUserContext userContext, 
         IUserRepository userRepository,
         UserManager<IdentityUser> userManager,
@@ -26,20 +29,20 @@ public class AccountCommandService : IAccountCommandService
     }
 
     public async Task<bool> CreateUserAccount 
-        ( UserAccountDataModel userAccountDM )
+        ( UserAccountDataModel userAccountDataModel )
     {
         IdentityUser userIdentityEntity = 
-            CreateIdentityUser(userAccountDM);
+            CreateIdentityUser(userAccountDataModel);
 
         var resultCreateIdentityUser =
             await _userManager
             .CreateAsync(userIdentityEntity, 
-                         userAccountDM.Password);
+                         userAccountDataModel.Password);
 
         if ( resultCreateIdentityUser.Succeeded )
         {
             bool result = 
-                await CreateAppicationUser ( userAccountDM );
+                await CreateAppicationUser ( userAccountDataModel );
 
             return result;
         }
