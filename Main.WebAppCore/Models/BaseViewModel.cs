@@ -1,6 +1,4 @@
-﻿using Main.Common.Enums;
-
-namespace WebApp.ViewModel;
+﻿namespace WebApp.ViewModel;
 
 public class BaseViewModel
 {
@@ -8,12 +6,5 @@ public class BaseViewModel
         {
         }
 
-        public string? PageName { get; set; } = string.Empty;
-
-        public EnumCurrency? Currency { get; set; }
-       
-        public EnumCompanyName? HostCompanyName { get; set; }
-       
-        public EnumCountry? HostCountry { get; set; }
-
+        public string? PageName { get; set; }
 }
