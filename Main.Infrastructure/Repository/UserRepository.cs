@@ -1,7 +1,6 @@
 ﻿using Data;
 using Domain.Model;
 using IRepository;
-using Main.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository;

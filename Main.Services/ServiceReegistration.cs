@@ -18,7 +18,6 @@ public static class ServiceConfiguration
         services.AddScoped<IAdminPostService,AdminPostService> ( );
         services.AddScoped<IProductService,ProductService> ( );
         services.AddScoped<IPageService,PageService> ( );
-        services.AddScoped<IPagePanelService,PagePanelService> ( );
         
         return services;
     }

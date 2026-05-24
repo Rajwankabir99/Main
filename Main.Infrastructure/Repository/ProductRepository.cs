@@ -66,7 +66,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetProductByProductID(int postId)
     {
-        return = await _Context
+        return await _Context
             .Products
             .SingleAsync<Product>(a => a.ProductID == postId);
     }

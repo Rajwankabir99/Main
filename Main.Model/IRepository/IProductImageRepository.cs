@@ -5,5 +5,5 @@ namespace IRepository;
 
 public interface IProductImageRepository
 {
-    Task<List<PanelPost>> GetSelectProducts ( EnumCompanyName company );
+    Task<List<Product>> GetSelectProducts ( EnumCompanyName company );
 }

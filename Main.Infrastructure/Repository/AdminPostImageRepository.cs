@@ -17,43 +17,12 @@ public class AdminPostImageRepository: IAdminPostImageRepository
     }
 
 
-    public async Task<List<PanelPost>> 
+    public async Task<List<AdminPost>> 
         GetSelectAdminPosts(EnumCompanyName company)
     {
-        List<AdminPost> listAdminPost = 
-              await _context.AdminPosts
-                    .Where(a => a.HostCompanyName == company)
-                    .ToListAsync<AdminPost>();
-
-        if ( listAdminPost == null )
-        {
-            return new List<PanelPost> ( );
-        }
-
-        List<PanelPost> listSelectPanelPostEntity 
-            = new List<PanelPost>();
-
-        PanelPost panelPostEntity;
-
-        listAdminPost.ForEach ( adminPostEntity => 
-        {
-            adminPostEntity.ListAdminImageFiles.ToList ( ).ForEach ( file =>
-            {
-                panelPostEntity = new PanelPost ( );
-
-                panelPostEntity.RootID = adminPostEntity.AdminPostID;
-                panelPostEntity.EnumPostType = adminPostEntity.PostType;
-                panelPostEntity.PostTitle = adminPostEntity.Title;
-                panelPostEntity.ImageFileContent 
-                                = file.ImageFileContent;
-
-                listSelectPanelPostEntity.Add ( panelPostEntity );
-            } );
-        } );
-
-        return listSelectPanelPostEntity
-            .OrderBy ( a => a.PostTitle )
-            .ToList<PanelPost> ( );
+        return await _context.AdminPosts
+            .Where(a => a.HostCompanyName == company)
+            .ToListAsync<AdminPost>();
     }
 }
 
