@@ -10,10 +10,10 @@ public static class ServiceConfiguration
                                 this IServiceCollection services,
                                 IConfiguration configuration )
     {
-        //Register Infrastructure (repository & Data Contexts)
+        //Register Data Infrastructure 
         services.AddInfrastructureServices ( configuration );
 
-        //Register Business Services
+        //Register Main Services
         services.AddScoped<IAccountService,AccountService> ( );
         services.AddScoped<IAdminPostService,AdminPostService> ( );
         services.AddScoped<IProductService,ProductService> ( );

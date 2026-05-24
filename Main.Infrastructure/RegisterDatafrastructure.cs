@@ -8,7 +8,7 @@ using Repository;
 
 namespace Main.Infrastructure;
 
-public static class DependencyInjection
+public static class RegisterDatafrastructure
 {
     public static IServiceCollection AddInfrastructureServices ( this IServiceCollection services,IConfiguration configuration )
     {
