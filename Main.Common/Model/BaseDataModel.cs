@@ -1,14 +1,12 @@
 ﻿using Main.Common.Enums;
 
-namespace DataTransferModel;
+namespace Main.Common.Model;
 
 public class BaseDataModel
 {
         public BaseDataModel()
         {
         }
-
-        public string PageName { get; set; } 
 
         public EnumCurrency Currency { get; set; }
        
@@ -23,4 +21,5 @@ public class BaseDataModel
         public int CreatedBy { get; set; }
 
         public int ModifiedBy { get; set; }
+
 }

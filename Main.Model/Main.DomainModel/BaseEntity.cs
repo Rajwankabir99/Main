@@ -1,4 +1,5 @@
 ﻿using Main.Common.Enums;
+using Main.Common.Model;
 
 namespace Domain.Model;
 
@@ -7,33 +8,33 @@ public class BaseEntity
     public BaseEntity() 
     {            
         IsActive = true;
-    } 
-    
-    //public void CreateBaseData(ModelBase modelBase)
-    //{
-    //    CreatedDate = modelBase.CreatedDate;
-    //    CreatedBy = modelBase.CreatedBy;
+    }
 
-    //    HostCompanyName = modelBase.HostCompanyName;
-    //    HostCountry = modelBase.Country;
+    public void CreateBaseData ( BaseDataModel modelBase )
+    {
+        CreatedDate = modelBase.CreatedDate;
+        CreatedBy = modelBase.CreatedBy;
 
-    //    ModifiedBy = modelBase.ModifiedBy;
-    //    ModifiedDate = modelBase.ModifiedDate;
+        HostCompanyName = modelBase.HostCompanyName;
+        HostCountry = modelBase.HostCountry;
 
-    //    IsActive = true;
-    //}
+        ModifiedBy = modelBase.ModifiedBy;
+        ModifiedDate = modelBase.ModifiedDate;
 
-    //public void ModifyBaseData(ModelBase modelBase)
-    //{
-    //    ModifiedDate = modelBase.ModifiedDate;
-    //    ModifiedBy = modelBase.ModifiedBy;
+        IsActive = true;
+    }
 
-    //    HostCompanyName = modelBase.HostCompanyName;
-    //    HostCountry = modelBase.Country;
+    public void ModifyBaseData ( BaseDataModel modelBase )
+    {
+        ModifiedDate = modelBase.ModifiedDate;
+        ModifiedBy = modelBase.ModifiedBy;
 
-    //    IsActive = true;
-    //}
-   
+        HostCompanyName = modelBase.HostCompanyName;
+        HostCountry = modelBase.HostCountry;
+
+        IsActive = true;
+    }
+
     public int CreatedBy { get; set; }
    
     public DateTime CreatedDate { get; set; }

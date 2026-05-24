@@ -1,4 +1,5 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common.Model;
+using Main.Common.Enums;
 using Main.Services;
 using System.Security.Claims;
 
@@ -41,5 +42,34 @@ public class UserContext: IUserContext
         TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
         return TimeZoneInfo.ConvertTimeFromUtc ( DateTime.UtcNow,userTimeZone );
+    }
+
+    public BaseDataModel GetCreateBaseDataModel ( )
+    {
+        BaseDataModel baseDataModel = new BaseDataModel();
+        
+        baseDataModel.ModifiedDate = GetLocalNow ( );
+        baseDataModel.CreatedDate = GetLocalNow ( );
+        baseDataModel.HostCompanyName = EnumCompanyName;
+        baseDataModel.HostCountry = EnumCountry;
+        baseDataModel.Currency = EnumCurrency;
+
+        baseDataModel.CreatedBy = (int) Convert.ToUInt32(UserId.ToString());
+        baseDataModel.ModifiedBy = ( int ) Convert.ToUInt32 ( UserId.ToString ( ) );
+
+        return baseDataModel;
+    }
+
+    public BaseDataModel GetUpdateBaseDataModel ( )
+    {
+        BaseDataModel baseDataModel = new BaseDataModel();
+
+        baseDataModel.ModifiedDate = GetLocalNow ( );
+        baseDataModel.HostCompanyName = EnumCompanyName;
+        baseDataModel.HostCountry = EnumCountry;
+        baseDataModel.Currency = EnumCurrency;
+        baseDataModel.ModifiedBy = ( int ) Convert.ToUInt32 ( UserId.ToString ( ) );
+
+        return baseDataModel;
     }
 }

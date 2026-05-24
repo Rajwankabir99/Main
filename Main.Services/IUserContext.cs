@@ -1,4 +1,5 @@
 ﻿using Main.Common.Enums;
+using Main.Common.Model;
 
 namespace Main.Services;
 
@@ -41,4 +42,10 @@ public interface IUserContext
 
 
     DateTime GetLocalNow ( );
+
+    BaseDataModel GetCreateBaseDataModel ( );
+
+    BaseDataModel GetUpdateBaseDataModel ( )
+
+
 }

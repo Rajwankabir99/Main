@@ -1,6 +1,6 @@
 ﻿namespace DataTransferModel;
 
-public class AdminPostCommentDataModel : BaseDataModel
+public class AdminPostCommentDataModel : DataModel
 {
     public AdminPostCommentDataModel()
     {

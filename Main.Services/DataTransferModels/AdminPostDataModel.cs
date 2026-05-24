@@ -1,6 +1,8 @@
-﻿namespace DataTransferModel;
+﻿using Main.Common.Model;
 
-public class AdminPostDataModel : BaseDataModel
+namespace DataTransferModel;
+
+public class AdminPostDataModel
 {
     public AdminPostDataModel()
     {
@@ -29,4 +31,9 @@ public class AdminPostDataModel : BaseDataModel
     public int PostTypeID { get; set; }
 
     public string? EnumAdminPostTypeDescription { get; set; } 
+
+    public BaseDataModel BaseDataModel
+    {
+        get; set;
+    }
 }

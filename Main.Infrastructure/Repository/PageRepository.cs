@@ -112,56 +112,7 @@ public class PageRepository: IPageRepository
         ModelBase modelBase 
     )
     {
-        PagePanel panelEntity = new PagePanel();
-
-        panelEntity.PanelTemplate = ( EnumPanelTemplate ) model.TemplateTypeID;
-
-        panelEntity.PanelTitle = model.PanelTitle;
-
-        panelEntity.CreateBaseData ( modelBase );
-
-        listUserSelectedPosts.ForEach ( obj => {
-
-            PanelPost panelPost = new PanelPost ( )
-            {
-                ImageFileContent = obj.ImageFileContent,
-                Price = obj.Price,
-                PostTitle = obj.PostTitle,
-                PostDescription = obj.PostDescription
-            };
-
-            panelPost.CreateBaseData ( modelBase );
-
-            panelEntity.CreatePanelPost ( panelPost );
-
-        } );
-
-        var objPageEntity = await _context
-                            .Pages
-                            .FirstOrDefaultAsync
-                            (m => m.PageID ==  model.PageID);
-
-        PageContent objPageCotentEntity = objPageEntity != null
-                    
-                    ? objPageEntity.GetNewOrExistingPageContent
-                                    (model.PageID, modelBase)
-                    : new PageContent();
-
-        objPageCotentEntity.Page = null;
-
-        objPageCotentEntity.CreatePagePanel ( panelEntity );
-
-
-        if ( objPageEntity != null )
-        {
-            objPageEntity.SavePageContent ( objPageCotentEntity );
-
-            _context.Pages.Update( objPageEntity );
-        }
-
-        int result = await _context.SaveChangesAsync ( );
-
-        return result > 0;
+        
     }
 
 

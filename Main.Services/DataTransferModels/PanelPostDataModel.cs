@@ -2,7 +2,7 @@
 
 namespace DataTransferModel;
 
-public class PanelPostDataModel : BaseDataModel
+public class PanelPostDataModel
 {
     public PanelPostDataModel() {
     }
