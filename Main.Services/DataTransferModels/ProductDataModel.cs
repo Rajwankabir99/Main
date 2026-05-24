@@ -2,7 +2,7 @@
 
 namespace DataTransferModel;
 
-public class ProductDataModel : BaseDataModel
+public class ProductDataModel : DataModel
 {
     public ProductDataModel()
     {

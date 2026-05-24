@@ -27,7 +27,7 @@ public class PagePanelService: IPagePanelService
 
     public async Task<bool> CreateNewPanels 
     ( 
-          LocalModel model, List<PanelPostDataModel> listUserSelectedPosts,BaseDataModel baseDataModel
+          LocalModel model, List<PanelPostDataModel> listUserSelectedPosts
     )
     {
 
@@ -37,17 +37,19 @@ public class PagePanelService: IPagePanelService
 
         panelEntity.PanelTitle = model.PanelTitle;
 
-        panelEntity.CreateBaseData( baseDataModel )
+        panelEntity.CreateBaseData ( baseDataModel );
 
-        listUserSelectedPosts.ForEach ( obj => {
+        listUserSelectedPosts.ForEach ( objPost => {
 
             PanelPost panelPost = new PanelPost ( )
             {
-                ImageFileContent = obj.ImageFileContent,
-                Price = obj.Price,
-                PostTitle = obj.PostTitle,
-                PostDescription = obj.PostDescription
+                ImageFileContent = objPost.ImageFileContent,
+                Price = objPost.Price,
+                PostTitle = objPost.PostTitle,
+                PostDescription = objPost.PostDescription
             };
+
+            panelPost.CreateBaseData ( objPost.BaseDataModel );
 
             panelEntity.CreatePanelPost ( panelPost );
 
@@ -88,17 +90,7 @@ public class PagePanelService: IPagePanelService
                                             baseDataModel );
     }
 
-    private static PagePanel SetCreateDateTime ( BaseDataModel baseDataModel, PagePanel panelEntity )
-    {
-        panelEntity.CreatedDate = baseDataModel.CreatedDate;
-        panelEntity.ModifiedDate = baseDataModel.ModifiedDate;
-        panelEntity.CreatedBy = baseDataModel.CreatedBy;
-        panelEntity.ModifiedBy = baseDataModel.ModifiedBy;
-        panelEntity.HostCompanyName = baseDataModel.HostCompanyName;
-        panelEntity.HostCountry = baseDataModel.HostCountry;
-
-        return panelEntity;
-    }
+    
 
     public async Task<List<PanelPostDataModel>> GetSelectProducts ( 
                                                 EnumCompanyName company )

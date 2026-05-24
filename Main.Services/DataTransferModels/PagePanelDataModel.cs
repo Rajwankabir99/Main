@@ -2,7 +2,7 @@
 
 namespace DataTransferModel;
 
-public class PagePanelDataModel: BaseDataModel
+public class PagePanelDataModel: DataModel
 {
     public PagePanelDataModel()
     {

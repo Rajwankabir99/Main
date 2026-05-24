@@ -1,6 +1,6 @@
 ﻿namespace DataTransferModel;
 
-public class ManageAdminPostDataModel : BaseDataModel
+public class ManageAdminPostDataModel
 {
     public ManageAdminPostDataModel ( ) => ListAdminPost = new List<AdminPostDataModel> ( );
 

@@ -3,7 +3,7 @@ using Main.Common.Enums;
 
 namespace DataTransferModel;
 
-public class PageContentDataModel: BaseDataModel
+public class PageContentDataModel: DataModel
 {
 
     public PageContentDataModel()

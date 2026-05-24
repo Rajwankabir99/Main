@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-
 using Domain.Model;
-
 using IRepository;
-
 using Main.Common.HelperRelated;
 
 namespace Main.Services;
@@ -28,21 +25,18 @@ public class AccountService : IAccountService
         _signInManager = signInManager;
     }
 
-    public async Task<bool> CreateUserAccount 
-        ( UserAccountDataModel userAccountDataModel )
+    public async Task<bool> CreateUserAccount ( UserAccountDataModel userAccountDataModel )
     {
-        IdentityUser userIdentityEntity = 
-            CreateIdentityUser(userAccountDataModel);
+        IdentityUser userIdentityEntity = CreateIdentityUser(userAccountDataModel);
 
-        var resultCreateIdentityUser =
-            await _userManager
-            .CreateAsync(userIdentityEntity, 
-                         userAccountDataModel.Password);
+        var resultCreateIdentityUser = await 
+                                        _userManager
+                                        .CreateAsync(userIdentityEntity, 
+                                         userAccountDataModel.Password);
 
         if ( resultCreateIdentityUser.Succeeded )
         {
-            bool result = 
-                await CreateAppicationUser ( userAccountDataModel );
+            bool result = await CreateAppicationUser ( userAccountDataModel );
 
             return result;
         }
@@ -52,58 +46,52 @@ public class AccountService : IAccountService
 
     public async Task<int> GetSingleUser ( string id )
     {
-        User userEntity  =
-            await _userRepository
-                  .GetSingleUserByIdentityID ( id );
+        User userEntity  = await _userRepository.GetSingleUserByIdentityID ( id );
 
         return userEntity.UserID;
     }
 
 #region Priate Methods (CreateUser, CreateIdentityUser, CreateAppicationUser, RemoveIdentityUser)
 
-    private IdentityUser CreateIdentityUser ( UserAccountDataModel userAccountDM )
+    private IdentityUser CreateIdentityUser ( UserAccountDataModel userAccountDataModel )
     {
         var userIdentity = new IdentityUser
         {
-            Email = userAccountDM.Email,
-            PhoneNumber = userAccountDM.PhoneNumber,
-            NormalizedUserName = userAccountDM.Email.ToUpper(),
-            UserName = userAccountDM.UserName
+            Email = userAccountDataModel.Email,
+            PhoneNumber = userAccountDataModel.PhoneNumber,
+            NormalizedUserName = userAccountDataModel.Email.ToUpper(),
+            UserName = userAccountDataModel.UserName
         };
 
         return userIdentity;
     }
 
-    private User CreateUserEntity ( string idetytyId,UserAccountDataModel userAccountDM )
+    private User CreateUserEntity ( string idetytyId, 
+                                    UserAccountDataModel userAccountDataModel )
     {
         User objUserEntity = new User();
 
         objUserEntity.IdentityUserID = idetytyId;
-        objUserEntity.Email = userAccountDM.Email;
-        objUserEntity.ClientName = StringRelated.GetUserNameFromEmail ( userAccountDM.Email );
+        objUserEntity.Email = userAccountDataModel.Email;
+        objUserEntity.ClientName = 
+            StringRelated.GetUserNameFromEmail ( userAccountDataModel.Email );
 
-        objUserEntity.CreatedDate = _userContext.GetLocalNow ( );
-        objUserEntity.ModifiedDate = _userContext.GetLocalNow ( );
-        objUserEntity.CreatedBy = ( int ) _userContext.SeedUserId;
-        objUserEntity.ModifiedBy = ( int ) _userContext.SeedUserId;
-
-        objUserEntity.HostCompanyName = _userContext.EnumCompanyName;
-        objUserEntity.HostCountry = _userContext.EnumCountry;
+        objUserEntity.CreateBaseData ( userAccountDataModel.BaseDataModel );
 
         return objUserEntity;
     }
 
     private async Task<bool> CreateAppicationUser
-        ( UserAccountDataModel userAccountDM )
+        ( UserAccountDataModel userAccountDataModel )
     {
         var userSame =
-                await _userManager.FindByIdAsync        (userAccountDM.Email);
+                await _userManager.FindByIdAsync (userAccountDataModel.Email);
 
         if ( userSame != null )
         {
             User userEntity =
                     CreateUserEntity
-                    ( userSame.Id, userAccountDM );
+                    ( userSame.Id, userAccountDataModel );
 
             bool success =
                 await _userRepository
@@ -111,7 +99,7 @@ public class AccountService : IAccountService
             
             // if Not Success (Reverce)
             await RemoveIdentityUser
-                ( !success,userAccountDM.Email );
+                ( !success,userAccountDataModel.Email );
 
             if ( success )
             {
@@ -125,18 +113,19 @@ public class AccountService : IAccountService
     }
 
     private async Task RemoveIdentityUser
-                        ( bool success,string email )
+            ( bool success,string email )
     {
         if ( success )
         {
-            var user =
-                    await _userManager
-                    .FindByIdAsync (email);
+            var user = await _userManager
+                       .FindByIdAsync (email);
 
             if ( user != null )
             {
-                var resultDelete = await _userManager
-                            .DeleteAsync(user);
+                var resultDelete 
+                    = await 
+                    _userManager
+                    .DeleteAsync(user);
             }
         }
     }

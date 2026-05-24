@@ -43,6 +43,8 @@ public static class ProductServiceMapping
         productEntity.UserID = productDataModel.UserID;
         productEntity.User = null;
 
+        productEntity.CreateBaseData ( productDataModel.BaseDataModel );
+
         List <ProductImageFile> objListFileEntity
             = MapProductFileEntity(productDataModel);
 
@@ -76,13 +78,7 @@ public static class ProductServiceMapping
                     ? null
                     : productDataModel.Description,
 
-            PostType = EnumPostType.Product,
-            CreatedBy = productDataModel.CreatedBy,
-            CreatedDate = productDataModel.CreatedDate,
-            ModifiedBy = productDataModel.ModifiedBy,
-            ModifiedDate = productDataModel.ModifiedDate,
-            HostCompanyName = productDataModel.HostCompanyName,
-            HostCountry = productDataModel.HostCountry
+            PostType = EnumPostType.Product
         };
     }
 
@@ -221,8 +217,7 @@ public static class ProductServiceMapping
         productEntity.ListComments = listProductCommentsEntity;
         productEntity.ListImageFiles = listProductImageFileEntity;
 
-        productEntity.ModifiedBy = productDataModel.ModifiedBy;
-        productEntity.ModifiedDate = productDataModel.ModifiedDate;
+        productEntity.ModifyBaseData ( productDataModel.BaseDataModel );
 
         return productEntity;
     }

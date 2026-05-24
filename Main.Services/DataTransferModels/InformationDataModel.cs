@@ -1,8 +1,7 @@
 ﻿
-
 namespace DataTransferModel;
 
-public class InformationDataModel : BaseDataModel
+public class InformationDataModel
 {
     public InformationDataModel()
     {

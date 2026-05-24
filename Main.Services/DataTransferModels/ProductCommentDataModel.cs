@@ -1,7 +1,7 @@
 ﻿
 namespace DataTransferModel;
 
-public class ProductCommentDataModel : BaseDataModel
+public class ProductCommentDataModel : DataModel
 {
     public ProductCommentDataModel() { }
 

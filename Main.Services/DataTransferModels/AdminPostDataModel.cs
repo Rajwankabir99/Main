@@ -2,7 +2,7 @@
 
 namespace DataTransferModel;
 
-public class AdminPostDataModel
+public class AdminPostDataModel : DataModel
 {
     public AdminPostDataModel()
     {
@@ -32,8 +32,4 @@ public class AdminPostDataModel
 
     public string? EnumAdminPostTypeDescription { get; set; } 
 
-    public BaseDataModel BaseDataModel
-    {
-        get; set;
-    }
 }

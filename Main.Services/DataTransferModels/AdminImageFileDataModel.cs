@@ -1,6 +1,6 @@
 ﻿namespace DataTransferModel;
 
-public class AdminImageFileDataModel : BaseDataModel
+public class AdminImageFileDataModel : DataModel
 {
     public AdminImageFileDataModel()
     {

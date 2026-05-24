@@ -1,6 +1,8 @@
-﻿namespace Main.Services
+﻿using DataTransferModel;
+
+namespace Main.Services
 {
-    public class UserAccountDataModel
+    public class UserAccountDataModel : DataModel
     {
         public UserAccountDataModel() { }
 

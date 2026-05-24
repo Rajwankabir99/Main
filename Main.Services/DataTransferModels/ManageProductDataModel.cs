@@ -1,6 +1,6 @@
 ﻿namespace DataTransferModel;
 
-public class ManageProductDataModel : BaseDataModel
+public class ManageProductDataModel
 {
     public ManageProductDataModel()
     {

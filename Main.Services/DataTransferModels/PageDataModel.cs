@@ -4,7 +4,7 @@ using Main.Common.Model;
 
 namespace DataTransferModel
 {
-    public class PageDataModel : ModelBase
+    public class PageDataModel : DataModel
     {
         public PageDataModel() {
            

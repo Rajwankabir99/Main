@@ -1,9 +1,6 @@
 ﻿using DataTransferModel;
-
 using Domain.Model;
-
 using IRepository;
-
 using Services.Extensions;
 
 namespace Main.Services;
@@ -30,11 +27,11 @@ public class AdminPostService: IAdminPostService
     
 
     public async Task<bool> SaveNewAdminPost ( 
-                 AdminPostDataModel objAdminPostDm )
+                 AdminPostDataModel adminPostDataModel )
     {
         AdminPost adminPostEntity 
             = AdminPostServiceMappings.MapAdminPostEntity
-            ( objAdminPostDm, objAdminPostDm.ListAdminPostFileImages );
+            ( adminPostDataModel, adminPostDataModel.ListAdminPostFileImages );
          
         return await _AdminPostRepository
             .SaveNewAdminPost ( adminPostEntity );
