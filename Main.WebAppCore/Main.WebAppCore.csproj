@@ -10,34 +10,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\AdminContent\Data\**" />
-    <Compile Remove="Areas\CompanyContent\Data\**" />
-    <Compile Remove="Areas\CompanyContent\Models\**" />
-    <Compile Remove="Areas\PageContent\Data\**" />
-    <Compile Remove="Areas\PageContent\Models\**" />
+    <Compile Remove="Area.Data\**" />
+    <Compile Remove="Areas\**" />
+    <Compile Remove="Infrastructure\BaseController\**" />
     <Compile Remove="Service\**" />
-    <Content Remove="Areas\AdminContent\Data\**" />
-    <Content Remove="Areas\CompanyContent\Data\**" />
-    <Content Remove="Areas\CompanyContent\Models\**" />
-    <Content Remove="Areas\PageContent\Data\**" />
-    <Content Remove="Areas\PageContent\Models\**" />
+    <Compile Remove="ViewComponents\**" />
+    <Content Remove="Area.Data\**" />
+    <Content Remove="Areas\**" />
+    <Content Remove="Infrastructure\BaseController\**" />
     <Content Remove="Service\**" />
-    <EmbeddedResource Remove="Areas\AdminContent\Data\**" />
-    <EmbeddedResource Remove="Areas\CompanyContent\Data\**" />
-    <EmbeddedResource Remove="Areas\CompanyContent\Models\**" />
-    <EmbeddedResource Remove="Areas\PageContent\Data\**" />
-    <EmbeddedResource Remove="Areas\PageContent\Models\**" />
+    <Content Remove="ViewComponents\**" />
+    <EmbeddedResource Remove="Area.Data\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <EmbeddedResource Remove="Infrastructure\BaseController\**" />
     <EmbeddedResource Remove="Service\**" />
-    <None Remove="Areas\AdminContent\Data\**" />
-    <None Remove="Areas\CompanyContent\Data\**" />
-    <None Remove="Areas\CompanyContent\Models\**" />
-    <None Remove="Areas\PageContent\Data\**" />
-    <None Remove="Areas\PageContent\Models\**" />
+    <EmbeddedResource Remove="ViewComponents\**" />
+    <None Remove="Area.Data\**" />
+    <None Remove="Areas\**" />
+    <None Remove="Infrastructure\BaseController\**" />
     <None Remove="Service\**" />
+    <None Remove="ViewComponents\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\AuthController.cs" />
+    <Compile Remove="Controllers\CultureController.cs" />
+    <Compile Remove="Controllers\ErrorHandlerController.cs" />
+    <Compile Remove="Controllers\HomeController.cs" />
+    <Compile Remove="Controllers\SecureController.cs" />
+    <Compile Remove="Controllers\UserSessionLogController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +59,10 @@
 
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

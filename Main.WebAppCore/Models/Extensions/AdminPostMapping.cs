@@ -69,9 +69,8 @@ public static class AdminPostMapping
             UserID = postEntity.UserID,
             PostTypeID = (int)postEntity.PostType,
             ListAdminPostFileImages = objDMListFiles,
-            ListAdminPostComments = objDMListComments,
-            HostCompanyName = postEntity.HostCompanyName,
-            HostCountry = postEntity.HostCountry
+            ListAdminPostComments = objDMListComments
+            
         };
 
         return objDataModel;

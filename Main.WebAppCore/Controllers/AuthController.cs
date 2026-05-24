@@ -19,13 +19,13 @@ public class AuthController : BaseController
     private readonly IConfiguration _configuration; 
     private readonly IUserContext _userContext;
     private readonly ILogger<AuthController> _logger;
-    private readonly IAccountCommandService _userAccountService;
+    private readonly IAccountService _userAccountService;
 
     public AuthController (
         ILogger<AuthController> logger,
         IConfiguration configuration,
         IStringLocalizer<SharedResource> localizer,
-        IAccountCommandService userAccountService,
+        IAccountService userAccountService,
         IUserContext userContext
        )
     {
