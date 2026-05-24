@@ -10,7 +10,9 @@ public class PageViewModel : BaseViewModel
     }
 
 
-    public PageViewModel(int id, EnumPublicPage enumPublicPage, EnumCompanyName enumCompany)
+    public PageViewModel(int id, 
+                        EnumPublicPage enumPublicPage, 
+                        EnumCompanyName enumCompany)
     {
         ListPagePanels = new List<PagePanelViewModel>();
 
@@ -31,7 +33,7 @@ public class PageViewModel : BaseViewModel
 
 
     [Display(Name = "Configurable Page Name")]
-    public string? PageName { get; set; }
+    public string? PublicPageName { get; set; }
 
 
     [Display(Name = "Company Name")]
@@ -41,16 +43,16 @@ public class PageViewModel : BaseViewModel
     public List<PagePanelViewModel> ListPagePanels { get; set; }
 
 
-    public void CreatePageContent(PagePanelViewModel pageContentVm)
+    public void CreatePageContent(PagePanelViewModel pageContentViveModel)
     {
         if (ListPagePanels == null)
         {
             ListPagePanels = new List<PagePanelViewModel>();
         }
 
-        if (pageContentVm != null)
+        if (pageContentViveModel != null)
         {
-            ListPagePanels.Add(pageContentVm);
+            ListPagePanels.Add(pageContentViveModel);
         }
     }
 }
