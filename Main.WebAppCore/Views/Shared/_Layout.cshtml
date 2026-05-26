@@ -1,5 +1,6 @@
 ﻿@inject IStringLocalizer<SharedResource> SharedLocalizer
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -57,7 +58,7 @@
         </header>
 
         @await Component.InvokeAsync("AdvancedSearchDesktop")
-        @await Component.InvokeAsync("ShoppingCartNotification")
+        @* @await Component.InvokeAsync("ShoppingCartNotification") *@
        
         <div id="layoutBodyContainer" class="body-content">
             <main>
@@ -75,11 +76,12 @@
     }
 
     <footer>
-        <div class="footer-content">@SharedLocalizer["LinkResources"]</a> &nbsp; |
-                <a style="color:white;" href="@Url.Action("Terms","Home")">@SharedLocalizer["LinkPrivacyAndTerms"]</a> &nbsp; |
-                <a style="color:white;" href="@Url.Action("FAQ","Home")">@SharedLocalizer["LinkFaq"]</a> &nbsp; |
-                <a style="color:white;" href="@Url.Action("Contact", "Home")">@SharedLocalizer["LinkContact"]</a> &nbsp; |
-                © 2019 @SharedLocalizer["LinkPortalURL"], All rights reserved.
+        <div class="footer-content">
+            <a> @SharedLocalizer["LinkResources"]</a> &nbsp; |
+            <a style="color:white;" href="@Url.Action("Terms","Home")">@SharedLocalizer["LinkPrivacyAndTerms"]</a> &nbsp; |
+            <a style="color:white;" href="@Url.Action("FAQ","Home")">@SharedLocalizer["LinkFaq"]</a> &nbsp; |
+            <a style="color:white;" href="@Url.Action("Contact", "Home")">@SharedLocalizer["LinkContact"]</a> &nbsp; |
+            © 2019 @SharedLocalizer["LinkPortalURL"], All rights reserved.
         </div>
     </footer>
 
@@ -232,7 +234,7 @@
     <script>
         $(function () {
             
-            $('#ancorLanguage').on('show.bs.dropdown', function () {});
+            $('#ancorLanguage').on('show.bs.dropdown', function () { });
 
             $('#ancorLanguage').dropdown();
 
