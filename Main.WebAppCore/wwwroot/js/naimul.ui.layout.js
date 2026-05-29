@@ -1,38 +1,14 @@
 ﻿var $Header = $("#layoutHeaderContainer", document);
 var $lnkMyHomeObject = $("#ancorMyHome", $Header);
-var CURRENT_LANGUAGE = 'EN';
 
-function refreshUserSession() {
-    var loginUseriD = '';
-    if (getLoginAuthTicketCookie() != null) {
-        loginUseriD = getLoginUserIDCookie();
-    }
-    if (loginUseriD == undefined || loginUseriD == null) {
-        loginUseriD = "";
-    }
-    var requestData = { "UserId": loginUseriD };
-
-    $.ajax({
-        url: userSessionUpdateUrl,
-        type: 'POST',
-        data: JSON.stringify(requestData),
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        error: function (xhr) {
-        },
-        success: function (categorytext) {           
-        },
-        processData: false,
-        cache: false,
-        async: true
-    });
-}
-
-function verifyUserAccount() {
+function verifyUserAccount()
+{
     SendVerifyEmail();  
 }
 
-function SendVerifyEmail() {
+function SendVerifyEmail()
+{
+
     $.ajax({
         url: urlVerifyEmailAccount,
         type: 'POST',
@@ -53,15 +29,9 @@ function SendVerifyEmail() {
     });
 }
 
-function setDataUserID(user) {
-    $lnkMyHomeObject.attr("data-userid", user.UserID);
-}
 
-function removeDataUserID() {
-    $lnkMyHomeObject.attr("data-userid", "");
-}
-
-function checkForNewUserMessages() {
+function checkForNewUserMessages()
+{
     $.ajax({
         url: anynewmailurl,
         type: 'POST',
@@ -89,77 +59,36 @@ function checkForNewUserMessages() {
     });
 }
 
-function loadPaymentOption(response) {
+
+function loadPaymentOption(response)
+{
     var data = { "UserID": response.UserID };
+
     $.ajax({
         url: loginUrl,
         type: 'POST',
         data: data,
         cache: true
-    }).done(function (user) {
+    })
+    .done(function (user) {
         if (user !== -1) {
             window.location = response.Url;
         }
     });
 }
 
-function changeLanguage(language) {
-    $.ajax({
-        url: changeLanguageUrl + language,
-        type: 'GET',
-        success: function (result) {
-            window.location = window.location.href;
-        }
-    });
-}
 
-$(function () {
-    function getCurrentLanguage() {
-        if ($.cookie('Language') == "en") {
-            $("#imgNigeriaFlag").hide();
-            $("#spnNigeriaFlag").hide();
-            $("#imgBanglaFlag").hide();
-            $("#imgEnglishFlag").show();
-            $("#spnBanglaFlag").hide();
-            $("#spnEnglishFlag").show();
-        }
-        else if ($.cookie('Language') == "bn") {
-            $("#imgNigeriaFlag").hide();
-            $("#spnNigeriaFlag").hide();
-            $("#imgEnglishFlag").hide();
-            $("#imgBanglaFlag").show();
-            $("#spnEnglishFlag").hide();
-            $("#spnBanglaFlag").show();            
-        }
-        else if ($.cookie('Language') == "ng") {
-            $("#imgEnglishFlag").hide();
-            $("#imgBanglaFlag").hide();
-            $("#spnEnglishFlag").hide();
-            $("#spnBanglaFlag").hide();
-            $("#imgNigeriaFlag").show();
-            $("#spnNigeriaFlag").show();
-        }
-    }
-
-    //refreshUserSession();
-    getCurrentLanguage();
-
-    $(document).on("click", "#ancorBanglaLanguage", function () {
-        changeLanguage("bn");
-    });
-
-    $(document).on("click", "#ancorEnglishLanguage", function () {
-        changeLanguage("en");
-    });
-
-    $(document).on("click", "#ancorNigeriaLanguage", function () {
-        changeLanguage("ng");
-    });
+$ ( function ()
+{
+    
 
     $("#btnMainMenu").click(function () {
         $(".side-menu, .market-list-dropdown").toggleClass("popup");
         $(".subcategory").removeClass("popup");
     });
+
+
+
 
     $(".side-menu .category").on("click", function (e) {
         e.stopPropagation();
@@ -171,6 +100,9 @@ $(function () {
         $(this).closest("li.category").addClass("menu-item-hover");
     });
 
+
+
+
     $(document).click(function (ev) {
         if ($(ev.target).is(".subcategory") || $(ev.target).is(".side-menu") || $(ev.target).is(".main-menu") ||
             $(ev.target).parents(".subcategory").length !== 0 || $(ev.target).parents(".side-menu").length !== 0 || $(ev.target).parents(".main-menu").length !== 0) {
@@ -180,7 +112,6 @@ $(function () {
         $(".subcategory").removeClass("popup");
     });
 
-    
 
         
 
@@ -197,10 +128,15 @@ $(function () {
         });
     });
 
+
+
+
+
     $(document).on("click", "#continueShopping", function () {
         $("#requesCartViewBackground").removeClass("active");
         $("#requestCartViewFormContent").removeClass("active");
     });
+
 });
 
 

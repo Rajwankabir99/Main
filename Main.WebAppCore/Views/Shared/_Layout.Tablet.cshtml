@@ -202,44 +202,25 @@
         <script src="~/js/Chart.min.js" type="text/javascript"></script>
         <script src="~/js/search.js" type="text/javascript"></script>
         <script src="~/js/Home/naimul.ui.fabia.dropdown.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            //var navbar1 = document.getElementById("header-bottom");
-            //var navbar2 = document.getElementById("header-main");
-            //var sticky = navbar1.offsetTop;
+        <script src="~/js/language-chnage.js"></script>
 
-            //function myFunction() {
-            //    if (window.pageYOffset >= sticky) {
-            //        navbar1.classList.add("sticky");
-            //        navbar2.classList.add("sticky-s");
-            //    } else {
-            //        navbar1.classList.remove("sticky");
-            //        navbar2.classList.remove("sticky-s");
-            //    }
-            //}
-
-            //window.onscroll = function () {
-            //    myFunction();
-            //};
+        <script>
 
             $(function () {
-            // Occurs when the dropdown is about to be shown
-            $('#ancorLanguage').on('show.bs.dropdown', function () {
-            console.log("The menu is opening!");
-            });
+           
+                $('#ancorLanguage').on('show.bs.dropdown', function () {
+                    console.log("The menu is opening!");
+                });
 
-            // Occurs after an item is clicked
-            // $('.dropdown-item').on('click', function() {
-            // let selectedText = $(this).text();
-            // $('#myDropdown').text(selectedText); // Updates button text with selected item
-            // });
 
-            $('#ancorLanguage').dropdown();
+                $('#ancorLanguage').dropdown();
 
-            $(".carousel").carousel({
-            interval: 4000
-            });
+                $(".carousel").carousel({
+                    interval: 4000
+                });
             });
         </script>
+
         @await RenderSectionAsync("scriptsapp", required: false)
     </body>
 </html>

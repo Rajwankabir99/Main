@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+
 using ResourceLibrary.Resources;
+
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Main.WebAppCore
 {
@@ -14,23 +17,23 @@ namespace Main.WebAppCore
         }
 
         [HttpGet]
-        public JsonResult Change(string LanguageAbbrevation)
+        public JsonResult Change(string? languageAbbrevation)
         {
-            if (LanguageAbbrevation != null)
-            {
-                var cultureInfo = new CultureInfo(LanguageAbbrevation);
+            
+            string cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture: languageAbbrevation ?? "en"));
 
-                // Updates the current thread's culture
-                CultureInfo.CurrentCulture = cultureInfo;
-                CultureInfo.CurrentUICulture = cultureInfo;
-            }
 
-            Response.Cookies.Append(
-                               CookieRequestCultureProvider.DefaultCookieName,
-                               CookieRequestCultureProvider.MakeCookieValue(new RequestCulture( culture: LanguageAbbrevation )),
-                               new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            Response.Cookies.Append (
+                CookieRequestCultureProvider.DefaultCookieName,
+                cookieValue,
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears ( 1 ),
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Lax
+                }
             );
-            Response.Cookies.Append("Language", LanguageAbbrevation);
 
             return Json(true);
         }
