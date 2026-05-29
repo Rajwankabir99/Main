@@ -75,18 +75,18 @@ public class AccountService : IAccountService
 
 
 
-    public async Task<bool> AuthenticateUser ( string email, string password )
+    public async Task<SignInResult> AuthenticateUser ( string email, string password )
     {
         var userIdentity = await _userManager.FindByEmailAsync(email.Trim());
 
         if ( userIdentity == null )
         {
-            return false;
+            return SignInResult.Failed;
         }
 
         var result = await _signInManager.PasswordSignInAsync ( userIdentity, password, true,   lockoutOnFailure: false);
         
-        return result.Succeeded;
+        return result;
     }
 
 

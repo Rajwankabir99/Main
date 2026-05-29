@@ -11,7 +11,7 @@ public interface IAccountService
 
     Task<IdentityUser?> GetIdentityUser ( string email );
 
-    Task<bool> AuthenticateUser ( string email, string password );
+    Task<SignInResult> AuthenticateUser ( string email, string password );
 
     Task<bool> ChangePasswordAsync ( string email, string password, string rePassword );
 

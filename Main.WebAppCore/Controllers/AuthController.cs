@@ -146,7 +146,7 @@ public class AuthController : BaseController
         var result = await _userAccountService.AuthenticateUser ( loginDisplayViewModel.Email, loginDisplayViewModel.Password );
 
 
-        if (result)
+        if (result.Succeeded)
         {
 
             int userID = await _userAccountService.GetSingleUser(loginDisplayViewModel.Email);
@@ -172,6 +172,19 @@ public class AuthController : BaseController
 
             return RedirectToAction ("Index", "Home");
         }
+
+        if ( result.IsNotAllowed )
+        {
+            ModelState.AddModelError ( string.Empty, "You must confirm your email before logging in." );
+            return View ( loginDisplayViewModel );
+        }
+
+        if ( result.IsLockedOut )
+        {
+            return View ( "Lockout" );
+        }
+
+        ModelState.AddModelError ( string.Empty, "Invalid login attempt." );
 
         return RedirectToAction ( "Login" );
     }
