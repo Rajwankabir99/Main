@@ -87,28 +87,28 @@ public class AuthController : BaseController
 
     public IActionResult Login()
     {
-        var accountDisplayViewModel = new AccountDisplayViewModel("Sign in");
+        var loginDisplayViewModel = new LoginDisplayViewModel("Sign in");
 
-        return View(accountDisplayViewModel);
+        return View(loginDisplayViewModel);
     }
 
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login( AccountDisplayViewModel accountDisplayViewModel )
+    public async Task<IActionResult> Login( LoginDisplayViewModel loginDisplayViewModel )
     {
         if ( ModelState.IsValid )
         {
             return RedirectToAction ( "Login" );
         }
 
-        var result = await _userAccountService.AuthenticateUser ( accountDisplayViewModel.Email, accountDisplayViewModel.Password );
+        var result = await _userAccountService.AuthenticateUser ( loginDisplayViewModel.Email, loginDisplayViewModel.Password );
 
 
         if (result)
         {
 
-            int userID = await _userAccountService.GetSingleUser(accountDisplayViewModel.Email);
+            int userID = await _userAccountService.GetSingleUser(loginDisplayViewModel.Email);
 
             if (userID == 0)
             {
@@ -118,7 +118,7 @@ public class AuthController : BaseController
            
             var claims = new List<Claim> {
 
-                new Claim ( ClaimTypes.Name, accountDisplayViewModel.Email ) ,
+                new Claim ( ClaimTypes.Name, loginDisplayViewModel.Email ) ,
                 new Claim ( ClaimTypes.NameIdentifier, userID.ToString()) 
 
             };   
