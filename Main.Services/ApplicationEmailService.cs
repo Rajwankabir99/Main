@@ -25,13 +25,15 @@ public static class ApplcationEmailServices
                         Port = int.Parse ( smtpSection["Port"] ?? "587" ),
 
                         Credentials = new NetworkCredential ( 
-                            smtpSection["User"],
-                            smtpSection["Pass"] ),
+                                                smtpSection["User"],
+                                                smtpSection["Pass"] 
+                            ),
                             EnableSsl = true
                  } );
 
 
         services.AddTransient<IEmailSender,EmailSenderService> ( );
+        
 
         return services;
     }

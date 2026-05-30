@@ -27,8 +27,8 @@ public static class RegisterDepedentServices
         services.AddScoped<IAdminPostService,AdminPostService> ( );
         services.AddScoped<IProductService,ProductService> ( );
         services.AddScoped<IPageService,PageService> ( );
+        services.AddScoped<IEmailSenderService,EmailSenderService> ( );
 
-        
         return services;
     }
 }
