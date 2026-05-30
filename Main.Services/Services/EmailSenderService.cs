@@ -56,9 +56,6 @@ public class EmailSenderService: IEmailSender, IEmailSenderService
 
     public async Task SendEmailVerificationAsync ( VerifyEmailDataModel verifyEmailDataModel )
     {
-        string Name = verifyEmailDataModel.UserName;
-        string? LinkUrl = verifyEmailDataModel.VerifyLink;
-
         string template 
             = @"
             <html>
