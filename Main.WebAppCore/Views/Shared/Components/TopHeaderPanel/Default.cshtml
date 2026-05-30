@@ -13,7 +13,7 @@
     var companyLinkDisplayClass = "d-none";
     var userLinkDisplayClass = "d-none";
 
-    if ( User.Identity.IsAuthenticated )
+    if ( User != null && User.Identity != null ? User.Identity.IsAuthenticated : false )
     {
         if ( User.IsInRole ( "Admin" ) )
         {

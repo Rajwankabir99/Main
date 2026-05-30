@@ -31,9 +31,9 @@ public class VerifyEmailDataModel
     public string Message { get; set; }
 
 
-    public string? VerifyLink
+    public string? LinkUrl
     {
-        get; set;
+        get;
+        internal set;
     }
-
 }

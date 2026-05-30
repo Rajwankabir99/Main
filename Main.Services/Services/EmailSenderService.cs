@@ -56,9 +56,6 @@ public class EmailSenderService: IEmailSender, IEmailSenderService
 
     public async Task SendEmailVerificationAsync ( VerifyEmailDataModel verifyEmailDataModel )
     {
-        string Name = verifyEmailDataModel.UserName;
-        string? LinkUrl = verifyEmailDataModel.VerifyLink;
-
         string template 
             = @"
             <html>
@@ -73,9 +70,13 @@ public class EmailSenderService: IEmailSender, IEmailSenderService
             </body>
             </html>";
 
+        string populatedTemplate = template
+                    .Replace("{{ Name }}", verifyEmailDataModel.UserName)
+                    .Replace("{{ LinkUrl }}", verifyEmailDataModel.LinkUrl ?? string.Empty);
+
         await SendEmailAsync ( 
             verifyEmailDataModel.Email,
             verifyEmailDataModel.Subject,
-            template );
+            populatedTemplate );
     }
 }
