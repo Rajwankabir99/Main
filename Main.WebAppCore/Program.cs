@@ -24,10 +24,6 @@ internal class Program
 
         builder.Services.AddControllersWithViews ( );
 
-        builder.Services.AddAuthentication ( );
-
-        builder.Services.AddAuthorization ( );
-
         builder.Services.AddWebOptimizer ( pipeline =>
         {
             pipeline.CompileLessFiles ( );
@@ -45,18 +41,14 @@ internal class Program
         {
             var options = new DeveloperExceptionPageOptions
             {
-                SourceCodeLineCount = 10
+                SourceCodeLineCount = 20
             };
 
             app.UseDeveloperExceptionPage ( options );
-
         }
         else
         {
             app.UseExceptionHandler ( "/Shared/Error" );
-
-            // The default HSTS value is 30 days.
-            // You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts ( );
         }
 
@@ -77,7 +69,8 @@ internal class Program
 
         app.UseResponseCaching ( );
 
-        app.UseCors ( );
+        app.UseCors ( "AllowFrontendApp" );    // for dev: "AllowAll"  
+                                               // for production: "AllowFrontendApp"    
 
         app.UseCustomLocalization ( );
 

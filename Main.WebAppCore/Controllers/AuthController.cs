@@ -88,7 +88,7 @@ public class AuthController : BaseController
         {
             _logger.LogWarning ( "Validation: Invalid for email: {Email}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty );
 
-            return RedirectToAction ( "Signup" );
+            return View ( accountDisplayViewModel );
         }
 
 

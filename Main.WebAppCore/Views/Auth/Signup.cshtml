@@ -84,7 +84,7 @@
                
                     @Html.LabelFor( a => a.Password )
 
-                    @Html.PasswordFor(x => x.Password, new { id = "Password", @class = "fff", @autocomplete = "off" })
+                    @Html.PasswordFor(x => x.Password, new { @class = "fff" })
 
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "inline-field-error text-danger" })
 
@@ -99,7 +99,7 @@
 
                     @Html.LabelFor( a => a.RePassword )
 
-                    @Html.PasswordFor(x => x.RePassword, new { id = "RePassword", @class = "fff", @autocomplete = "off" })
+                    @Html.PasswordFor(x => x.RePassword, new { @class = "fff" })
 
                     @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "inline-field-error text-danger" })
 
@@ -116,7 +116,7 @@
 
                     @Html.HiddenFor( a => a.PageName )
 
-                    <button class="primary-button
+                    <button id="registerButton" class="primary-button
                                     flex max"
                             type="submit">
 
@@ -134,6 +134,22 @@
 @section scriptsapp {
 
     @await Html.PartialAsync( "~/Views/Shared/_ValidationScriptsPartial.cshtml" )
+
+
+    <script>
+
+        function validateMyForm()
+        {
+            var registerButton = document.getElementById("registerButton");
+            var $form = $(registerButton).closest('form');
+            $form.valid();
+        }
+
+        $(function() {
+            validateMyForm();
+        })
+
+    </script>
 
 }
 
