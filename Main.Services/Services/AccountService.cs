@@ -12,6 +12,8 @@ using Main.Common.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using System.Security.Claims;
+
 namespace Main.Services;
 
 public class AccountService : IAccountService
@@ -143,6 +145,25 @@ public class AccountService : IAccountService
         return false;
     }
 
+    public async Task<ClaimsIdentity?> GetUserRole ( string email )
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Any())
+        {
+            return null;
+        }
+
+        var claims = roles.Select(role => new Claim(ClaimTypes.Role, role));
+        return new ClaimsIdentity(claims);
+    }
+
 
 
     #region Priate Methods (CreateUser, CreateIdentityUser, CreateAppicationUser, RemoveIdentityUser)
@@ -261,6 +282,8 @@ public class AccountService : IAccountService
     }
 
     
+
+
 
     #endregion
 }

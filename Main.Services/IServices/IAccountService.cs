@@ -4,6 +4,8 @@ using Main.Common.Model;
 
 using Microsoft.AspNetCore.Identity;
 
+using System.Security.Claims;
+
 namespace Main.Services;
 
 public interface IAccountService
@@ -25,4 +27,6 @@ public interface IAccountService
     Task<string?> GetEmailVerifyToken ( string email );
 
     Task<bool> CreateAppicationUser ( string email, string token,BaseDataModel baseDataModel );
+
+    Task<ClaimsIdentity?> GetUserRole ( string email );
 }

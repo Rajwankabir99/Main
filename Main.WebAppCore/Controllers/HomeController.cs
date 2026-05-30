@@ -5,7 +5,6 @@ using Main.Services;
 using ResourceLibrary.Resources;
 using WebApp.ViewModel;
 
-
 namespace Main.WebAppCore;
 
 public class HomeController : BaseController
@@ -14,7 +13,6 @@ public class HomeController : BaseController
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IPageService _pageService;
     private readonly IUserContext _userContext;
-
 
     public HomeController (
         IStringLocalizer<SharedResource> localizer,

@@ -84,7 +84,7 @@ public class AuthController : BaseController
     public async Task<IActionResult> SignUp ( AccountDisplayViewModel accountDisplayViewModel )
     {
 
-        if ( !ModelState.IsValid )
+        if ( ModelState.IsValid )
         {
             _logger.LogWarning ( "Validation: Invalid for email: {Email}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty );
 
@@ -173,7 +173,7 @@ public class AuthController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login( LoginDisplayViewModel loginDisplayViewModel )
     {
-        if ( !ModelState.IsValid )
+        if ( ModelState.IsValid )
         {
             _logger.LogWarning ( "Invalid login attempt for email: {Email}", loginDisplayViewModel.Email );
 
@@ -200,12 +200,14 @@ public class AuthController : BaseController
                 return RedirectToAction ( "Login" );
             }
 
-           
+            var userRole = await _userAccountService.GetUserRole(loginDisplayViewModel.Email);
+
+            string? roleName = userRole != null ? userRole.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value : "User";
+
             var claims = new List<Claim> {
-
                 new ( ClaimTypes.Name, loginDisplayViewModel.Email ) ,
-                new ( ClaimTypes.NameIdentifier, userID.ToString() )
-
+                new ( ClaimTypes.NameIdentifier, userID.ToString() ) ,
+                new ( ClaimTypes.Role, roleName != null ? roleName : "User" )  
             };   
 
             var identity = new ClaimsIdentity ( claims, IdentityConstants.ApplicationScheme  );
