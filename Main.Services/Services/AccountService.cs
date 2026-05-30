@@ -2,7 +2,7 @@
 
 using Domain.Model;
 
-using FluentEmail.Core;
+//using FluentEmail.Core;
 
 using IRepository;
 
@@ -151,12 +151,14 @@ public class AccountService : IAccountService
     {
         UserAccountDataModel userAccountDataModel = new UserAccountDataModel
         {
-            Email = userIdentity.Email,
-            PhoneNumber = userIdentity.PhoneNumber,
-            UserName = userIdentity.UserName
+            Email = userIdentity != null && userIdentity.Email != null ? userIdentity.Email.Trim() : string.Empty,
+
+            PhoneNumber = userIdentity != null && userIdentity.PhoneNumber != null ? userIdentity.PhoneNumber.Trim() : string.Empty,
+
+            UserName = userIdentity != null && userIdentity.UserName != null ? userIdentity.UserName.Trim() : string.Empty
         };
 
-        User userEntity = CreateUserEntity ( userIdentity.Id, userAccountDataModel );
+        User userEntity = CreateUserEntity ( userIdentity != null ? userIdentity.Id : string.Empty, userAccountDataModel );
 
         bool success = await _userRepository.AddUser ( userEntity );
 
@@ -186,10 +188,10 @@ public class AccountService : IAccountService
 
         objUserEntity.IdentityUserID = idetytyId;
 
-        objUserEntity.Email = userAccountDataModel.Email;
+        objUserEntity.Email = userAccountDataModel.Email != null ? userAccountDataModel.Email.Trim() : string.Empty;
 
         objUserEntity.ClientName = 
-            StringRelated.GetUserNameFromEmail ( userAccountDataModel.Email );
+            StringRelated.GetUserNameFromEmail ( userAccountDataModel.Email != null ? userAccountDataModel.Email.Trim() : string.Empty );
 
         objUserEntity.CreateBaseData ( userAccountDataModel.BaseDataModel );
 

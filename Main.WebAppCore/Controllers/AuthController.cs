@@ -81,16 +81,16 @@ public class AuthController : BaseController
         }
 
 
-        if(!AuthExtensions.CheckPasswordMatch ( accountDisplayViewModel.Password, accountDisplayViewModel.RePassword ) )
+        if(!AuthExtensions.CheckPasswordMatch ( accountDisplayViewModel != null ? accountDisplayViewModel.Password : string.Empty, accountDisplayViewModel != null ? accountDisplayViewModel.RePassword : string.Empty ) )
         {
-            _logger.LogWarning ( "Password and RePassword do not match for email: {Email}",accountDisplayViewModel.Email );
+            _logger.LogWarning ( "Password and RePassword do not match for email: {Email}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty );
 
             return RedirectToAction ( "Signup" );
         }
 
 
         UserAccountDataModel userAccountDataModel 
-            = AuthExtensions.MapToDataModel (accountDisplayViewModel);
+            = AuthExtensions.MapToDataModel (accountDisplayViewModel != null ? accountDisplayViewModel : new AccountDisplayViewModel());
 
 
         bool result 
@@ -99,26 +99,37 @@ public class AuthController : BaseController
 
         if ( result )
         {
-            var emailVerifyToken = await _userAccountService.GetEmailVerifyToken ( accountDisplayViewModel.Email.Trim() );
+            var emailVerifyToken = await _userAccountService.GetEmailVerifyToken ( accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty );
 
 
             if(!string.IsNullOrEmpty(emailVerifyToken))
             {
+
                 var encodedToken = HttpUtility.UrlEncode(emailVerifyToken);
 
-                VerifyEmailDataModel verifyEmailDataModel = new VerifyEmailDataModel(accountDisplayViewModel.Email, emailVerifyToken);
+                ////VerifyEmailDataModel verifyEmailDataModel = new VerifyEmailDataModel(accountDisplayViewModel.Email, emailVerifyToken);
 
-                verifyEmailDataModel.Subject = "Please, first Verify Your Email to Login.";
-                
-                verifyEmailDataModel.VerifyLink = 
-                    Url.Action ( "VerifyEmail","Auth", new {
-                        email = accountDisplayViewModel.Email,
-                        token = encodedToken
-                    }, protocol: Request.Scheme ); 
+                ////verifyEmailDataModel.Subject = "Please, first Verify Your Email to Login.";
 
-                await _emailService.SendEmailVerificationAsync(verifyEmailDataModel);
+            //    verifyEmailDataModel.VerifyLink =
+            //        Url.Action ( "VerifyEmail","Auth",new
+            //        {
+            //            email = accountDisplayViewModel.Email,
+            //            token = encodedToken
+            //        }, protocol:
+            //Request.Scheme );
 
-                return RedirectToAction ( "VerifyEmail", verifyEmailDataModel );
+            ////await _emailService.SendEmailVerificationAsync(verifyEmailDataModel);
+
+            ////return RedirectToAction ( "VerifyEmail", verifyEmailDataModel );
+            ///
+
+            return RedirectToAction ( "VerifyEmail", new
+            {
+                email = accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty,
+                token = encodedToken
+            } );
+
             }
         }
 
