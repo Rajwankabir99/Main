@@ -54,11 +54,6 @@ internal class Program
 
         app.UseStatusCodePages ( );
 
-        //builder.Services.AddHttpsRedirection ( options =>
-        //{
-        //    options.HttpsPort = 443;
-        //} );
-
         app.UseWebOptimizer ( );
 
         app.UseStaticFiles ( );
