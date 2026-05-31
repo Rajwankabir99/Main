@@ -565,7 +565,7 @@ public class ListEnum
         return objCountryList;
     }
 
-    public static string? GetPageDescription(EnumPublicPage page)
+    public static string GetPageDescription(EnumPublicPage page)
     {
         Type enumType = typeof(EnumPublicPage);
         var enumValues = enumType.GetEnumValues();
@@ -589,7 +589,7 @@ public class ListEnum
             }
         }
 
-        return "";
+        return " ";
     }
 
     public static string? GetCompanyDescription(EnumCompanyName company)

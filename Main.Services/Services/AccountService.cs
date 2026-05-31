@@ -2,12 +2,17 @@
 
 using Domain.Model;
 
+//using FluentEmail.Core;
+
 using IRepository;
 
 using Main.Common.HelperRelated;
+using Main.Common.Model;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using System.Security.Claims;
 
 namespace Main.Services;
 
@@ -33,7 +38,9 @@ public class AccountService : IAccountService
         _signInManager = signInManager;
     }
 
-    public async Task<bool> CreateUserAccount ( UserAccountDataModel userAccountDataModel )
+
+
+    public async Task<IdentityResult> CreateIdentityUserAccount ( UserAccountDataModel userAccountDataModel )
     {
         IdentityUser userIdentityEntity = CreateIdentityUser(userAccountDataModel);
 
@@ -42,15 +49,11 @@ public class AccountService : IAccountService
                                         .CreateAsync(userIdentityEntity, 
                                          userAccountDataModel.Password);
 
-        if ( resultCreateIdentityUser.Succeeded )
-        {
-            bool result = await CreateAppicationUser ( userAccountDataModel );
-
-            return result;
-        }
-
-        return false;
+        
+        return resultCreateIdentityUser;
     }
+
+
 
     public async Task<int> GetSingleUser ( string email )
     {
@@ -58,6 +61,8 @@ public class AccountService : IAccountService
 
         return userEntity?.UserID ?? 0;
     }
+
+
 
     public async Task<IdentityUser?> GetIdentityUser ( string email )
     {
@@ -67,26 +72,26 @@ public class AccountService : IAccountService
         return identityUser;
     }
 
-    public async Task<bool> AuthenticateUser ( string email, string password )
+
+
+    public async Task<SignInResult> AuthenticateUser ( string email, string password )
     {
-        var userIdentity =
-            await _userManager
-                  .FindByEmailAsync(email.Trim());
+        var userIdentity = await _userManager.FindByEmailAsync(email.Trim());
 
         if ( userIdentity == null )
         {
-            return false;
+            return SignInResult.Failed;
         }
 
-        var result = await
-                     _signInManager.PasswordSignInAsync
-                     (userIdentity, password, true, lockoutOnFailure: false);
+        var result = await _signInManager.PasswordSignInAsync ( userIdentity, password, true,   lockoutOnFailure: false);
         
-        return result.Succeeded;
+        return result;
     }
 
-    public async Task<bool> ChangePasswordAsync (
-        string email,string password,string rePassword )
+
+
+    public async Task<bool> ChangePasswordAsync ( string email,string password,
+        string rePassword )
     {
         IdentityUser? identityUser = await GetIdentityUser ( email );
 
@@ -95,13 +100,93 @@ public class AccountService : IAccountService
             return false;
         }
 
-        var result = await _userManager
-            .ChangePasswordAsync(identityUser, password, rePassword);
+        var result = await _userManager.ChangePasswordAsync(identityUser, password, rePassword);
 
         return result.Succeeded;
     }
 
-#region Priate Methods (CreateUser, CreateIdentityUser, CreateAppicationUser, RemoveIdentityUser)
+
+
+    public async Task<string?> GetEmailVerifyToken ( string email )
+    {
+        IdentityUser? user = await _userManager.FindByEmailAsync ( email );
+        
+        if ( user == null )
+        {
+            return null;
+        }
+        
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync (user);
+
+        return code;    
+    }
+
+
+
+    public async Task<bool> CreateAppicationUser ( string email, string token, BaseDataModel baseDataModel )
+    {
+        var userIdentity = await _userManager.FindByEmailAsync (email);
+
+        var success = await CreateUser( userIdentity, baseDataModel );
+
+       
+        if ( success  && userIdentity != null)
+        {
+            //await _userManager.ConfirmEmailAsync ( userIdentity, token );
+
+            userIdentity.EmailConfirmed = true;
+            await _userManager.UpdateAsync ( userIdentity );
+
+            await _userManager.AddToRoleAsync ( userIdentity, "User" );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<ClaimsIdentity?> GetUserRole ( string email )
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Any())
+        {
+            return null;
+        }
+
+        var claims = roles.Select(role => new Claim(ClaimTypes.Role, role));
+        return new ClaimsIdentity(claims);
+    }
+
+
+
+    #region Priate Methods (CreateUser, CreateIdentityUser, CreateAppicationUser, RemoveIdentityUser)
+
+    private async Task<bool> CreateUser ( IdentityUser? userIdentity, BaseDataModel baseDataModel )
+    {
+        UserAccountDataModel userAccountDataModel = new UserAccountDataModel
+        {
+            Email = userIdentity != null && userIdentity.Email != null ? userIdentity.Email.Trim() : string.Empty,
+
+            PhoneNumber = userIdentity != null && userIdentity.PhoneNumber != null ? userIdentity.PhoneNumber.Trim() : string.Empty,
+
+            UserName = userIdentity != null && userIdentity.UserName != null ? userIdentity.UserName.Trim() : string.Empty
+        };  
+
+        userAccountDataModel.BaseDataModel = baseDataModel;
+
+        User userEntity = CreateUserEntity ( userIdentity != null ? userIdentity.Id : string.Empty, userAccountDataModel );
+
+        bool success = await _userRepository.AddUser ( userEntity );
+
+        return success;
+    }
 
     private IdentityUser CreateIdentityUser ( UserAccountDataModel userAccountDataModel )
     {
@@ -126,46 +211,17 @@ public class AccountService : IAccountService
 
         objUserEntity.IdentityUserID = idetytyId;
 
-        objUserEntity.Email = userAccountDataModel.Email;
+        objUserEntity.Email = userAccountDataModel.Email != null ? userAccountDataModel.Email.Trim() : string.Empty;
 
         objUserEntity.ClientName = 
-            StringRelated.GetUserNameFromEmail ( userAccountDataModel.Email );
+            StringRelated.GetUserNameFromEmail ( userAccountDataModel.Email != null ? userAccountDataModel.Email.Trim() : string.Empty );
 
         objUserEntity.CreateBaseData ( userAccountDataModel.BaseDataModel );
 
         return objUserEntity;
     }
 
-    private async Task<bool> CreateAppicationUser
-        ( UserAccountDataModel userAccountDataModel )
-    {
-        var userSame =
-                await _userManager.FindByIdAsync (userAccountDataModel.Email);
-
-        if ( userSame != null )
-        {
-            User userEntity =
-                    CreateUserEntity
-                    ( userSame.Id, userAccountDataModel );
-
-            bool success =
-                await _userRepository
-                      .AddUser ( userEntity );
-            
-            
-            await RemoveIdentityUser
-                ( !success,userAccountDataModel.Email );
-
-            if ( success )
-            {
-                await _userManager.AddToRoleAsync ( userSame,"User" );
-            }
-            
-            return success;
-        }
-
-        return false;
-    }
+    
 
     private async Task RemoveIdentityUser
             ( bool success,string email )
@@ -224,6 +280,10 @@ public class AccountService : IAccountService
 
         return identityUserDataModel;  
     }
+
+    
+
+
 
     #endregion
 }

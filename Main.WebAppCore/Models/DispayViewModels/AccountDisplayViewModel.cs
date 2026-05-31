@@ -14,9 +14,6 @@ public class AccountDisplayViewModel: BaseViewModel
         PageName = pageName;
     }
 
-    public int UserID { get; set; }
-
-
     [Required ( ErrorMessageResourceName = "UserNameRequired",ErrorMessageResourceType = typeof ( SharedResource ) )]
     [Display ( Name = "UserName",Prompt = "UserNamePlaceholder",ResourceType = typeof ( SharedResource ) )]
     public string UserName { get; set; }

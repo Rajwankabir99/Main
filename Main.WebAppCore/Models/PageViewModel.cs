@@ -20,7 +20,7 @@ public class PageViewModel : BaseViewModel
         
         EnumPublicPage = enumPublicPage;
 
-        PageName = ListEnum.GetPageDescription(enumPublicPage);
+        PageName = ListEnum.GetPageDescription ( enumPublicPage );
 
         CompanyName = ListEnum.GetCompanyDescription(enumCompany);
     }

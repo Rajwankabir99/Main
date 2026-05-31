@@ -1,9 +1,9 @@
-﻿@model AccountDisplayViewModel
+﻿@model LoginDisplayViewModel
 
 @inject IStringLocalizer<SharedResource> SharedLocalizer
 
 @{
-    ViewBag.Title = @Model.PageName;
+    ViewBag.Title = Model.PageName;
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -18,7 +18,7 @@
 
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-                <h4 class="card-title">
+                <h4 class="card-title all-caps">
 
                     @SharedLocalizer["LoginEnterCredentials"]
 
@@ -27,6 +27,18 @@
             </div>
 
             <div class="gap"></div>
+
+            <div class="col-sm-12
+                        col-md-12
+                        col-xs-12
+                        col-lg-12">
+
+                <p class="text-danger">
+                    @Model.Message
+                </p>
+
+            </div>
+            
 
         @using (Html.BeginForm())
         {
@@ -39,7 +51,7 @@
                     
                     @Html.LabelFor( a => a.Email )
 
-                    @Html.EditorFor(a => a.Email, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.EditorFor(a => a.Email, new { htmlAttributes = new { @class = "fff", @autocomplete = "on" } })
 
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "inline-field-error text-danger" })
 
@@ -52,7 +64,7 @@
 
                     @Html.LabelFor( a => a.Password )
 
-                    @Html.PasswordFor(x => x.Password, new { id = "Password", @class = "fff" })
+                    @Html.PasswordFor(x => x.Password, new { id = "Password", @class = "fff", @autocomplete = "on" })
 
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "inline-field-error text-danger" })
                     
@@ -78,7 +90,10 @@
                             col-xs-12 
                             col-lg-12">
 
-                    <button class="primary-button flex max"
+                    @Html.HiddenFor( a => a.PageName )
+                    @Html.HiddenFor( a => a.Message )
+
+                    <button id="loginButton" class="primary-button flex max"
                             type="submit">
 
                         @SharedLocalizer["LoginButtonText"]
@@ -100,17 +115,12 @@
                             col-xs-12 
                             col-lg-12">
 
-                    <h5 class="card-subtitle">
-
-                        
-
+                   
                         <a href="@Url.Action("SignUp","Auth")">
 
                             @SharedLocalizer["SignUpLinkText"]
 
                         </a>
-
-                    </h5>
 
                 </div>
 
@@ -129,6 +139,21 @@
 @section scriptsapp {
 
     @await Html.PartialAsync( "~/Views/Shared/_ValidationScriptsPartial.cshtml" )
+
+    <script>
+
+        function validateMyForm()
+        {
+            var loginButton = document.getElementById("loginButton");
+            var $form = $(loginButton).closest('form');
+            $form.valid();
+        }
+
+        $(function() {
+            validateMyForm();
+        })
+
+    </script>
 
 }
 
