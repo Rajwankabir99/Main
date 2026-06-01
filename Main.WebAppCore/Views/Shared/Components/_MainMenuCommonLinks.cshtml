@@ -1,14 +1,13 @@
 ﻿
-<form asp-area="" asp-controller="Auth" asp-action="ResetPassword" method="post" class="navbar-right">
-    <li>
-        <button type="submit" class="dropdown-item dropdown-item-text"> 
-            <i class="fa fa-cog fa-fw"></i>
-            <span>
-                Change Password
-            </span>
-        </button>
-    </li>
-</form>
+<li>
+    <a class="dropdown-item dropdown-item-text" asp-controller="Auth" asp-action="ChangePassword">
+        <i class="fa fa-cog fa-fw"></i>
+        <span>
+            Change Password
+        </span>
+    </a>
+</li>
+
 
 <li>
     <hr class="dropdown-divider">
