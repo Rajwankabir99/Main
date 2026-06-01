@@ -42,15 +42,17 @@ More information on the best practices, please check the Help Documents folder i
 # Web App Project:
 
 Identity (Signin, Signout, Email veirficaton, Acoount lock, Roles based authorizaton):
-For auntication, we are using te .Net 8.0 Identity with default configuratin. The tables are IdentityUser and IdentityRole. Authorization isRole based. Middleware configuration and registratin is done in the Infrastructure project. Setting are kept in the Appsetts.json file in te Web Project. 
+For auntication, we are using te .Net 8.0 Identity with default configuratin. The tables are IdentityUser and IdentityRole. Authorization is Role based. Middleware configuration and registratin is done in the Infrastructure project. Settings are kept in the Appsetts.json file in te Web Project.
 
-## Main.Infrastructure Project:
+Currently the roles are: Admin, Company & User
+
+# Main.Infrastructure Project:
 Nuget PMC:
 Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 8.0.0
 Install-Package Microsoft.EntityFrameworkCore.Tools -Version 8.0.0
 Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 8.0.0
 
-## Main.Migrator Project:
+# Main.Migrator Project:
 When we create the console project (Auto):
 Install-Package Microsoft.VisualStudio.Azure.Containers.Tools.Targets -Version 1.23.0
 
@@ -58,5 +60,7 @@ Nuget PMC:
 Install-Package Microsoft.Extensions.Hosting -Version 8.0.0
 Install-Package Microsoft.Extensions.Configuration.Json -Version 8.0.0
 Install-Package Microsoft.EntityFrameworkCore.Design -Version 8.0.0
-The Best Practices, I used in the Migration Project (Main Project): 
+
+# The Best Practices used in the Main Project: 
+
 
