@@ -243,7 +243,10 @@ public class AuthController : BaseController
 
 
     [HttpGet]
-    public IActionResult ForgotPassword ( ) => View ( );
+    public IActionResult ForgotPassword ( ) {
+        var model = new ForgotPasswordViewModel();
+        return View(model);
+    }
 
 
 
