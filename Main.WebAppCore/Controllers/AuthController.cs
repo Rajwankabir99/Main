@@ -242,10 +242,6 @@ public class AuthController : BaseController
 
 
 
-   
-    
-
-
     [HttpGet]
     public IActionResult ForgotPassword ( ) => View ( );
 
@@ -269,7 +265,7 @@ public class AuthController : BaseController
         // Generate a secure single-use token embedded in the URL
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var callbackUrl = Url.Action("ResetPassword", "Account",
+        var callbackUrl = Url.Action("ResetPassword", "Auth",
                 new
                 {
                     token, email = model.Email
@@ -288,7 +284,6 @@ public class AuthController : BaseController
 
 
 
-    [Authorize ( Roles = "Admin,User,Company" )]
     public IActionResult ResetPassword ( )
     {
         if ( _userContext.User == null )
@@ -307,7 +302,6 @@ public class AuthController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize ( Roles = "Admin,User,Company" )]
     public async Task<IActionResult> ResetPassword ( ResetPasswordViewModel model )
     {
         if ( !ModelState.IsValid )
