@@ -1,19 +1,12 @@
 ﻿using DataTransferModel;
-
 using Domain.Model;
-
 //using FluentEmail.Core;
-
 using IRepository;
-
 using Main.Common.HelperRelated;
 using Main.Common.Model;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 using System.Security.Claims;
-
 namespace Main.Services;
 
 public class AccountService : IAccountService
@@ -49,7 +42,8 @@ public class AccountService : IAccountService
                                         .CreateAsync(userIdentityEntity, 
                                          userAccountDataModel.Password);
 
-        
+        await _userManager.AddToRoleAsync ( userIdentityEntity,"User" );
+
         return resultCreateIdentityUser;
     }
 
@@ -136,8 +130,6 @@ public class AccountService : IAccountService
 
             userIdentity.EmailConfirmed = true;
             await _userManager.UpdateAsync ( userIdentity );
-
-            await _userManager.AddToRoleAsync ( userIdentity, "User" );
 
             return true;
         }

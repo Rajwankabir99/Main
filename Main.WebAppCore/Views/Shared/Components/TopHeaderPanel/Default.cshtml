@@ -15,6 +15,8 @@
 
     if ( User != null && User.Identity != null && User.Identity.IsAuthenticated )
     {
+        
+      
         if ( User.IsInRole ( "Admin" ) )
         {
             adminLinkDisplayClass = "d-block";
@@ -395,6 +397,7 @@
                         </span>
                         <span class="caret"></span>
                     </a>
+                    
                     <ul class="dropdown dropdown-menu">
                         <li>
                             <a id="ancorEnglishLanguage" class="dropdown-item">

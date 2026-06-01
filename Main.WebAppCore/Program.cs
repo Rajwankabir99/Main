@@ -8,11 +8,8 @@ internal class Program
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        AppSettings.Current =
-             builder.Configuration
-                    .GetSection ( "MyAppSettings" )
-                    .Get<MyConfigSettings> ( ) ?? new MyConfigSettings ( );
-
+        AppSettings.Current = builder.Configuration.GetSection ( "MyAppSettings" )
+                                     .Get<MyConfigSettings> ( ) ?? new MyConfigSettings ( );
 
         builder.Services.AddHttpContextAccessor ( );
 
@@ -36,21 +33,17 @@ internal class Program
 
         var app = builder.Build();
 
-
         if ( app.Environment.IsDevelopment ( ) )
         {
-            var options = new DeveloperExceptionPageOptions
-            {
-                SourceCodeLineCount = 20
-            };
-
-            app.UseDeveloperExceptionPage ( options );
+            app.UseMigrationsEndPoint ( );
         }
         else
         {
-            app.UseExceptionHandler ( "/Shared/Error" );
+            app.UseExceptionHandler ( "/Home/Error" );
             app.UseHsts ( );
         }
+
+        app.UseHttpsRedirection ( );
 
         app.UseStatusCodePages ( );
 
@@ -64,8 +57,7 @@ internal class Program
 
         app.UseResponseCaching ( );
 
-        app.UseCors ( "AllowFrontendApp" );    // for dev: "AllowAll"  
-                                               // for production: "AllowFrontendApp"    
+        app.UseCors ( "AllowAll" );    // for dev: "AllowAll"  // for production: "AllowFrontendApp"   
 
         app.UseCustomLocalization ( );
 
@@ -75,7 +67,15 @@ internal class Program
 
         app.MapControllers ( );
 
-        app.MapDefaultControllerRoute ( );
+
+        app.MapControllerRoute (
+            name: "MyArea",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}" );
+
+
+        app.MapControllerRoute (
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}" );
 
         app.Run ( );
     }
