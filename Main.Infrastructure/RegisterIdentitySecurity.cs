@@ -33,6 +33,9 @@ public static class RegisterIdentitySecurity
         .AddDefaultTokenProviders ( )
         .AddSignInManager ( );
 
+        services.Configure<DataProtectionTokenProviderOptions> ( options =>
+                                            options.TokenLifespan = TimeSpan.FromHours ( 3 ) );
+
         var authenticationSettings = configuration.GetSection("Authentication");
 
         // Identity Application Cookie

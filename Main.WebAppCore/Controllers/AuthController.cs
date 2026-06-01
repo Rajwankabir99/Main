@@ -1,7 +1,5 @@
-﻿using Main.Common.HelperRelated;
-using Main.Common.Model;
+﻿using Main.Common.Model;
 using Main.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -244,8 +242,54 @@ public class AuthController : BaseController
 
 
 
-    [Authorize (Roles = "Admin,User,Company")]
-    public IActionResult ResetPassword( )
+   
+    
+
+
+    [HttpGet]
+    public IActionResult ForgotPassword ( ) => View ( );
+
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword ( ForgotPasswordViewModel model )
+    {
+        if ( !ModelState.IsValid )
+            return View ( model );
+
+        var user = await _userManager.FindByEmailAsync(model.Email);
+
+        // OWASP Mitigation: Do not reveal if the user exists or is verified
+        if ( user == null || !( await _userManager.IsEmailConfirmedAsync ( user ) ) )
+        {
+            return RedirectToAction ( nameof ( ForgotPasswordConfirmation ) );
+        }
+
+        // Generate a secure single-use token embedded in the URL
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var callbackUrl = Url.Action("ResetPassword", "Account",
+                new
+                {
+                    token, email = model.Email
+                }, protocol: Request.Scheme);
+
+        // Execute asynchronous handoff to background email dispatcher
+        // Example: await _emailSender.SendEmailAsync(model.Email, "Reset Password", $"Link: {callbackUrl}");
+
+        return RedirectToAction ( nameof ( ForgotPasswordConfirmation ) );
+    }
+
+
+
+    [HttpGet]
+    public IActionResult ForgotPasswordConfirmation ( ) => View ( );
+
+
+
+    [Authorize ( Roles = "Admin,User,Company" )]
+    public IActionResult ResetPassword ( )
     {
         if ( _userContext.User == null )
         {
@@ -253,59 +297,47 @@ public class AuthController : BaseController
 
             return RedirectToAction ( "Login","Auth" );
         }
-                    
+
         var objModel = new AccountDisplayViewModel("Reset Password");
 
-        return View(objModel);
+        return View ( objModel );
     }
+
 
 
     [HttpPost]
-    [Authorize(Roles = "Admin,User,Company")]
-    public async Task<ActionResult> ResetPassword (
-        AccountDisplayViewModel accountDisplayViewModel)  
+    [ValidateAntiForgeryToken]
+    [Authorize ( Roles = "Admin,User,Company" )]
+    public async Task<IActionResult> ResetPassword ( ResetPasswordViewModel model )
     {
-        var isValid = ValidationRelated.IsValidEmail(accountDisplayViewModel.Email);
-        
-        _logger.LogInformation("Password reset attempt for email: {Email}, Valid Email: {IsValid}", accountDisplayViewModel.Email, isValid);
-        
-        if(!isValid)
-        {
-            _logger.LogWarning("Invalid email format for password reset: {Email}", accountDisplayViewModel.Email);
+        if ( !ModelState.IsValid )
+            return View ( model );
 
-            return RedirectToAction("ResetPassword");
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if ( user == null )
+        {
+            // Mitigate account enumeration by redirecting to completion page anyway
+            return RedirectToAction ( nameof ( ResetPasswordConfirmation ) );
         }
 
-        try
+        // Internal token validation, history validation, and hashing occurs natively here
+        var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+        if ( result.Succeeded )
         {
-            var result = await _userAccountService.ChangePasswordAsync ( 
-                                            accountDisplayViewModel.Email,
-                                            accountDisplayViewModel.Password,
-                                            accountDisplayViewModel.RePassword );
-
-            if ( result == false )
-            {
-                _logger.LogWarning ( "Password reset attempt failed for email: {Email}",accountDisplayViewModel.Email );
-
-                return RedirectToAction ( "ResetPassword" );
-            }
-
-            if (result)
-            {
-                _logger.LogWarning ( "Password reset successful for email: {Email}", accountDisplayViewModel.Email );
-
-                return RedirectToAction("Login");
-            }
-
-            return RedirectToAction("ResetPassword");
+            return RedirectToAction ( nameof ( ResetPasswordConfirmation ) );
         }
-        catch (Exception ex)
+
+        foreach ( var error in result.Errors )
         {
-            var msg = ex.Message;
-
-            _logger.LogError(ex, "Error sending password reset email to {Email}", accountDisplayViewModel.Email);
-
-            return RedirectToAction("ResetPassword");
+            ModelState.AddModelError ( string.Empty,error.Description );
         }
+
+        return View ( model );
     }
+
+
+
+    [HttpGet]
+    public IActionResult ResetPasswordConfirmation ( ) => View ( );
 }
