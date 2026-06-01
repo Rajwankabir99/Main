@@ -46,6 +46,72 @@ For auntication, we are using te .Net 8.0 Identity with default configuratin. Th
 
 Currently the roles are: Admin, Company & User
 
+
+
+# Security Feature: 
+# Broken Access Control & Enumeration (OWASP A01:2021)
+
+The Threat: Attackers input various email addresses into a forgot password form to see which ones return a "User not found" error. This maps out registered user bases for targeted phishing or brute-force attacks.
+
+Code:
+
+if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+{
+    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+}
+
+Our Mitigation: 
+1. Anti-Enumeration Logic. 
+2. The controller uses an identity-blind diversion step. 
+
+We will check if user exists and if the email is verified or not. If not exists and verified, the enumerating code from hacker or threat will be redirected but we do not reveal if the user exists or is verified. We will provide message to email in the email inbox. Whether the email address exists in the system or not, the user sees the exact same generic confirmation page ("If matching records exist, an email was sent"). No structural information is leaked to an external scanner.
+
+ 
+
+# Cryptographic Failures & Session Hijacking (OWASP A02:2021)
+
+Applied in Reset Password for Forget Password, Most of the Views.
+
+The Threat: Predictable reset tokens (like simple base64 hashes or sequential numbers) can be guessed by automated scripts, allowing malicious password overrides.
+
+Our Mitigation: 
+
+1. Cryptographic Token Lifecycles: The workflow calls ASP.NET Core's internal GeneratePasswordResetTokenAsync(user). This generates a time-bound, cryptographically random string signed with the application's unique deployment key. The link exposes a strict Token Lifespan (configured to drop down to TimeSpan. FromHours(2)). If an attacker intercepts an old email link, the token expires, preventing replay attacks.
+
+Confiured during registration the middlewares.
+
+3. Security Stamp Invalidation: Once ResetPasswordAsync completes successfully, ASP.NET Core automatically refreshes the user's SecurityStamp in the database. This instantly invalidates any active browser sessions, cookies, or old tokens globally.
+
+(Internal work of Identity)
+
+ 
+# Injection and Cross-Site Request Forgery (OWASP A03:2021 / A05:2021)
+
+Used in Reset Password, Sign in, Change Password.
+
+The Threat: Attackers spoof forms using unauthorized cross-domain scripts or target database flaws via inputs.
+
+Our Mitigation: 
+
+1. Token Integrity Checks: The [ValidateAntiForgeryToken] attribute added to both POST endpoints works side-by-side with @Html.AntiForgeryToken() implicitly built into Razor <form> elements. This blocks Cross-Site Request Forgery (CSRF).
+
+2. Entity Framework Core acts as the data layer (ApplicationDbContext). By utilizing parameterized LINQ parameters under the hood (e.g., FindByEmailAsync(email)), SQL Injection risks are neutralized entirely.
+
+# Identification and Authentication Failures (OWASP A07:2021)
+
+The Threat: Weak reset pathways easily bypass initial account defenses, nullifying complex user passwords. 
+
+Configured in for IdentityUser. (Policy & code in action) 
+
+Our Mitigation: State Enforcement Policies. The system explicitly requires email verification before allowing a password reset flow (IsEmailConfirmedAsync). The application binds the target email address context directly inside the cryptographic validation routine.
+
+Code: (Forget Password)
+
+_userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+This ensures that a token generated for userA@example.com cannot be strategically resubmitted to reset the password for userB@example.com.
+
+
 # Main.Infrastructure Project:
 Nuget PMC:
 Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 8.0.0
