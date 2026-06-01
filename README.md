@@ -1,22 +1,5 @@
-# Main (Active Branch)
-
-# .Net 8.0 
-
-## Main.Infrastructure Project:
-Nuget PMC:
-Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 8.0.0
-Install-Package Microsoft.EntityFrameworkCore.Tools -Version 8.0.0
-Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 8.0.0
-
-## Main.Migrator Project:
-When we create the console project (Auto):
-Install-Package Microsoft.VisualStudio.Azure.Containers.Tools.Targets -Version 1.23.0
-
-Nuget PMC:
-Install-Package Microsoft.Extensions.Hosting -Version 8.0.0
-Install-Package Microsoft.Extensions.Configuration.Json -Version 8.0.0
-Install-Package Microsoft.EntityFrameworkCore.Design -Version 8.0.0
-The Best Practices, I used in the Migration Project (Main Project): 
+# Project Main (Branch: master)
+# Solution Design Plan & Best Practices (.Net 8.0)
 
 I started my code to build and run for a client (small shop). 
 
@@ -55,3 +38,33 @@ The web project communicates with the service project with Business Model object
 This part is done. New knowledge is accumulating and I am refactoring the code continuously. Like the registration, middleware is self-contained and reusable using dependency extensions. But the parameters are provided from the appsettigs.json from the web project. 
 
 More information on the best practices, please check the Help Documents folder in the Main Code Repository.
+
+# Web App Project:
+
+Identity (Signin, Signout, Email veirficaton, Acoount lock, Roles based authorizaton):
+For auntication, we are using te .Net 8.0 Identity with default configuratin. The tables are IdentityUser and IdentityRole. Authorization is Role based. Middleware configuration and registratin is done in the Infrastructure project. Settings are kept in the Appsetts.json file in te Web Project.
+
+Currently the roles are: Admin, Company & User
+
+# Main.Infrastructure Project:
+Nuget PMC:
+Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 8.0.0
+Install-Package Microsoft.EntityFrameworkCore.Tools -Version 8.0.0
+Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 8.0.0
+
+# Main.Migrator Project:
+When we create the console project (Auto):
+Install-Package Microsoft.VisualStudio.Azure.Containers.Tools.Targets -Version 1.23.0
+
+Nuget PMC:
+Install-Package Microsoft.Extensions.Hosting -Version 8.0.0
+Install-Package Microsoft.Extensions.Configuration.Json -Version 8.0.0
+Install-Package Microsoft.EntityFrameworkCore.Design -Version 8.0.0
+
+# The Best Practices used in the Main Project: 
+
+1. I used View Components to make the code modular and readble in the layout page.
+2. In program.cs, most configuration code is moved to Data Infrastructure and Service project.
+3. Zero use of EF core packages and references in the web project.
+
+
