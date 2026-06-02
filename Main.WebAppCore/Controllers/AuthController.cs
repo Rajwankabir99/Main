@@ -1,9 +1,9 @@
-﻿using Main.Common.Model;
+﻿using DataTransferModel;
+using Main.Common.Model;
 using Main.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using NETCore.MailKit.Core;
 using ResourceLibrary.Resources;
 using System.Security.Claims;
 using System.Web;
@@ -21,7 +21,7 @@ public class AuthController : BaseController
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IConfiguration _configuration;
-    private readonly IEmailService _emailService;
+    private readonly IEmailSenderService _emailService;
 
     public AuthController (
         ILogger<AuthController> logger,
@@ -31,7 +31,7 @@ public class AuthController : BaseController
         IConfiguration configuration,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
-        IEmailService emailService
+        IEmailSenderService emailService
        )
     {
         _userAccountService = userAccountService;
@@ -102,10 +102,16 @@ public class AuthController : BaseController
         UserAccountDataModel userAccountDataModel
             = AuthExtensions.MapToDataModel (accountDisplayViewModel != null ? accountDisplayViewModel : new AccountDisplayViewModel());
 
+
+
         _logger.LogWarning ( "Mapping (Data Model) completed for email: {Email}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty );
+
+
 
         IdentityResult result
             = await _userAccountService.CreateIdentityUserAccount ( userAccountDataModel );
+
+
 
         _logger.LogWarning ( "User account creation result for email: {Email} is {Result}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty,result );
 
@@ -127,18 +133,30 @@ public class AuthController : BaseController
                 _logger.LogWarning ( "Redirecting to VerifyEmail action for email: {Email} with token: {Token}",accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty,encodedToken );
 
 
+
+                var email = accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty;
+
+
+
                 var verifyLink = Url.Action ( "VerifyEmail", "Auth", new VerifyEmailViewModel ()
                 {
-                    Email = "",
-                    Token = ""
+                    Email = email,
+                    Token = encodedToken
                 }, Request.Scheme );
 
 
-                var email = accountDisplayViewModel != null ? accountDisplayViewModel.Email : string.Empty; 
+
+                var verifyEmailDataModel = new VerifyEmailDataModel
+                {
+                    Email = email,
+                    LinkUrl = verifyLink != null    ? 
+                              verifyLink.ToString() : string.Empty,
+                    
+                    Subject = "Email Verification"         
+                };
 
 
-                await _emailService.SendAsync ( email, "Email Verification",
-                         $"Please verify your email by clicking on the link{verifyLink}" );
+                await _emailService.SendEmailVerificationAsync ( verifyEmailDataModel );
 
 
                 RedirectToAction ( "VerifyEmail" );
@@ -292,9 +310,12 @@ public class AuthController : BaseController
                                     }, 
                                     protocol: Request.Scheme);
 
-        
+        var callbackUrlString = $"Link: {callbackUrl}";
+
+        var encodedCallbackUrl = HttpUtility.HtmlEncode ( callbackUrlString );
+
         // Execute asynchronous handoff to background email dispatcher
-        await _emailService.SendAsync( forgotPasswordViewModel.Email, "Reset Password", $"Link: {callbackUrl}");
+        await _emailService.SendEmailAsync( forgotPasswordViewModel.Email, "Reset Password", encodedCallbackUrl );
 
         return RedirectToAction ( nameof ( ForgotPasswordConfirmation ) );
     }
