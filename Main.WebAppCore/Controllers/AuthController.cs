@@ -12,7 +12,7 @@ using WebApp.ViewModel.Extensions;
 
 namespace Main.WebAppCore;
 
-public class AuthController : BaseController
+public class AuthController: BaseController
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUserContext _userContext;
@@ -44,16 +44,17 @@ public class AuthController : BaseController
         _signInManager = signInManager;
     }
 
-    public IActionResult Signup()
+    public IActionResult Signup ( )
     {
         var objModel = new AccountDisplayViewModel("Registration Page");
-               
-        return View(objModel);
+
+        return View ( objModel );
     }
+
 
     public async Task<IActionResult> VerifyEmail ( VerifyEmailViewModel verifyEmailViewModel )
     {
-        _logger.LogWarning ( "Verifying email for address: {Email} with token: {Token}", verifyEmailViewModel.Email, verifyEmailViewModel.Token );
+        _logger.LogWarning ( "Verifying email for address: {Email} with token: {Token}",verifyEmailViewModel.Email,verifyEmailViewModel.Token );
 
 
         if ( string.IsNullOrEmpty ( verifyEmailViewModel.Email ) || string.IsNullOrEmpty ( verifyEmailViewModel.Token ) )
@@ -62,7 +63,7 @@ public class AuthController : BaseController
         }
 
 
-        _logger.LogWarning ( "Attempting to create application user for email: {Email} with token: {Token}", verifyEmailViewModel.Email, verifyEmailViewModel.Token );
+        _logger.LogWarning ( "Attempting to create application user for email: {Email} with token: {Token}",verifyEmailViewModel.Email,verifyEmailViewModel.Token );
 
 
         BaseDataModel baseDataModel = _userContext.GetCreateBaseDataModel ( );
@@ -71,18 +72,18 @@ public class AuthController : BaseController
         var result = await _userAccountService.CreateAppicationUser ( verifyEmailViewModel.Email, verifyEmailViewModel.Token, baseDataModel );
 
 
-        _logger.LogWarning ( "Application user creation result for email: {Email} with token: {Token} is {Result}", verifyEmailViewModel.Email, verifyEmailViewModel.Token, result );
+        _logger.LogWarning ( "Application user creation result for email: {Email} with token: {Token} is {Result}",verifyEmailViewModel.Email,verifyEmailViewModel.Token,result );
 
 
         return RedirectToAction ( "VerifyEmailConfirmation" );
     }
 
 
-    public IActionResult VerifyEmail ( )
+    public IActionResult VerifyEmailSent ( )
     {
         ViewData["Title"] = "Email Sent";
 
-        
+
         return View ( );
     }
 
@@ -166,17 +167,17 @@ public class AuthController : BaseController
                 var verifyEmailDataModel = new VerifyEmailDataModel
                 {
                     Email = email,
-                    LinkUrl = verifyLink != null    ? 
+                    LinkUrl = verifyLink != null    ?
                               verifyLink.ToString() : string.Empty,
-                    
-                    Subject = "Email Verification"         
+
+                    Subject = "Email Verification"
                 };
 
 
                 await _emailService.SendEmailVerificationAsync ( verifyEmailDataModel );
 
 
-                RedirectToAction ( "VerifyEmailConfirmation" );
+                RedirectToAction ( "VerifyEmailSent" );
             }
         }
         else
@@ -190,28 +191,30 @@ public class AuthController : BaseController
 
         return RedirectToAction ( "Signup" );
     }
-    
 
-    public IActionResult Login()
+
+    public IActionResult Login ( )
     {
         var loginDisplayViewModel = new LoginDisplayViewModel("Login");
 
-        return View(loginDisplayViewModel);
+        return View ( loginDisplayViewModel );
     }
 
 
 
     [HttpPost]
-    public async Task<IActionResult> Login ( LoginDisplayViewModel loginDisplayViewModel )
+    public async Task<IActionResult> Login (
+        LoginDisplayViewModel loginDisplayViewModel )
     {
         if ( ModelState.IsValid )
             return View ( loginDisplayViewModel );
 
 
-        var user = await _userManager.FindByEmailAsync(loginDisplayViewModel.Email);
+        IdentityUser? userIdentity = await _userManager
+            .FindByEmailAsync(loginDisplayViewModel.Email);
 
 
-        if ( user == null )
+        if ( userIdentity == null )
         {
             ModelState.AddModelError ( "","Invalid login attempt." );
             loginDisplayViewModel.Message = "Invalid login attempt. Your accont is locked. Please, contant suport.";
@@ -219,17 +222,59 @@ public class AuthController : BaseController
             return View ( loginDisplayViewModel );
         }
 
-        if ( !await _userManager.IsEmailConfirmedAsync ( user ) )
+
+        if ( !await _userManager.IsEmailConfirmedAsync ( userIdentity ) )
         {
             ModelState.AddModelError ( "","You must verify your email before logging in." );
 
             loginDisplayViewModel.Message = "You must verify your email before logging in. Please, check your email for verification link.";
 
-            return View ( loginDisplayViewModel );
+
+            var emailVerifyToken = await _userAccountService.GetEmailVerifyToken ( userIdentity.Email ?? string.Empty );
+
+
+            _logger.LogWarning ( "Email verification token for email: {Email} is {Token}",userIdentity.Email ?? string.Empty,emailVerifyToken );
+
+
+            if ( !string.IsNullOrEmpty ( emailVerifyToken ) )
+            {
+
+                var encodedToken = HttpUtility.UrlEncode(emailVerifyToken);
+
+
+                _logger.LogWarning ( "Redirecting to VerifyEmail action for email: {Email} with token: {Token}",userIdentity != null ? userIdentity.Email : string.Empty,encodedToken );
+
+
+                string? email = userIdentity != null ? userIdentity.Email : string.Empty;
+
+
+                var verifyLink = Url.Action ( "VerifyEmail", "Auth", new VerifyEmailViewModel ()
+                {
+                    Email = email ?? string.Empty,
+                    Token = encodedToken
+                }, Request.Scheme );
+
+
+
+                var verifyEmailDataModel = new VerifyEmailDataModel ()
+                {
+                    Email = email ?? string.Empty,
+                    LinkUrl = verifyLink != null    ?
+                              verifyLink.ToString() : string.Empty,
+
+                    Subject = "Email Verification"
+                };
+
+
+                await _emailService.SendEmailVerificationAsync ( verifyEmailDataModel );
+
+
+                return RedirectToAction ( "VerifyEmailSent" );
+            }
         }
 
 
-        var result = await _signInManager.PasswordSignInAsync(user.UserName!, loginDisplayViewModel.Password, isPersistent: false, lockoutOnFailure: false);
+        var result = await _signInManager.PasswordSignInAsync(userIdentity.UserName!, loginDisplayViewModel.Password, isPersistent: false, lockoutOnFailure: false);
 
 
         if ( result.Succeeded )
@@ -253,18 +298,18 @@ public class AuthController : BaseController
 
             string? roleName = userRole != null ? userRole.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value : "User";
 
-            
-            await _userManager.AddClaimAsync ( user,new ( ClaimTypes.Name, user.UserName != null ? user.UserName : "" ) );
+
+            await _userManager.AddClaimAsync ( userIdentity,new ( ClaimTypes.Name,userIdentity.UserName != null ? userIdentity.UserName : "" ) );
 
 
-            await _userManager.AddClaimAsync ( user,new ( ClaimTypes.Email,loginDisplayViewModel.Email ) );
+            await _userManager.AddClaimAsync ( userIdentity,new ( ClaimTypes.Email,loginDisplayViewModel.Email ) );
 
 
-            await _userManager.AddClaimAsync ( user,
+            await _userManager.AddClaimAsync ( userIdentity,
                 new ( ClaimTypes.Role,roleName != null ? roleName : "User" ) );
 
 
-            await _userManager.AddClaimAsync ( user,new ( ClaimTypes.NameIdentifier, user.Id ) );
+            await _userManager.AddClaimAsync ( userIdentity,new ( ClaimTypes.NameIdentifier,userID.ToString ( ) ) );
 
 
             _logger.LogWarning ( "User signed in successfully for email: {Email}",loginDisplayViewModel.Email );
@@ -276,27 +321,26 @@ public class AuthController : BaseController
         return View ( loginDisplayViewModel );
     }
 
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout ( )
     {
         await _signInManager.SignOutAsync ( );
 
         _logger.LogWarning ( "User signed out for email: {Email}",HttpContext != null && HttpContext.User != null && HttpContext.User.Identity != null ? HttpContext.User.Identity.Name : "Unknown" );
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction ( "Index","Home" );
     }
 
 
 
     [HttpGet]
-    public IActionResult ForgotPassword ( ) 
+    public IActionResult ForgotPasswordSent ( )
     {
-        var model = new ForgotPasswordViewModel();
-
         ViewData["Title"] = "Forgot Password";
 
-        return View(model);
+        return View ( );
     }
 
 
@@ -313,7 +357,7 @@ public class AuthController : BaseController
         // OWASP Mitigation: Do not reveal if the user exists or is verified
         if ( user == null || !( await _userManager.IsEmailConfirmedAsync ( user ) ) )
         {
-            return RedirectToAction ( nameof ( ForgotPasswordConfirmation ) );
+            return View ( forgotPasswordViewModel );
         }
 
         // Generate a secure single-use token embedded in the URL
@@ -322,9 +366,9 @@ public class AuthController : BaseController
         var callbackUrl = Url.Action("ResetPassword", "Auth",
                                     new ResetPasswordViewModel()
                                     {
-                                        Token = token, 
+                                        Token = token,
                                         Email = forgotPasswordViewModel.Email
-                                    }, 
+                                    },
                                     protocol: Request.Scheme);
 
         var callbackUrlString = $"Link: {callbackUrl}";
@@ -332,19 +376,10 @@ public class AuthController : BaseController
         var encodedCallbackUrl = HttpUtility.HtmlEncode ( callbackUrlString );
 
         // Execute asynchronous handoff to background email dispatcher
-        await _emailService.SendEmailAsync( forgotPasswordViewModel.Email, "Reset Password", encodedCallbackUrl );
+        await _emailService.SendEmailAsync ( forgotPasswordViewModel.Email,
+            "Reset Password",encodedCallbackUrl );
 
-        return RedirectToAction ( nameof ( ForgotPasswordConfirmation ) );
-    }
-
-
-
-    [HttpGet]
-    public IActionResult ForgotPasswordConfirmation ( )
-    {
-        ViewData["Title"] = "Forgot Password Confirmation";
-
-        return View ( );
+        return RedirectToAction ( nameof ( ForgotPasswordSent ) );
     }
 
 
@@ -352,7 +387,7 @@ public class AuthController : BaseController
     [HttpGet]
     public IActionResult ResetPasswordConfirmation ( )
     {
-        ViewData["Title"] = "Reset Password Confirmation";
+        ViewData["Title"] = "Reset Password Confirm";
 
         return View ( );
     }
@@ -366,16 +401,20 @@ public class AuthController : BaseController
             return View ( resetPasswordViewModel );
 
         var user = await _userManager.FindByEmailAsync(resetPasswordViewModel.Email);
-        
+
         if ( user == null )
         {
-            return RedirectToAction ( nameof ( ResetPasswordConfirmation ) );
+            return RedirectToAction ( "Login","Auth" );
         }
 
         var result = await _userManager.ResetPasswordAsync(user, resetPasswordViewModel.Token, resetPasswordViewModel.Email);
 
+
         if ( result.Succeeded )
         {
+            await _userManager.ChangePasswordAsync (
+                user, resetPasswordViewModel.Password, resetPasswordViewModel.ConfirmPassword );
+
             return RedirectToAction ( nameof ( ResetPasswordConfirmation ) );
         }
 
@@ -384,7 +423,7 @@ public class AuthController : BaseController
             ModelState.AddModelError ( string.Empty,error.Description );
         }
 
-        return RedirectToAction( nameof ( ResetPasswordConfirmation ) );
+        return View ( resetPasswordViewModel );
     }
 
 
@@ -412,8 +451,8 @@ public class AuthController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword ( ChangePasswordViewModel changePasswordViewModel )
     {
-        
-        if ( ! ModelState.IsValid )
+
+        if ( !ModelState.IsValid )
             return View ( changePasswordViewModel );
 
         var userIdentity = await _userManager.FindByEmailAsync(changePasswordViewModel.Email);
@@ -424,17 +463,17 @@ public class AuthController : BaseController
             return View ( changePasswordViewModel );
         }
 
-        
+
         var result = await _userManager
             .ChangePasswordAsync(userIdentity,changePasswordViewModel.CurrentPassword, changePasswordViewModel.NewPassword);
 
-                                          
-        _logger.LogWarning ("Password change attempt for email: {Email}", changePasswordViewModel.Email);
+
+        _logger.LogWarning ( "Password change attempt for email: {Email}",changePasswordViewModel.Email );
 
 
         if ( result.Succeeded )
         {
-            _logger.LogWarning ( "Password change successful for email: {Email}", changePasswordViewModel.Email );
+            _logger.LogWarning ( "Password change successful for email: {Email}",changePasswordViewModel.Email );
 
 
             return RedirectToAction ( nameof ( ChangePasswordConfirmation ) );
@@ -442,7 +481,7 @@ public class AuthController : BaseController
 
         foreach ( var error in result.Errors )
         {
-            ModelState.AddModelError ( string.Empty, error.Description );
+            ModelState.AddModelError ( string.Empty,error.Description );
         }
 
         return View ( changePasswordViewModel );
