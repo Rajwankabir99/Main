@@ -51,30 +51,47 @@ public class AuthController : BaseController
         return View(objModel);
     }
 
-    public async Task<IActionResult> VerifyEmail ( string email, string token )
+    public async Task<IActionResult> VerifyEmail ( VerifyEmailViewModel verifyEmailViewModel )
     {
-        _logger.LogWarning ( "Verifying email for address: {Email} with token: {Token}", email, token );
+        _logger.LogWarning ( "Verifying email for address: {Email} with token: {Token}", verifyEmailViewModel.Email, verifyEmailViewModel.Token );
 
-        if ( string.IsNullOrEmpty ( email ) || string.IsNullOrEmpty ( token ) )
+
+        if ( string.IsNullOrEmpty ( verifyEmailViewModel.Email ) || string.IsNullOrEmpty ( verifyEmailViewModel.Token ) )
         {
             return BadRequest ( "Invalid verification request parameters." );
         }
 
-        _logger.LogWarning ( "Attempting to create application user for email: {Email} with token: {Token}", email, token );
+
+        _logger.LogWarning ( "Attempting to create application user for email: {Email} with token: {Token}", verifyEmailViewModel.Email, verifyEmailViewModel.Token );
+
 
         BaseDataModel baseDataModel = _userContext.GetCreateBaseDataModel ( );
 
-        var result = await _userAccountService.CreateAppicationUser ( email, token, baseDataModel );
 
-        _logger.LogWarning ( "Application user creation result for email: {Email} with token: {Token} is {Result}", email, token, result );
+        var result = await _userAccountService.CreateAppicationUser ( verifyEmailViewModel.Email, verifyEmailViewModel.Token, baseDataModel );
 
-        return RedirectToAction ( "Login" );
+
+        _logger.LogWarning ( "Application user creation result for email: {Email} with token: {Token} is {Result}", verifyEmailViewModel.Email, verifyEmailViewModel.Token, result );
+
+
+        return RedirectToAction ( "VerifyEmailConfirmation" );
     }
 
 
     public IActionResult VerifyEmail ( )
     {
-        return View ( new VerifyEmailViewModel() );
+        ViewData["Title"] = "Email Sent";
+
+        
+        return View ( );
+    }
+
+    public IActionResult VerifyEmailConfirmation ( )
+    {
+        ViewData["Title"] = "Email Verification Confirmation";
+
+
+        return View ( );
     }
 
 
@@ -159,7 +176,7 @@ public class AuthController : BaseController
                 await _emailService.SendEmailVerificationAsync ( verifyEmailDataModel );
 
 
-                RedirectToAction ( "VerifyEmail" );
+                RedirectToAction ( "VerifyEmailConfirmation" );
             }
         }
         else
