@@ -381,7 +381,6 @@ public class AuthController: BaseController
 
 
     // Forget Password Reset Flow - Step 4: User clicks the password reset link, which includes the secure token, and is taken to the password reset form
-    [HttpPost]
     public async Task<IActionResult> ResetPassword (string email, string token )
     {
 
