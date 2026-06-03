@@ -415,11 +415,11 @@ public class AuthController: BaseController
         if ( !ModelState.IsValid )
             return View ( resetPasswordViewModel );
 
-        var user = await _userManager.FindByEmailAsync(resetPasswordViewModel.Email);
+        IdentityUser? userIdentity = await _userManager.FindByEmailAsync(resetPasswordViewModel.Email);
 
 
         // Reset with new passwrd and invalidate the token and timestamp to prevent reuse (OWASP Mitigation)
-        var result = await _userManager.ResetPasswordAsync(user, resetPasswordViewModel.Token, resetPasswordViewModel.ConfirmPassword);
+        var result = await _userManager.ResetPasswordAsync(userIdentity ?? throw new InvalidOperationException("User not found"), resetPasswordViewModel.Token, resetPasswordViewModel.ConfirmPassword);
 
 
         if ( result.Succeeded )
