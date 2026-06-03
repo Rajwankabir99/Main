@@ -2221,6 +2221,15 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ForgotPasswordSentMessage.
+        /// </summary>
+        public static string ForgotPasswordSentMeaasge {
+            get {
+                return ResourceManager.GetString("ForgotPasswordSentMeaasge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Free Ads / Month: .
         /// </summary>
         public static string FreeAdsperMonth1 {
@@ -5794,6 +5803,15 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PageNamePasswordResetEmailSent.
+        /// </summary>
+        public static string PageNamePasswordResetEmailSent {
+            get {
+                return ResourceManager.GetString("PageNamePasswordResetEmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paid Amount.
         /// </summary>
         public static string PaidAmount {
@@ -5934,6 +5952,15 @@ namespace ResourceLibrary.Resources {
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PasswordResetEmailSentTitle.
+        /// </summary>
+        public static string PasswordResetEmailSentTitle {
+            get {
+                return ResourceManager.GetString("PasswordResetEmailSentTitle", resourceCulture);
             }
         }
         

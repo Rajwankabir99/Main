@@ -3122,4 +3122,16 @@
     <value>PageNameForgotPasswordResetInit</value>
     <comment>Page Name Forgot Password Reset Init (Take email for reset email)</comment>
   </data>
+  <data name="ForgotPasswordSentMeaasge" xml:space="preserve">
+    <value>ForgotPasswordSentMessage</value>
+    <comment>Forgot Password Send Message</comment>
+  </data>
+  <data name="PasswordResetEmailSentTitle" xml:space="preserve">
+    <value>PasswordResetEmailSentTitle</value>
+    <comment>Password Reset Email Sent Title (Form)</comment>
+  </data>
+  <data name="PageNamePasswordResetEmailSent" xml:space="preserve">
+    <value>PageNamePasswordResetEmailSent</value>
+    <comment>Page Name Password Reset Email Sent</comment>
+  </data>
 </root>
