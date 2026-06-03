@@ -1468,7 +1468,7 @@
     <value>পাসওয়ার্ড:</value>
   </data>
   <data name="LoginSignin" xml:space="preserve">
-    <value>প্রবেশ কর</value>
+    <value>লগ ইন </value>
   </data>
   <data name="LoginTitleFBAccount" xml:space="preserve">
     <value>ফেসবুক একাউন্ট ব্যবহার করে:</value>
@@ -2821,6 +2821,10 @@
   <data name="YourPostHasBeenUpdated" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CycleOneUntillFinished" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="TotalPremiumPost" xml:space="preserve">
     <value>Total Premium Posts</value>
   </data>
@@ -3047,7 +3051,7 @@
     <value>পাসওয়ার্ড রিসেট</value>
   </data>
   <data name="ForgotPasswordSentMeaasge" xml:space="preserve">
-    <value>যদি কোনো অ্যাকাউন্ট সেই ইমেল ঠিকানার সাথে মিলে যায়, তাহলে একটি পাসওয়ার্ড রিসেট লিঙ্ক পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইনবক্স এবং স্প্যাম ফোল্ডার চেক করুন।</value>
+    <value>ইমেল ঠিকানা থাকলে, একটি রিসেট ইমেল পাঠানো হয়। অনুগ্রহ করে আপনার ইনবক্স এবং স্প্যাম ফোল্ডার চেক করুন।</value>
   </data>
   <data name="PasswordResetEmailSentTitle" xml:space="preserve">
     <value>পাসওয়ার্ড রিসেট সংক্রান্ত আপডেট!</value>
@@ -3072,6 +3076,51 @@
   </data>
   <data name="ChangePasswordLinkText" xml:space="preserve">
     <value>পাসওয়ার্ড পরিবর্তন</value>
+  </data>
+  <data name="ProfileLinkText" xml:space="preserve">
+    <value>অ্যাকাউন্ট প্রোফাইল</value>
+  </data>
+  <data name="VerifyEmailConfirmMessage" xml:space="preserve">
+    <value>আপনার ইমেলটি নিশ্চিত ও আপডেট করা হয়েছে।</value>
+  </data>
+  <data name="ClickForLoginMessage" xml:space="preserve">
+    <value>এখানে ক্লিক করুন:</value>
+  </data>
+  <data name="ResetPasswordConfirmMessage" xml:space="preserve">
+    <value>আপনার পাসওয়ার্ড সফলভাবে আপডেট করা হয়েছে।</value>
+  </data>
+  <data name="EmailVerifyMessage" xml:space="preserve">
+    <value>আপনার ইমেল যাচাই করতে এবং লগ ইন করতে অনুগ্রহ করে আপনার ইনবক্স বা স্প্যাম ফোল্ডার দেখুন।</value>
+  </data>
+  <data name="RegistrationUpdateMessageTitle" xml:space="preserve">
+    <value>নিবন্ধন আপডেট</value>
+  </data>
+  <data name="ResetPasswordCompleteTitle" xml:space="preserve">
+    <value>পাসওয়ার্ড রিসেট সম্পন্ন হয়েছে!</value>
+  </data>
+  <data name="PageNameResetPasswordComplete" xml:space="preserve">
+    <value>পাসওয়ার্ড রিসেট সম্পন্ন</value>
+  </data>
+  <data name="VerifyEmailConfirmTitle" xml:space="preserve">
+    <value>ইমেল যাচাই এবং আপডেট করা হয়েছে</value>
+  </data>
+  <data name="PageNameVerifyEmailConfirm" xml:space="preserve">
+    <value>ইমেল যাচাই সম্পন্ন </value>
+  </data>
+  <data name="PageNameResetPassword" xml:space="preserve">
+    <value>রিসেট </value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>পাসওয়ার্ড রিসেট করুন</value>
+  </data>
+  <data name="UpdatePasswordButtonText" xml:space="preserve">
+    <value>পাসওয়ার্ড আপডেট করুন</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>পাসওয়ার্ডগুলো মিলছে না!</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>পাসওয়ার্ড নিশ্চিত করুন</value>
   </data>
   <data name="BDT3" xml:space="preserve">
     <value>টাকা</value>
@@ -3123,8 +3172,5 @@
   </data>
   <data name="TotalFreePosts" xml:space="preserve">
     <value>Total Free Posts</value>
-  </data>
-  <data name="ProfileLinkText" xml:space="preserve">
-    <value>অ্যাকাউন্ট প্রোফাইল</value>
   </data>
 </root>
