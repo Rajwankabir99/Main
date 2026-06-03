@@ -1117,7 +1117,7 @@
     <value>CHANGE PASSWORD</value>
   </data>
   <data name="ChangePasswordCurrentPassword" xml:space="preserve">
-    <value>Current Password:</value>
+    <value>Current Password</value>
   </data>
   <data name="ChangePasswordNewPassword" xml:space="preserve">
     <value>New Password:</value>
@@ -1225,7 +1225,7 @@
     <value>Currency</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
-    <value>Current Password:</value>
+    <value>Current Password</value>
   </data>
   <data name="CycleOneMonth" xml:space="preserve">
     <value>One Month</value>
@@ -1774,7 +1774,7 @@
     <value>My Unpaid Ads</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
-    <value>New Password:</value>
+    <value>New Password</value>
   </data>
   <data name="NewPostABrandNew" xml:space="preserve">
     <value>Brand New</value>
@@ -3108,10 +3108,31 @@
   <data name="PageNamePasswordResetEmailSent" xml:space="preserve">
     <value>Password Reset</value>
   </data>
+  <data name="ChangePasswordTitle" xml:space="preserve">
+    <value>Change Account Password!</value>
+  </data>
+  <data name="ChangePasswordButtonText" xml:space="preserve">
+    <value>Submit Password</value>
+  </data>
+  <data name="CurrentPasswordPlaceholder" xml:space="preserve">
+    <value>Enter current password...</value>
+  </data>
+  <data name="NewPasswordPlaceholder" xml:space="preserve">
+    <value>Enter new password...</value>
+  </data>
+  <data name="PageNameChangePassword" xml:space="preserve">
+    <value>Password Change</value>
+  </data>
+  <data name="ChangePasswordLinkText" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
   <data name="BDT3" xml:space="preserve">
     <value>BDT</value>
   </data>
   <data name="ModifyPostNotUrgentDeal1" xml:space="preserve">
     <value>Not Urgent Deal</value>
+  </data>
+  <data name="ProfileLinkText" xml:space="preserve">
+    <value>Account Profile</value>
   </data>
 </root>

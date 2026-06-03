@@ -1114,11 +1114,29 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ChangePasswordButtonText.
+        /// </summary>
+        public static string ChangePasswordButtonText {
+            get {
+                return ResourceManager.GetString("ChangePasswordButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Password:.
         /// </summary>
         public static string ChangePasswordCurrentPassword {
             get {
                 return ResourceManager.GetString("ChangePasswordCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ChangePasswordLinkText.
+        /// </summary>
+        public static string ChangePasswordLinkText {
+            get {
+                return ResourceManager.GetString("ChangePasswordLinkText", resourceCulture);
             }
         }
         
@@ -1137,6 +1155,15 @@ namespace ResourceLibrary.Resources {
         public static string ChangePasswordRetypeNewPassword {
             get {
                 return ResourceManager.GetString("ChangePasswordRetypeNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ChangePasswordTitle.
+        /// </summary>
+        public static string ChangePasswordTitle {
+            get {
+                return ResourceManager.GetString("ChangePasswordTitle", resourceCulture);
             }
         }
         
@@ -1510,11 +1537,20 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Password:.
+        ///   Looks up a localized string similar to Current Password.
         /// </summary>
         public static string CurrentPassword {
             get {
                 return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CurrentPasswordPlaceholder.
+        /// </summary>
+        public static string CurrentPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("CurrentPasswordPlaceholder", resourceCulture);
             }
         }
         
@@ -4885,11 +4921,20 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Password:.
+        ///   Looks up a localized string similar to New Password.
         /// </summary>
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NewPasswordPlaceholder.
+        /// </summary>
+        public static string NewPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("NewPasswordPlaceholder", resourceCulture);
             }
         }
         
@@ -5794,6 +5839,15 @@ namespace ResourceLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PageNameChangePassword.
+        /// </summary>
+        public static string PageNameChangePassword {
+            get {
+                return ResourceManager.GetString("PageNameChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PageNameForgotPasswordResetInit.
         /// </summary>
         public static string PageNameForgotPasswordResetInit {
@@ -6663,6 +6717,15 @@ namespace ResourceLibrary.Resources {
         public static string PrivacyPageTitle {
             get {
                 return ResourceManager.GetString("PrivacyPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ProfileLinkText.
+        /// </summary>
+        public static string ProfileLinkText {
+            get {
+                return ResourceManager.GetString("ProfileLinkText", resourceCulture);
             }
         }
         

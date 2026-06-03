@@ -79,4 +79,31 @@ public class EmailSenderService: IEmailSender, IEmailSenderService
             verifyEmailDataModel.Subject,
             populatedTemplate );
     }
+
+
+    public async Task SendResetPasswordEmailAsync ( ResetPasswordDataModel resetEmailDataModel )
+    {
+        string template
+            = @"
+            <html>
+            <body>
+                <p>Hi {{ Name }},</p>
+                <p>Please click the link below to reset your password:</p>
+                <p>
+                    <a href='{{ LinkUrl }}' style='color: #007bff; text-decoration: underline;'>
+                        Reset Password  
+                    </a>
+                </p>
+            </body>
+            </html>";
+
+        string populatedTemplate = template
+                    .Replace("{{ Name }}", resetEmailDataModel.UserName)
+                    .Replace("{{ LinkUrl }}", resetEmailDataModel.LinkUrl ?? string.Empty);
+
+        await SendEmailAsync (
+            resetEmailDataModel.Email,
+            resetEmailDataModel.Subject,
+            populatedTemplate );
+    }
 }

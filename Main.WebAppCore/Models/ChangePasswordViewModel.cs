@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ResourceLibrary.Resources;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModel;
 
@@ -12,14 +14,14 @@ public class ChangePasswordViewModel : BaseViewModel
     public string Email { get; set; }
 
 
-    [Required (ErrorMessage = "The current password is required.")]
+    [Required ( ErrorMessageResourceName = "PasswordRequired",ErrorMessageResourceType = typeof ( SharedResource ) )]
+    [Display ( Name = "CurrentPassword",Prompt = "CurrentPasswordPlaceholder",ResourceType = typeof ( SharedResource ) )]
     [DataType ( DataType.Password )]
-    [Display ( Name = "Current password" )]
     public string CurrentPassword { get; set; } = string.Empty;
 
 
-    [Required (ErrorMessage = "The new password is required.")]
+    [Required (ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof ( SharedResource ) )]
     [DataType ( DataType.Password )]
-    [Display ( Name = "New password" )]
+    [Display ( Name = "NewPassword", Prompt = "NewPasswordPlaceholder", ResourceType = typeof ( SharedResource ) )]
     public string NewPassword { get; set; } = string.Empty;
 }
