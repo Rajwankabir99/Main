@@ -3099,20 +3099,19 @@
   <data name="PageNameForgotPasswordResetInit" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-  <data name="BDT3" xml:space="preserve">
-    <value>BDT</value>
-  </data>
-  <data name="ModifyPostNotUrgentDeal1" xml:space="preserve">
-    <value>Not Urgent Deal</value>
-  </data>
   <data name="ForgotPasswordSentMeaasge" xml:space="preserve">
-    <value>If an account matches that email address, a password reset link has been dispatched.
-Please check your inbox and spam folders.</value>
+    <value>If an account matches that email address, a password reset link has been dispatched. Please check your inbox and spam folders.</value>
   </data>
   <data name="PasswordResetEmailSentTitle" xml:space="preserve">
     <value> Update On Reset Password!</value>
   </data>
   <data name="PageNamePasswordResetEmailSent" xml:space="preserve">
     <value>Password Reset</value>
+  </data>
+  <data name="BDT3" xml:space="preserve">
+    <value>BDT</value>
+  </data>
+  <data name="ModifyPostNotUrgentDeal1" xml:space="preserve">
+    <value>Not Urgent Deal</value>
   </data>
 </root>
