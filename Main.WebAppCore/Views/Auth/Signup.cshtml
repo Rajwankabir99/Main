@@ -9,125 +9,129 @@
 }
 
 <div class="container">
-        
-    <div class="offset-3 col-6 card-form">
 
-        <div class="row">
-            <div class="col-sm-12
-                col-xs-12
-                col-md-12
-                col-lg-12">
+    <div class="row card-form">
+
+        <div class="offset-3 col-6">
+
+            <div class="row">
+                <div class="col-sm-12
+                    col-xs-12
+                    col-md-12
+                    col-lg-12">
                         
-            <h4 class="card-title all-caps"> @SharedLocalizer["TitleRegisterPage"] </h4>
-
-            </div>
-        </div>
-
-        <div class="gap"></div>
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="row">
-                <div class="col-sm-12 
-                            col-xs-12 
-                            col-md-12 
-                            col-lg-12">
-
-                    @Html.LabelFor( a => a.ClientName )
-
-                    @Html.EditorFor(a => a.ClientName, new { htmlAttributes = new { @class = "fff", @autocomplete = "on"} })
-                    
-                    @Html.ValidationMessageFor( model => model.ClientName, "", 
-                            new { @class = "inline-field-error text-danger" } )
-                
-                </div>
-            </div>
-            
-
-            <div class="row">
-                <div class="col-sm-12  
-                            col-xs-12 
-                            col-md-12 
-                            col-lg-12">
-
-                    @Html.LabelFor( a => a.Phone )
-
-                    @Html.EditorFor(a => a.Phone, new { htmlAttributes = new { @class = "fff", @autocomplete = "on"} })
-
-                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "inline-field-error text-danger" })
-
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-sm-12
-                            col-xs-12
-                            col-md-12
-                            col-lg-12">
-
-                    @Html.LabelFor( a => a.Email )
-
-                    @Html.EditorFor(a => a.Email, new { htmlAttributes = new { @class = "fff", @autocomplete = "off" } })
-
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "inline-field-error text-danger" })
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12
-                            col-xs-12
-                            col-md-12
-                            col-lg-12">
-               
-                    @Html.LabelFor( a => a.Password )
-
-                    @Html.PasswordFor(x => x.Password, new { @class = "fff" })
-
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "inline-field-error text-danger" })
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12
-                            col-xs-12
-                            col-md-12
-                            col-lg-12">
-
-                    @Html.LabelFor( a => a.RePassword )
-
-                    @Html.PasswordFor(x => x.RePassword, new { @class = "fff" })
-
-                    @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "inline-field-error text-danger" })
+                <h4 class="card-title all-caps"> @SharedLocalizer["TitleRegisterPage"] </h4>
 
                 </div>
             </div>
 
             <div class="gap"></div>
 
-            <div class="row">
-                <div class="col-sm-12 
-                            col-xs-12 
-                            col-md-12 
-                            text-center">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-                    @Html.HiddenFor( a => a.PageName )
+                <div class="row">
+                    <div class="col-sm-12 
+                                col-xs-12 
+                                col-md-12 
+                                col-lg-12">
 
-                    <button id="registerButton" class="primary-button
-                                    flex max"
-                            type="submit">
+                        @Html.LabelFor( a => a.ClientName )
 
-                        @SharedLocalizer["ButtonTextRegister"]
-
-                    </button>
-
+                        @Html.EditorFor(a => a.ClientName, new { htmlAttributes = new { @class = "fff", @autocomplete = "on"} })
+                    
+                        @Html.ValidationMessageFor( model => model.ClientName, "", 
+                                new { @class = "inline-field-error text-danger" } )
+                
+                    </div>
                 </div>
-            </div>
-        }
+
+                <div class="row">
+                    <div class="col-sm-12  
+                                col-xs-12 
+                                col-md-12 
+                                col-lg-12">
+
+                        @Html.LabelFor( a => a.Phone )
+
+                        @Html.EditorFor(a => a.Phone, new { htmlAttributes = new { @class = "fff", @autocomplete = "on"} })
+
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "inline-field-error text-danger" })
+
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-sm-12
+                                col-xs-12
+                                col-md-12
+                                col-lg-12">
+
+                        @Html.LabelFor( a => a.Email )
+
+                        @Html.EditorFor(a => a.Email, new { htmlAttributes = new { @class = "fff", @autocomplete = "off" } })
+
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "inline-field-error text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12
+                                col-xs-12
+                                col-md-12
+                                col-lg-12">
+               
+                        @Html.LabelFor( a => a.Password )
+
+                        @Html.PasswordFor(x => x.Password, new { @class = "fff" })
+
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "inline-field-error text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12
+                                col-xs-12
+                                col-md-12
+                                col-lg-12">
+
+                        @Html.LabelFor( a => a.RePassword )
+
+                        @Html.PasswordFor(x => x.RePassword, new { @class = "fff" })
+
+                        @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "inline-field-error text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="gap"></div>
+
+                <div class="row">
+                    <div class="col-sm-12 
+                                col-xs-12 
+                                col-md-12 
+                                text-center">
+
+                        @Html.HiddenFor( a => a.PageName )
+
+                        <button id="registerButton" class="primary-button
+                                        flex max"
+                                type="submit">
+
+                            @SharedLocalizer["ButtonTextRegister"]
+
+                        </button>
+
+                    </div>
+                </div>
+            }
+        </div>
+
     </div>
+        
 </div>
 
 
