@@ -348,22 +348,16 @@ public class AuthController: BaseController
         if ( !string.IsNullOrEmpty ( token ) )
         {
           
-            var callbackUrl = Url.Action("ResetPassword", "Auth",
-                                    new 
-                                    {
-                                        Email = email ,
-                                        Token = token
-                                    },
-                                    Request.Scheme);
+            var callbackUrl = Url.Action("ResetPassword", "Auth", 
+                              new  { Email = email , Token = token }, Request.Scheme);
 
-            var callbackUrlString = $"Please click the link to reset your password: {callbackUrl}";
+            var resetPasswordDataModel = new ResetPasswordDataModel() {
+                Email = email,
+                LinkUrl = callbackUrl != null ? callbackUrl.ToString() : string.Empty,
+                Subject = "Password Reset Request"
+            };
 
-            var encodedCallbackUrl = HttpUtility.HtmlEncode ( callbackUrlString );
-
-            // Execute asynchronous handoff to background email dispatcher
-            await _emailService.SendEmailAsync
-                ( email,"Reset Password",encodedCallbackUrl );
-
+            await _emailService.SendResetPasswordEmailAsync(resetPasswordDataModel);
         }
     }
 
