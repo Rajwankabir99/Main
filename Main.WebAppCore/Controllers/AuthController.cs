@@ -391,7 +391,7 @@ public class AuthController: BaseController
             Token = token
         };  
 
-        return RedirectToAction ( "ResetPassword", resetPasswordViewModel);
+        return View ( "ResetPassword", resetPasswordViewModel);
                                                                    
     }
 
