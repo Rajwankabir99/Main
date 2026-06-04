@@ -304,7 +304,7 @@ public class AuthController: BaseController
     // Forget Password Reset Flow - Step 2.0: User submits email address to receive password reset link, regardless of whether the email exists or is verified (OWASP Mitigation)
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ForgotPassword ( ForgotPasswordViewModel forgotPasswordViewModel )
+    public async Task<IActionResult> ResetEmail ( ForgotPasswordViewModel forgotPasswordViewModel )
     {
         if ( !ModelState.IsValid )
             return View ( forgotPasswordViewModel );
@@ -317,14 +317,14 @@ public class AuthController: BaseController
             await SendVerifyEmail ( forgotPasswordViewModel.Email );
 
             // Do not reveal if the user exists or is verified
-            return RedirectToAction ( nameof ( RestEmailSent ));
+            return RedirectToAction ( nameof ( ResetEmailSent ));
         }
 
         // Step 2.1: Send email with password reset link
         await SendResetEmail ( forgotPasswordViewModel.Email );
 
         // Do not reveal if the user exists or is verified
-        return RedirectToAction ( nameof ( RestEmailSent ) );
+        return RedirectToAction ( nameof ( ResetEmailSent ) );
     }
 
 
@@ -361,7 +361,7 @@ public class AuthController: BaseController
 
     // Forget Password Reset Flow - Step 3: User is informed that if the email exists and is verified, a password reset link has been sent (OWASP Mitigation)
     [HttpGet]
-    public IActionResult RestEmailSent ( )
+    public IActionResult ResetEmailSent ( )
     {
         ViewData["Title"] = "Forgot Password";
 
