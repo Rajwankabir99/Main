@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-
+﻿
 namespace WebApp.ViewModel;
 
 public class VerifyEmailViewModel: BaseViewModel

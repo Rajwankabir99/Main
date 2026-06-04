@@ -1,5 +1,4 @@
 ﻿using ResourceLibrary.Resources;
-
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModel;
@@ -7,7 +6,6 @@ namespace WebApp.ViewModel;
 public class ForgotPasswordViewModel : BaseViewModel
 {
     public ForgotPasswordViewModel() {
-        PageName = "Reset Password";
     }
 
    
