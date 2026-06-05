@@ -2,15 +2,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY Main.slnx ./
+COPY *.sln ./
 
 # Copy all .csproj files to optimize NuGet package caching
-COPY Main.WebAppCore/Main.WebAppCore.csproj Main.WebAppCore/
-COPY Main.Services/Main.Services.csproj Main.Services/
-COPY Main.Infrastructure/Main.Infrastructure.csproj Main.Infrastructure/
-COPY Main.Model/Main.Model.csproj Main.Model/
-COPY Main.Common/Main.Common.csproj Main.Common/
-COPY ResourceLibrary/ResourceLibrary.csproj ResourceLibrary/
+COPY Main.WebAppCore/Main.WebAppCore.csproj ./Main.WebAppCore/
+COPY Main.Services/Main.Services.csproj ./Main.Services/
+COPY Main.Infrastructure/Main.Infrastructure.csproj ./Main.Infrastructure/
+COPY Main.Model/Main.Model.csproj ./Main.Model/
+COPY Main.Common/Main.Common.csproj ./Main.Common/
+COPY ResourceLibrary/ResourceLibrary.csproj ./ResourceLibrary/
 
 
 # Restore dependencies for the entire solution layout
