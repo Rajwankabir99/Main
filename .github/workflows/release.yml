@@ -72,16 +72,16 @@ jobs:
     - name: Zip Release Package
       run: zip -r release-package.zip ./publish_output
 
-    # 9. Automatically create a formalized Release Package on GitHub
+   # 9. Automatically create a formalized Release Package on GitHub
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ env.env.VERSION }}
+        tag_name: ${{ env.VERSION }}
         name: Release ${{ env.VERSION }}
         body: |
           Automated release compiled from merge to master branch.
           
-          **Docker Image URI:** `ghcr.io/${{ github.repository }}/main-webapp:${{ env.VERSION }}`
+          **Docker Image URI:** `ghcr.io/${{ env.REPO_LOWER }}/main-webapp:${{ env.VERSION }}`  # <-- Fixed to use REPO_LOWER
         draft: false
         prerelease: false
         files: release-package.zip
