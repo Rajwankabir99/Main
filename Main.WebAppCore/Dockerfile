@@ -1,5 +1,5 @@
 # Stage 1: Build the application using the full .NET 8 SDK
-FROM ://microsoft.com AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy all .csproj files to optimize NuGet package caching
