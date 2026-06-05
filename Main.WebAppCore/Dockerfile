@@ -24,7 +24,7 @@ WORKDIR "/src/Main.WebAppCore"
 RUN dotnet publish "Main.WebAppCore.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 # Stage 2: Final runtime image using the lightweight ASP.NET 8.0 runtime
-FROM ://microsoft.com AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
