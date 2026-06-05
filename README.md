@@ -1,3 +1,5 @@
+<img width="901" height="487" alt="GithubSocialImag1" src="https://github.com/user-attachments/assets/96d62ec1-4457-4c2f-914c-10e41e301e66" />
+
 # Project Main (Branch: master)
 # Solution Design Plan & Best Practices (.Net 8.0)
 
