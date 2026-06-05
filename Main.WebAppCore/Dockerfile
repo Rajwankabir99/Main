@@ -14,7 +14,7 @@ COPY ["*.sln", "./"]
 # Restore dependencies for the entire solution layout
 RUN dotnet restore
 
-# Copy the remaining source code files into the container
+# Copy the actual source code files into the container
 COPY . .
 
 # Change workspace to the Web project directory
