@@ -72,13 +72,11 @@ public class ManageAdminPostController : BaseController
         {
             var listAdminPosts = await _adminPostService.GetAllAdminPosts();
 
-            var objManageAdminPostViewModel = new ManageAdminPostViewModel();
-
             List<AdminPostDisplayViewModel> listAdminPostDisplayViewModels 
                         = AdminPostMapping.MapAdminPostDisplayViewModelList
                                                         ( listAdminPosts );
             
-            return View(objManageAdminPostViewModel);
+            return View( listAdminPostDisplayViewModels );
         }
         catch
         {
