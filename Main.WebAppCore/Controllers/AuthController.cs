@@ -3,7 +3,6 @@ using Main.Common.Model;
 using Main.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Localization;
 using ResourceLibrary.Resources;
 using System.Security.Claims;
@@ -16,19 +15,15 @@ public class AuthController: BaseController
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUserContext _userContext;
-    private readonly ILogger<AuthController> _logger;
     private readonly IAccountService _userAccountService;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly IConfiguration _configuration;
     private readonly IEmailSenderService _emailService;
 
     public AuthController (
-        ILogger<AuthController> logger,
         IStringLocalizer<SharedResource> localizer,
         IAccountService userAccountService,
         IUserContext userContext,
-        IConfiguration configuration,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
         IEmailSenderService emailService
@@ -36,10 +31,8 @@ public class AuthController: BaseController
     {
         _userAccountService = userAccountService;
         _localizer = localizer;
-        _logger = logger;
         _userContext = userContext;
         _emailService = emailService;
-        _configuration = configuration;
         _userManager = userManager;
         _signInManager = signInManager;
     }
@@ -52,7 +45,6 @@ public class AuthController: BaseController
 
         return View ( objModel );
     }
-
 
 
     // Registration Flow: User submits the registration form with email, password, and other details, which triggers the SignUp action that validates input, creates a new user account, sends a verification email, and redirects to a confirmation page
@@ -149,6 +141,7 @@ public class AuthController: BaseController
     }
 
 
+
     // Login Flow: User submits login form with email and password, which triggers the Login action that validates credentials, checks email verification, sets user claims, and redirects to the home page on success
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -190,7 +183,6 @@ public class AuthController: BaseController
                                         loginDisplayViewModel.Password, 
                                         isPersistent: false, 
                                         lockoutOnFailure: false );
-
 
         if ( result.Succeeded )
         {
@@ -243,6 +235,7 @@ public class AuthController: BaseController
     }
 
 
+
     // Logout Flow: User clicks the logout button, which triggers the Logout action that signs the user out and redirects to the home page
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -250,10 +243,9 @@ public class AuthController: BaseController
     {
         await _signInManager.SignOutAsync ( );
 
-        _logger.LogWarning ( "User signed out for email: {Email}",HttpContext != null && HttpContext.User != null && HttpContext.User.Identity != null ? HttpContext.User.Identity.Name : "Unknown" );
-
         return RedirectToAction ( "Index","Home" );
     }
+
 
 
     // Helper method to send email verification email with secure token if user exists but email is not verified (OWASP Mitigation)
@@ -328,6 +320,7 @@ public class AuthController: BaseController
     }
 
 
+
     // Step 2.1: Helper method to send password reset email with secure token
     private async Task SendResetEmail ( string email )
     {
@@ -396,6 +389,7 @@ public class AuthController: BaseController
     }
 
 
+
     // Forget Password Reset Flow - Step 5: User submits the new password, which triggers the ResetPassword action that validates the token, resets the password, invalidates the token, and redirects to a confirmation page
     [HttpPost]
     public async Task<IActionResult> ResetPassword ( ResetPasswordViewModel resetPasswordViewModel )
@@ -437,6 +431,7 @@ public class AuthController: BaseController
     }
 
 
+
     // Change Password Flow - Step 1: Authenticated user accesses the change password form
     [HttpGet]
     public async Task<IActionResult> ChangePassword ( )
@@ -453,6 +448,7 @@ public class AuthController: BaseController
 
         return View ( changePasswordViewModel );
     }
+
 
 
     // Change Password Flow - Step 2: User submits the change password form with current and new passwords
@@ -477,14 +473,8 @@ public class AuthController: BaseController
             .ChangePasswordAsync(userIdentity,changePasswordViewModel.CurrentPassword, changePasswordViewModel.NewPassword);
 
 
-        _logger.LogWarning ( "Password change attempt for email: {Email}",changePasswordViewModel.Email );
-
-
         if ( result.Succeeded )
         {
-            _logger.LogWarning ( "Password change successful for email: {Email}",changePasswordViewModel.Email );
-
-
             return RedirectToAction ( nameof ( ResetComplete ) );
         }
 
