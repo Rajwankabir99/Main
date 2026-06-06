@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # 1. Copy solution and project structure for package caching
-COPY Main.slnx ./
+COPY Main.sln ./
 COPY Main.WebAppCore/Main.WebAppCore.csproj ./Main.WebAppCore/
 
 # 2. Restore dependencies
-RUN dotnet restore Main.slnx
+RUN dotnet restore Main.sln
 
 # 3. Copy remaining source code and publish the compiled binaries
 COPY . .
