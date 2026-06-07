@@ -22,7 +22,7 @@ public static class AdminPostMapping
             WebsiteUrl = adminPostViewModel.WebsiteUrl,
             ShortNote = adminPostViewModel.ShortNote,
             SearchTag = adminPostViewModel.SearchTag,
-            PostTypeID = adminPostViewModel.PostTypeID
+            PostType = adminPostViewModel.PostType
         };
 
         return adminPostDataModel;
@@ -47,10 +47,10 @@ public static class AdminPostMapping
         adminPostViewModel.PosterContactNumber = adminPostDatatModel.PosterContactNumber;
         adminPostViewModel.PosterName = adminPostDatatModel.PosterName;
         adminPostViewModel.WebsiteUrl = adminPostDatatModel.WebsiteUrl;
-        adminPostViewModel.PostTypeID = adminPostDatatModel.PostTypeID;
+        adminPostViewModel.PostType = adminPostDatatModel.PostType;
         adminPostViewModel.SearchTag = adminPostDatatModel.SearchTag;
         adminPostViewModel.ShortNote = adminPostDatatModel.ShortNote;
-        adminPostViewModel.DisplayEnumAdminPostType = EnumDescription.GetDescription ( ( EnumPostType ) adminPostDatatModel.PostTypeID );
+        adminPostViewModel.DisplayPostType = EnumDescription.GetDescription ( ( EnumPostType ) adminPostDatatModel.PostType );
     }
 
     public static List<AdminPostDisplayViewModel> MapAdminPostDisplayViewModelList ( List<AdminPostDisplayModel> adminPostDisplayModelList )
@@ -64,9 +64,7 @@ public static class AdminPostMapping
                 AdminPostID = model.AdminPostID,
                 PosterName = model.PosterName,
                 PostTitle = model.PostTitle,
-                UserID = model.UserID,
-                PostTypeID = model.PostTypeID,
-                DiispayPostType = EnumDescription.GetDescription ( ( EnumPostType ) model.PostTypeID ),
+                DiispayPostType = EnumDescription.GetDescription ( model.PostType),
                 HostCompanyName = model.HostCompanyName,
                 DiispayCompanyName = EnumDescription.GetDescription ( model.HostCompanyName )
             } );

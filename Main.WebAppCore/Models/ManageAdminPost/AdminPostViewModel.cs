@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Main.Common.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using WebAppCore.Helper;
 
@@ -48,11 +49,11 @@ public class AdminPostViewModel : BaseViewModel
     
     [Display(Name = "Post Type")]
     [Required(ErrorMessage = "Post type is required!")]
-    public int PostTypeID { get; set; }
+    public EnumPostType PostType { get; set; }
 
     public IEnumerable<SelectListItem> AV_PostType { get; set; }
 
 
     [Display(Name = "Post Type")]
-    public string? DisplayEnumAdminPostType { get; set; } 
+    public string? DisplayPostType { get; set; } 
 }

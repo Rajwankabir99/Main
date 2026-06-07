@@ -1,4 +1,5 @@
-﻿using Main.Common.Model;
+﻿using Main.Common.Enums;
+using Main.Common.Model;
 
 namespace DataTransferModel;
 
@@ -27,7 +28,7 @@ public class AdminPostDataModel : DataModel
 
     public List<AdminPostCommentDataModel> ListAdminPostComments { get; set; } = new List<AdminPostCommentDataModel>();
 
-    public int PostTypeID { get; set; }
+    public EnumPostType PostType { get; set; }
 
     public string? EnumAdminPostTypeDescription { get; set; } 
 

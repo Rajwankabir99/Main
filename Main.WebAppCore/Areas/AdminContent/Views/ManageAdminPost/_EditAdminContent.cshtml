@@ -1,122 +1,137 @@
 ﻿
 @model AdminPostViewModel
 
-<div id="newAdminPostContainerPartial" class="card-form row">
+<div id="newAdminPostContainerPartial" class="row card-form">
 
-    <h4 class="card-title">EDIT ADMIN POST</h4>
+    <div class="offset-2 col-8">
 
-    <div class="gap"></div>
-    <div class="gap"></div>
+        <div class="row">
 
-    <form id="myMainFormEdit" 
-        action="@Url.Action("Edit", "ManageAdminPost")" 
-        method="post" 
-        novalidate>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                <h4 class="card-title all-caps">
+
+                    EDIT ADMIN POST
+
+                </h4>
+
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+            <form id="myMainFormEdit"
+                  action="@Url.Action( "Edit","ManageAdminPost" )"
+                  method="post"
+                  novalidate>
    
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(a => a.PageName)
-        @Html.HiddenFor(a => a.AdminPostID)
-
-        <h4 class="card-subtitle">Post Information</h4>
-
-        <div class="gap"></div>
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(a => a.PageName)
+                    @Html.HiddenFor(a => a.AdminPostID)
 
 
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.PostTypeID)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-            @Html.DropDownListFor(a => a.PostTypeID, Model.AV_PostType, new { @class = "fff" })
-            @Html.ValidationMessageFor(m => m.PostTypeID, "", new { @class = "text-danger  custom-inline-field-error" })
-        </div>
-        
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.PosterName)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
+                        <h4 class="card-subtitle all-caps">
 
-            @Html.EditorFor(a => a.PosterName, new { htmlAttributes = new { @class = "fff" } })
-            @Html.ValidationMessageFor(m => m.PosterName, "", new { @class = "text-danger  custom-inline-field-error" })
-        </div>
+                            Post Information
 
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.PostTitle)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
+                        </h4>
 
-            @Html.EditorFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
-            @Html.ValidationMessageFor(m => m.PostTitle, "", new { @class = "text-danger custom-inline-field-error" })
-        </div>
+                    </div>
 
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.WebsiteUrl)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
-            
-            @Html.EditorFor(a => a.WebsiteUrl, new { htmlAttributes = new { @class = "fff" } })
-        </div>
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.ShortNote)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
-
-            @Html.TextAreaFor(a => a.ShortNote, new { @class = "fff" })
-            @Html.ValidationMessageFor(m => m.ShortNote, "", new { @class = "text-danger custom-inline-field-error" })
-        </div>
-
-        <div class="input-field col-md-12">
-            @Html.LabelFor(a => a.SearchTag)
-            <a title="">
-                <img alt="Help" src="~/lib/Images/Icons/help.png" class="help-icon" />
-            </a>
-
-            @Html.TextAreaFor(a => a.SearchTag, new { @class = "fff" })
-        </div>
-    </form>
-
-    <div class="gap"></div>
-
-    <h4 class="card-subtitle">Post Pictures</h4>
-
-    <div class="gap"></div>
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor(a => a.PostType)
+                        @Html.DropDownListFor(a => a.PostType, Model.AV_PostType, new { @class = "fff" })
+                        @Html.ValidationMessageFor(m => m.PostType, "", new { @class = "text-danger" })
+                   </div>
 
 
-    <div class="upload-container image-field col-md-4 col-sm-6 col-lg-4 col-xs-12">
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.PosterName )
+                        @Html.EditorFor(a => a.PosterName, new { htmlAttributes = new { @class = "fff" } })
+                        @Html.ValidationMessageFor(m => m.PosterName, "", new { @class = "text-danger" })
+                   </div>
 
-        <!-- Standard file input -->
-        <input type="file" id="fileInputEdit" class="light-button btn-sm" name="myEditFile" />
-        
-        <!-- Button to trigger the AJAX call -->
-        <button type="button" id="btnEditUpload" class="light-button btn-sm">Add New Picture</button>
-        
-    </div> 
 
-    <div class="gap"></div>
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.PostTitle )
+                        @Html.EditorFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
+                        @Html.ValidationMessageFor(m => m.PostTitle, "", new { @class = "text-danger" })
+                   </div>
 
-    <div class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12" id="imageEditPanelContainer">
-        
-            @{ 
-                foreach(var item in Model.ListAdminPostFileImages.ToList())
-                {
-                    @await Html.PartialAsync("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml", item)
+
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.WebsiteUrl )
+                        @Html.EditorFor(a => a.WebsiteUrl, new { htmlAttributes = new { @class = "fff" } })
+                        @Html.ValidationMessageFor(m => m.WebsiteUrl, "", new { @class = "text-danger" })
+                   </div>
+
+
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.ShortNote )
+                        @Html.TextAreaFor(a => a.ShortNote, new { @class = "fff" })
+                   </div>
+
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.SearchTag )
+                        @Html.TextAreaFor(a => a.SearchTag, new { @class = "fff" })
+                   </div>
+
+            </form>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                <h4 class="card-subtitle">Post Pictures</h4>
+
+            </div>
+
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+           
+
+            <div class="upload-container image-field  col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                <input type="file" id="fileInputEdit" class="light-button btn-sm" name="myEditFile" />
+               
+                <button type="button" id="btnEditUpload" class="light-button btn-sm">Add New Picture</button>
+
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+            <div id="imageEditPanelContainer" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
+
+                @{
+                    foreach ( var item in Model.ListAdminPostFileImages.ToList( ) )
+                    {
+                        @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",item )
+                    }
                 }
-            }
-    </div>     
 
-    <div class="gap"></div>
+            </div>
 
-    <button id="btnSubmit" 
-        class="primary-button max" 
-        type="submit" 
-        form="myMainFormEdit">
-            @SharedLocalizer["EditPostButtonSUBMITAD"]
-    </button>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+                <button id="btnSubmit"
+                        class="primary-button max"
+                        type="submit"
+                        form="myMainFormEdit">
+                    @SharedLocalizer["EditPostButtonSUBMITAD"]
+                </button>
+
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        </div>
+
+    </div>
 
 </div>

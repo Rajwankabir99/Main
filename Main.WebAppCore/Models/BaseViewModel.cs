@@ -7,6 +7,4 @@ public class BaseViewModel
         }
 
         public string PageName { get; set; }
-
-        public string? PageMessage { get; set; }
 }

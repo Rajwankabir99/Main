@@ -15,10 +15,8 @@ public class AdminPostDisplayModel
     public string PostTitle { get; set; }
 
     public int UserID { get; set; }
-   
-    public int PostTypeID { get; set; }
 
-    public string DiispayPostType { get; set; } 
+    public EnumPostType PostType { get; set; } 
 
     public EnumCompanyName HostCompanyName { get; set; }
 

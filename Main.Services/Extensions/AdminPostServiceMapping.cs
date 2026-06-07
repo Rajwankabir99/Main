@@ -20,9 +20,8 @@ public static class AdminPostServiceMappings
             objDataModel.AdminPostID = postEntity.AdminPostID;
             objDataModel.PosterName = postEntity.PosterName;
             objDataModel.HostCompanyName = postEntity.HostCompanyName;
-
             objDataModel.PostTitle = postEntity.Title;
-            objDataModel.PostTypeID = ( int ) postEntity.PostType;
+            objDataModel.PostType = postEntity.PostType;
 
             listPostDataModel.Add ( objDataModel );
 
@@ -91,7 +90,7 @@ public static class AdminPostServiceMappings
             WebsiteUrl = postEntity.WebsiteUrl,
             ShortNote = postEntity.ShortNote,
             SearchTag = postEntity.SearchTag,
-            PostTypeID = (int) postEntity.PostType,
+            PostType = postEntity.PostType,
             ListAdminPostFileImages = objDMListFiles,
             ListAdminPostComments = objDMListComments
         };
@@ -122,7 +121,7 @@ public static class AdminPostServiceMappings
         {
             PosterName = adminPostDataModel.PosterName,
             Title = adminPostDataModel.PostTitle,
-            PostType = ( EnumPostType ) adminPostDataModel.PostTypeID,
+            PostType = ( EnumPostType ) adminPostDataModel.PostType,
             WebsiteUrl = adminPostDataModel.WebsiteUrl,
             SearchTag = adminPostDataModel.SearchTag,
             ShortNote = adminPostDataModel.ShortNote,
@@ -195,7 +194,7 @@ public static class AdminPostServiceMappings
         adminPostEntity.WebsiteUrl = adminPostDataModel.WebsiteUrl;
         adminPostEntity.ShortNote = adminPostDataModel.ShortNote;
         adminPostEntity.SearchTag = adminPostDataModel.SearchTag;
-        adminPostEntity.PostType = ( EnumPostType ) adminPostDataModel.PostTypeID;
+        adminPostEntity.PostType = ( EnumPostType ) adminPostDataModel.PostType;
         adminPostEntity.ListAdminPostComments = newListcommentEntities;
         adminPostEntity.ListAdminImageFiles = newListFileEntities;
         adminPostEntity.AdminPostID = adminPostDataModel.AdminPostID;

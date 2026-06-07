@@ -253,16 +253,16 @@ public enum EnumSpecialMarket
 public enum EnumPostType
 {
     [Description("Ad Space")]
-    AdSpace = 2,
+    AdSpace = 1,
 
     [Description("Short Note")]
-    ShortNote = 3,
+    ShortNote = 2,
 
-    [Description("Youtube Video Link")]
-    ShortVideo = 4,
+    [Description("Youtube Video")]
+    ShortVideo = 3,
 
     [Description("Product")]
-    Product = 6
+    Product = 4
 }
 
 
