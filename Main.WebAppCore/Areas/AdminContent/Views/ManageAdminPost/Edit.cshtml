@@ -8,7 +8,7 @@
 
 <div id="editAdminPostMainView" class="container">
 
-    @await Html.PartialAsync("~/Areas/AdminContent/Views/ManageAdminPost/_EditAdminContent.cshtml", Model)
+    @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_EditContent.cshtml",Model )
 
 </div>
 
@@ -28,9 +28,9 @@
 
     var notify = $.notify;
 
-    
-
     $(document).ready(function () {
+
+        $("#myMainFormEdit").valid();
 
         function LoadImageEditAdminContent() {
             $.ajax({
@@ -106,28 +106,25 @@
     
             fetch(this.action, {
                     method: 'POST',
-                    body: formData,
-                    headers: {
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    }
+                    body: formData
                 })
                 .then(response => {
             
                     return response.json().then(data => {
               
-                                console.log("Status Code:", response.status);
-                                console.log("JSON Data:", data);
+                        console.log("Status Code:", response.status);
+                        console.log("JSON Data:", data);
       
-                                if (response.status === 200)
-                                {
-                                    window.location.href = data.urlGo;
-                                }
-                                else if (response.status === 400)
-                                {
-                                    return;
-                                }
-                                return;
-                        });
+                        if (response.status === 200)
+                        {
+                            window.location.href = data.urlGo;
+                        }
+                        else if (response.status === 400)
+                        {
+                            return;
+                        }
+                        return;
+                    });
                 })
                 .catch(error => {
                     console.error("Network or parsing error:", error);

@@ -15,7 +15,6 @@ namespace Main.WebAppCore;
 public class ManageAdminPostController : BaseController
 {
     private readonly IAdminPostService _adminPostService;
-    private readonly IMemoryCache _cache;
     private readonly IUserContext _userContext;
     private readonly ILogger<ManageAdminPostController> _logger;
 
@@ -26,7 +25,6 @@ public class ManageAdminPostController : BaseController
         IUserContext userContext )
     {
         _adminPostService = adminPostService;
-        _cache = cache;
         _logger = logger;
         _userContext = userContext;
     }
@@ -81,7 +79,7 @@ public class ManageAdminPostController : BaseController
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public ViewResult NewAdminContent()
+    public ViewResult NewContent()
     {
         try
         {
@@ -91,11 +89,11 @@ public class ManageAdminPostController : BaseController
             
             objPostViewModel.PageName = "Add Admin Post";
             
-            return View("~/Areas/AdminContent/Views/ManageAdminPost/NewAdmiinContent.cshtml", objPostViewModel);
+            return View( "~/Areas/AdminContent/Views/ManageAdminPost/NewContent.cshtml", objPostViewModel);
         }
         catch
         {
-            return View("~/Areas/AdminContent/Views/ManageAdminPost/NewAdmiinContent.cshtml", new AdminPostViewModel());
+            return View( "~/Areas/AdminContent/Views/ManageAdminPost/NewContent.cshtml", new AdminPostViewModel());
         }
     }
 
@@ -103,7 +101,7 @@ public class ManageAdminPostController : BaseController
     [HttpPost]
     [AutoValidateAntiforgeryToken]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> SaveNewAdminContent(AdminPostViewModel collection)
+    public async Task<IActionResult> SaveContent(AdminPostViewModel collection)
     {
         if ( !ModelState.IsValid )
         {
@@ -261,7 +259,8 @@ public class ManageAdminPostController : BaseController
 
                             var resut = stream.ReadAsync(imgByte);
 
-                            ImageFile objFile = new ImageFile { FileContent = imgByte, IsNew = true };
+                            ImageFile objFile = new ImageFile ()
+                            { FileContent = imgByte, IsNew = true };
                             
                             SetSessionImageFile(objFile);
                         }
@@ -333,9 +332,12 @@ public class ManageAdminPostController : BaseController
     {
         try
         {
-            var objAdminPostViewModel = await _adminPostService.GetAdminPostForEditPostID(id);
+            var objAdminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id);
 
-            return View(objAdminPostViewModel);
+            AdminPostViewModel adminPostViewModel = new AdminPostViewModel ();
+            adminPostViewModel.AdminPostID = objAdminPostDataModel.AdminPostID;
+
+            return View( adminPostViewModel );
         }
         catch
         {
@@ -348,12 +350,11 @@ public class ManageAdminPostController : BaseController
 
 
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> DeleteAdminPost(int id, int fakeId)
+    public async Task<ActionResult> DeleteContent(int id, int fakeId)
     {
         try
         {
-
-            var result = await _adminPostService.DeleteAdminPost(id);
+            bool result = await _adminPostService.DeleteAdminPost(id);
 
             if (result)
             {

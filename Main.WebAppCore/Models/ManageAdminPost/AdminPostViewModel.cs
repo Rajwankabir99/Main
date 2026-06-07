@@ -1,4 +1,5 @@
-﻿using Main.Common.Enums;
+﻿using DataTransferModel;
+using Main.Common.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using WebAppCore.Helper;
@@ -10,7 +11,7 @@ public class AdminPostViewModel : BaseViewModel
     public AdminPostViewModel()
     {
         AV_PostType = SelectListItemDropDown.GetAdminPostTypeList ( );
-        ListAdminPostFileImages = new List<AdminImageFileViewModel> ( );
+        ListAdminPostFileImages = new List<ImageFile> ( );
     }
 
     public int? AdminPostID { get; set; }
@@ -44,7 +45,7 @@ public class AdminPostViewModel : BaseViewModel
     [Display(Name = "Tags (Comma Seperated)")]
     public string? SearchTag { get; set; }  
 
-    public List<AdminImageFileViewModel> ListAdminPostFileImages { get; set; } = new List<AdminImageFileViewModel>();
+    public List<ImageFile> ListAdminPostFileImages { get; set; } = new List<ImageFile> ();
 
     
     [Display(Name = "Post Type")]

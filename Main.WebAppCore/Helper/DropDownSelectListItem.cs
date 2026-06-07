@@ -1,10 +1,15 @@
-﻿using Main.Common.Enums;
+﻿using dotless.Core.Parser.Functions;
+
+using Main.Common.Enums;
 using Main.Common.Helper;
 using Main.Common.HelperServices;
 using Main.Common.Model;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using ResourceLibrary.Resources;
+
 using System.Globalization;
 
 namespace WebAppCore.Helper;
@@ -51,13 +56,22 @@ public class SelectListItemDropDown
         var listCountries = ListEnum.GetAdminPostTypeList().ToList();
 
         List<SelectListItem> objOfferTypeListItems = new List<SelectListItem>();
+        SelectListItem objItem;
+
         foreach ( var item in listCountries )
         {
-            SelectListItem objItem = new SelectListItem();
+            objItem = new SelectListItem();
             objItem.Text = item.Text;
             objItem.Value = item.ValueID.ToString ( );
             objOfferTypeListItems.Add ( objItem );
         }
+
+        objItem = new SelectListItem();
+        objItem.Text = "";
+        objItem.Value = "";
+
+        objOfferTypeListItems.Add ( objItem );
+
         return objOfferTypeListItems.AsEnumerable ( );
     }
 

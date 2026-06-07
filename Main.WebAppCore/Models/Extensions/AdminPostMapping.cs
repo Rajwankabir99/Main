@@ -1,5 +1,4 @@
 ﻿using DataTransferModel;
-
 using Main.Common.Enums;
 
 namespace WebAppCore.ViewModel.Extensions;
@@ -34,7 +33,7 @@ public static class AdminPostMapping
 
         adminFileViewModel.ListAdminPostFileImages.ForEach ( fileViewModel =>
         {
-            listAdminImageFileDataModel.Add ( new AdminImageFileDataModel ( fileViewModel.ImageFileContent ) );
+            listAdminImageFileDataModel.Add ( new AdminImageFileDataModel ( fileViewModel.FileContent ) );
         } );
 
         return listAdminImageFileDataModel;
@@ -73,17 +72,17 @@ public static class AdminPostMapping
         return displayViewModels;
     }
 
-    public static List<AdminImageFileViewModel> MapAdminImageFileViewModelList ( List<AdminImageFileDataModel> adminImageFileList )
+    public static List<ImageFile> MapAdminImageFileViewModelList ( List<AdminImageFileDataModel> adminImageFileList )
     {
-        var imageFileViewModels = new List<AdminImageFileViewModel>();
+        var imageFileViewModels = new List<ImageFile>();
 
         foreach ( var model in adminImageFileList )
         {
-            imageFileViewModels.Add ( new AdminImageFileViewModel
+            imageFileViewModels.Add ( new ImageFile
             {
-                ImageFileContent = model.ImageFileContent,
-                AdminImageFileID = model.AdminImageFileID,
-                AdminPostID = model.AdminPostID
+                FileContent = model.ImageFileContent,
+                FileID = model.AdminImageFileID,
+                PostID = model.AdminPostID
             } );
         }
 

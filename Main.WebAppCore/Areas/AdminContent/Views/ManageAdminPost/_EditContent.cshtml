@@ -42,17 +42,25 @@
 
                     <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
-                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-                        @Html.LabelFor(a => a.PostType)
-                        @Html.DropDownListFor(a => a.PostType, Model.AV_PostType, new { @class = "fff" })
-                        @Html.ValidationMessageFor(m => m.PostType, "", new { @class = "text-danger" })
-                   </div>
-
-
+                    
                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                         @Html.LabelFor( a => a.PosterName )
                         @Html.EditorFor(a => a.PosterName, new { htmlAttributes = new { @class = "fff" } })
                         @Html.ValidationMessageFor(m => m.PosterName, "", new { @class = "text-danger" })
+                   </div>
+
+
+                   <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor( a => a.PosterContactNumber )
+                        @Html.EditorFor(a => a.PosterContactNumber, new { htmlAttributes = new { @class = "fff" } })
+                        @Html.ValidationMessageFor(m => m.PosterContactNumber, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                        @Html.LabelFor(a => a.PostType)
+                        @Html.DropDownListFor(a => a.PostType, Model.AV_PostType, new { @class = "fff" })
+                        @Html.ValidationMessageFor(m => m.PostType, "", new { @class = "text-danger" })
                    </div>
 
 
@@ -86,7 +94,7 @@
 
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-                <h4 class="card-subtitle">Post Pictures</h4>
+                <h4 class="card-subtitle all-caps">Post Pictures</h4>
 
             </div>
 
