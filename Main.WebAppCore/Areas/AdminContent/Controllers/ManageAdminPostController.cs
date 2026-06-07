@@ -30,41 +30,27 @@ public class ManageAdminPostController : BaseController
         _userContext = userContext;
     }
 
-    private void SetImageInDataModel( AdminPostDataModel postDataModel )
+    private void SetImageInDataModel( AdminPostDataModel adminPostDataModel )
     {
-        List<AdminImageFileDataModel> listAdminImageFileDataModel
-            = new List<AdminImageFileDataModel>();
+        List<AdminImageFileDataModel> listAdminImageFileDataModels
+                                      = new List<AdminImageFileDataModel>();
 
-        AdminImageFileDataModel  adminImageFileDataModel;
+        AdminImageFileDataModel adminImageFileDataModel;
 
-        List<ImageFile> listImageFiles = GetAllSessionImages();
+        List<ImageFile> listSessionImageFiles = GetAllSessionImages();
 
-        listImageFiles.ForEach ( imgFile =>
+        listSessionImageFiles.ForEach ( imgFile =>
         {
-            adminImageFileDataModel = new AdminImageFileDataModel
+            adminImageFileDataModel = new AdminImageFileDataModel ()
             {
-                ImageFileContent = imgFile.FileContent
+                ImageFileContent = imgFile.FileContent,
+                AdminPostID = imgFile.PostID ?? 0,
+                AdminImageFileID = 0,
+                BaseDataModel = _userContext.GetCreateBaseDataModel()
             };
 
-            adminImageFileDataModel.AdminPostID = imgFile.PostID ?? 0;
-
-            if ( imgFile.IsNew == true )
-            {
-                adminImageFileDataModel.BaseDataModel = _userContext.GetCreateBaseDataModel ( );
-
-                _logger.LogWarning ( "Set New Image id: " + imgFile.FileID );
-            }
-            else
-            {
-                adminImageFileDataModel.BaseDataModel = _userContext.GetUpdateBaseDataModel ( );
-
-                adminImageFileDataModel.AdminImageFileID = imgFile.FileID;
-
-                _logger.LogWarning ( "Set Base Data file id: " + adminImageFileDataModel.AdminImageFileID );
-            }
+            listAdminImageFileDataModels.Add ( adminImageFileDataModel );
         } );
-
-        postDataModel.ListAdminPostFileImages = listAdminImageFileDataModel;
 
         ClearImageFileListSession ( );
     }
