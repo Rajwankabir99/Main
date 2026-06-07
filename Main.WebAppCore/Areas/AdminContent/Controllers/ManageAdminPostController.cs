@@ -306,17 +306,15 @@ public class ManageAdminPostController : BaseController
     public async Task<JsonResult> ImageRemove(int id, int postId)
     {
         bool result = false;
+
         try
         {
-            if ( postId == 0 )
+            if ( postId != 0 )
             {
                 result = await _adminPostService.DeleteAdminPostImage(id, postId);
-            }
-            else
-            {
-                RemoveSessionImageFile ( id );
-                result = true;
-            }
+            }  
+                
+            result = RemoveSessionImageFile ( id );  
 
             return Json(new { success = result } );
         }
