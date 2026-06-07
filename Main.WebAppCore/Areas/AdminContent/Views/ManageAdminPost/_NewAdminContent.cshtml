@@ -16,8 +16,8 @@
 
             </div>
 
-            <div class="gap"></div>
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <form id="myMainForm" 
                   action="@Url.Action( "SaveNewAdminContent","ManageAdminPost" )"
@@ -30,7 +30,7 @@
                     <h4 class="card-subtitle all-caps">Post Information</h4>
                 </div>
 
-                <div class="gap"></div>
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.PostTypeID )
@@ -78,7 +78,7 @@
                 <h4 class="card-subtitle all-caps">Post Pictures</h4>
             </div>
 
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <div class="upload-container image-field col-sm-12 col-md-12 col-xs-12 col-lg-12">
                 <input type="file" id="fileInput" class="light-button btn-sm" name="myFile" />
@@ -88,7 +88,7 @@
             <div id="imagePanelContainer" class="image-field col-sm-12 col-md-12 col-xs-12 col-lg-12">
             </div>
 
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                 <button id="btnSubmit"
@@ -98,6 +98,8 @@
                     @SharedLocalizer["NewPostButtonSUBMITAD"]
                 </button>
             </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         </div>
 

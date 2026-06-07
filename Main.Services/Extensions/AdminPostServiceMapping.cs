@@ -91,7 +91,7 @@ public static class AdminPostServiceMappings
             WebsiteUrl = postEntity.WebsiteUrl,
             ShortNote = postEntity.ShortNote,
             SearchTag = postEntity.SearchTag,
-            PostTypeID = (int)postEntity.PostType,
+            PostTypeID = (int) postEntity.PostType,
             ListAdminPostFileImages = objDMListFiles,
             ListAdminPostComments = objDMListComments
         };

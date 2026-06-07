@@ -91,20 +91,4 @@ public static class AdminPostMapping
 
         return imageFileViewModels;
     }
-
-    public static List<AdminImageFileViewModel> GetAdminPostViewModelImages ( List<AdminImageFileDataModel> listAdminPostFileImages )
-    {
-        var imageFileViewModels = new List<AdminImageFileViewModel>();
-
-        listAdminPostFileImages.ForEach ( imgFile =>
-        {
-            imageFileViewModels.Add ( new AdminImageFileViewModel
-            {
-                AdminImageFileID = imgFile.AdminImageFileID,
-                ImageFileContent = imgFile.ImageFileContent
-            } );
-        } );
-
-        return imageFileViewModels;
-    }
 }

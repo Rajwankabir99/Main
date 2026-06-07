@@ -168,11 +168,12 @@ public class ManageAdminPostController : BaseController
 
             
             var adminPostViewModel = new AdminPostViewModel();
+
             AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel, adminPostViewModel);
 
             adminPostViewModel.ListAdminPostFileImages =            AdminPostMapping.MapAdminImageFileViewModelList( adminPostDataModel.ListAdminPostFileImages ); 
 
-            adminPostViewModel.PageName = "Edit Admin Post";
+            adminPostViewModel.PageName = "Edit Post";
             
             
             return View(adminPostViewModel);
@@ -222,15 +223,15 @@ public class ManageAdminPostController : BaseController
     {
         try
         {
-            var adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id); 
+            AdminPostDataModel adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id); 
 
             AdminPostViewModel adminPostViewModel = new AdminPostViewModel();
 
             AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel, adminPostViewModel );
 
-            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.GetAdminPostViewModelImages ( adminPostDataModel.ListAdminPostFileImages );
+            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList ( adminPostDataModel.ListAdminPostFileImages );
 
-            adminPostViewModel.PageName = "Admin Post Details";
+            adminPostViewModel.PageName = "Post Details";
 
             return View(adminPostViewModel);
         }
@@ -270,7 +271,7 @@ public class ManageAdminPostController : BaseController
 
                             var resut = stream.ReadAsync(imgByte);
 
-                            ImageFile objFile = new ImageFile { FileContent = imgByte };
+                            ImageFile objFile = new ImageFile { FileContent = imgByte, IsNew = true };
                             
                             SetSessionImageFile(objFile);
                         }
@@ -315,16 +316,20 @@ public class ManageAdminPostController : BaseController
     [Authorize(Roles = "Admin")]
     public async Task<JsonResult> ImageRemove(int id, int postId)
     {
+        bool result = false;
         try
         {
-            bool result = await _adminPostService.DeleteAdminPostImage(id, postId);
-
-            if (!result)
+            if ( postId == 0 )
             {
-                RemoveSessionImageFile(id);
+                result = await _adminPostService.DeleteAdminPostImage(id, postId);
+            }
+            else
+            {
+                RemoveSessionImageFile ( id );
+                result = true;
             }
 
-            return Json(new { success = true });
+            return Json(new { success = result } );
         }
         catch
         {
@@ -344,7 +349,10 @@ public class ManageAdminPostController : BaseController
         }
         catch
         {
-            return View(new AdminPostViewModel());
+            return BadRequest ( new
+            {
+                success = false
+            } );
         }
     }
 
@@ -352,33 +360,25 @@ public class ManageAdminPostController : BaseController
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteAdminPost(int id, int fakeId)
     {
-        AdminPostDataModel adminPostDataModel;
-
         try
         {
+
             var result = await _adminPostService.DeleteAdminPost(id);
 
             if (result)
             {
                 return RedirectToAction("Index");
-            }  
-            else
-            {
-                adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id);
-
-                var adminPostViewModel = new AdminPostViewModel();
-                
-                AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel,adminPostViewModel );
-
-                adminPostViewModel.ListAdminPostFileImages = 
-                    AdminPostMapping.MapAdminImageFileViewModelList( adminPostDataModel.ListAdminPostFileImages );
-
-                return View( adminPostViewModel );
             }
+
+            return RedirectToAction ( "Delete" , new { id = id }  );
+
         }
         catch
         {
-            return View(new AdminPostViewModel());
+            return BadRequest ( new
+            {
+                success = false
+            } );
         }
     }
 }
