@@ -2,8 +2,9 @@
 using Main.Common.Enums;
 using System.Security.Claims;
 using Main.Services;
+using WebAppCore.Helper;
 
-namespace WebApp.Infrastructure;
+namespace WebAppCore.Runtime.Helper;
 
 public class UserContext: IUserContext
 {
@@ -17,9 +18,7 @@ public class UserContext: IUserContext
     private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
     
     //Current User
-    public string UserId => User?.FindFirst ( ClaimTypes.NameIdentifier )?.Value ?? string.Empty;
-
-    public string IdentityId => User?.FindFirst ( "IdentityId" )?.Value ?? string.Empty;
+    public string IdentityId => User?.FindFirst ( ClaimTypes.NameIdentifier )?.Value ?? string.Empty;
 
     //Configuration file
     public EnumCategoryFor EnumCategoryFor => ( EnumCategoryFor ) AppSettings.Current.EnumCategoryFor;
@@ -30,7 +29,7 @@ public class UserContext: IUserContext
 
     public EnumCountry EnumCountry => ( EnumCountry ) AppSettings.Current.EnumCountry;
 
-    public int SeedUserId => ( int ) AppSettings.Current.SeedUserId;
+    public int PostImageSize => ( int ) AppSettings.Current.PostImageSize;
 
     ClaimsPrincipal? IUserContext.User
     {
@@ -43,10 +42,10 @@ public class UserContext: IUserContext
 
         TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
-        return TimeZoneInfo.ConvertTimeFromUtc ( DateTime.UtcNow,userTimeZone );
+        return TimeZoneInfo.ConvertTimeFromUtc ( DateTime.UtcNow, userTimeZone );
     }
 
-    public BaseDataModel GetCreateBaseDataModel ( )
+    public BaseDataModel GetCreateBaseDataModel ()
     {
         BaseDataModel baseDataModel = new BaseDataModel();
         
@@ -55,11 +54,10 @@ public class UserContext: IUserContext
         baseDataModel.HostCompanyName = EnumCompanyName;
         baseDataModel.HostCountry = EnumCountry;
         baseDataModel.Currency = EnumCurrency;
+        baseDataModel.CreatedBy = IdentityId;
+        baseDataModel.ModifiedBy = IdentityId;
 
-        int userId =  UserId != string.Empty && UserId != null ? Convert.ToInt32 ( UserId ) : SeedUserId;
-
-        baseDataModel.CreatedBy = userId;
-        baseDataModel.ModifiedBy = userId;
+        baseDataModel.Id = IdentityId;
 
         return baseDataModel;
     }
@@ -72,7 +70,7 @@ public class UserContext: IUserContext
         baseDataModel.HostCompanyName = EnumCompanyName;
         baseDataModel.HostCountry = EnumCountry;
         baseDataModel.Currency = EnumCurrency;
-        baseDataModel.ModifiedBy = ( int ) Convert.ToUInt32 ( UserId.ToString ( ) );
+        baseDataModel.ModifiedBy = IdentityId;
 
         return baseDataModel;
     }

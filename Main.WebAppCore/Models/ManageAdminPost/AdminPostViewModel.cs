@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using WebAppCore.Helper;
 
-namespace WebApp.ViewModel;
+namespace WebAppCore.ViewModel;
 
 public class AdminPostViewModel : BaseViewModel
 {
     public AdminPostViewModel()
     {
         AV_PostType = SelectListItemDropDown.GetAdminPostTypeList ( );
+        ListAdminPostFileImages = new List<AdminImageFileViewModel> ( );
     }
 
-    public int AdminPostID { get; set; }
+    public int? AdminPostID { get; set; }
 
     
     [Display(Name = "Poster Name")]
@@ -20,10 +22,11 @@ public class AdminPostViewModel : BaseViewModel
     
     
     [Display(Name = "Post Title")]
-    [Required(ErrorMessage = "Post Title is required!")]
+    [Required(ErrorMessage = "Post title is required!")]
     public string PostTitle { get; set; }
 
 
+    [Required ( ErrorMessage = "Contact number is required!" )]
     [Display(Name = "Contact Number")]
     public string? PosterContactNumber { get; set; }
 
@@ -38,26 +41,18 @@ public class AdminPostViewModel : BaseViewModel
 
 
     [Display(Name = "Tags (Comma Seperated)")]
-    public string? SearchTag { get; set; }
+    public string? SearchTag { get; set; }  
 
-
-    //Files and Comments
     public List<AdminImageFileViewModel> ListAdminPostFileImages { get; set; } = new List<AdminImageFileViewModel>();
 
-    public List<AdminPostCommentViewModel> ListAdminPostComments { get; set; } = new List<AdminPostCommentViewModel>();
-
-    // References
-    [Required]
-    public int UserID { get; set; }
-
-
     
-    [Display(Name = "Post Types")]
-    [Required(ErrorMessage = "Post Type is required!")]
+    [Display(Name = "Post Type")]
+    [Required(ErrorMessage = "Post type is required!")]
     public int PostTypeID { get; set; }
 
     public IEnumerable<SelectListItem> AV_PostType { get; set; }
 
+
     [Display(Name = "Post Type")]
-    public string? EnumAdminPostTypeDescription { get; set; } 
+    public string? DisplayEnumAdminPostType { get; set; } 
 }

@@ -1,6 +1,6 @@
 ﻿using Main.Common.Enums;
 
-namespace WebApp.Infrastructure;
+namespace WebAppCore.Helper;
 
 public class MyConfigSettings
 {
@@ -8,11 +8,16 @@ public class MyConfigSettings
 
     public EnumCompanyName EnumCompanyName { get; set; } 
 
-    public EnumCategoryFor EnumCategoryFor { get; set; }
-
     public EnumCurrency EnumCurrency { get; set; } 
 
     public int SeedUserId { get; set; }
+
+    public int PostImageSize { get; set; }
+
+    public EnumCategoryFor EnumCategoryFor
+    {
+        get; set;
+    }
 }
 
 public static class AppSettings
