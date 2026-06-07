@@ -1,11 +1,15 @@
-﻿using Main.Services;
-using DataTransferModel;
+﻿using DataTransferModel;
+
+using Main.Common.Model;
+using Main.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+
+using WebAppCore.Helper;
 using WebAppCore.ViewModel;
 using WebAppCore.ViewModel.Extensions;
-using WebAppCore.Helper;
 
 namespace Main.WebAppCore;
 
@@ -35,20 +39,21 @@ public class ManageAdminPostController : BaseController
         List<AdminImageFileDataModel> listAdminImageFileDataModels
                                       = new List<AdminImageFileDataModel>();
 
+        BaseDataModel baseDataModel = _userContext.GetCreateBaseDataModel ( );
+
         AdminImageFileDataModel adminImageFileDataModel;
 
         List<ImageFile> listSessionImageFiles = GetAllSessionImages();
 
         listSessionImageFiles.ForEach ( imgFile =>
         {
-            adminImageFileDataModel = new AdminImageFileDataModel ()
+            adminImageFileDataModel = new AdminImageFileDataModel ( baseDataModel )
             {
                 ImageFileContent = imgFile.FileContent,
                 AdminPostID = imgFile.PostID ?? 0,
-                AdminImageFileID = 0,
-                BaseDataModel = _userContext.GetCreateBaseDataModel()
+                AdminImageFileID = 0
             };
-
+           
             listAdminImageFileDataModels.Add ( adminImageFileDataModel );
         } );
 

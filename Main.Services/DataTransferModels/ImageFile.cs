@@ -9,6 +9,12 @@ public class AdminImageFileDataModel : DataModel
         BaseDataModel = new BaseDataModel();
     }
 
+    public AdminImageFileDataModel ( BaseDataModel baseDataModel )
+    {
+        BaseDataModel = new BaseDataModel ( );
+        BaseDataModel = baseDataModel;
+    }
+
     public AdminImageFileDataModel ( byte[] imageFileContent )
     {
         ImageFileContent = imageFileContent;

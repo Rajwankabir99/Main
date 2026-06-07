@@ -107,8 +107,6 @@ public static class AdminPostServiceMappings
     {
         AdminPost adminPostEntity = CreareAdminPostEntity ( from );
 
-        adminPostEntity.CreateBaseData ( from.BaseDataModel );
-
         List<AdminImageFile> objListFileEntity = MapAdminFileEntity(from);
 
         adminPostEntity.ListAdminImageFiles = objListFileEntity;
@@ -120,7 +118,7 @@ public static class AdminPostServiceMappings
 
     private static AdminPost CreareAdminPostEntity ( AdminPostDataModel adminPostDataModel )
     {
-        return new AdminPost ( )
+        AdminPost adminPost = new AdminPost ( )
         {
             PosterName = adminPostDataModel.PosterName,
             Title = adminPostDataModel.PostTitle,
@@ -132,6 +130,10 @@ public static class AdminPostServiceMappings
             ListAdminPostComments = new List<AdminPostComment> ( ),
             PosterContactNumber = adminPostDataModel.PosterContactNumber
         };
+
+        adminPost.CreateBaseData(adminPostDataModel.BaseDataModel);
+
+        return adminPost;
     }
 
     private static List<AdminImageFile> MapAdminFileEntity ( AdminPostDataModel adminPostDataModel )
@@ -140,9 +142,12 @@ public static class AdminPostServiceMappings
         = new List<AdminImageFile>();
 
         AdminImageFile adminFileEntity;
+
         adminPostDataModel.ListAdminPostFileImages.ForEach ( fileDataModel =>
         {
             adminFileEntity = new AdminImageFile ( fileDataModel.ImageFileContent );
+
+            adminFileEntity.CreateBaseData ( fileDataModel.BaseDataModel );
             
             objListFileEntity.Add ( adminFileEntity );
 
@@ -163,6 +168,9 @@ public static class AdminPostServiceMappings
         {
             AdminImageFile adminImageFile = new AdminImageFile(fileDataModel.ImageFileContent);
             adminImageFile.AdminPostID = adminPostDataModel.AdminPostID;
+
+            adminImageFile.CreateBaseData( fileDataModel.BaseDataModel );
+
             newListFileEntities.Add ( adminImageFile );
         } );
 
@@ -174,6 +182,9 @@ public static class AdminPostServiceMappings
             AdminPostComment adminPostComment = new AdminPostComment();
             adminPostComment.AdminPostID = adminPostDataModel.AdminPostID;
             adminPostComment.Comment = commentDataModel.Comment;
+
+            adminPostComment.CreateBaseData ( commentDataModel.BaseDataModel );
+
             newListcommentEntities.Add ( adminPostComment );
 
         } );
