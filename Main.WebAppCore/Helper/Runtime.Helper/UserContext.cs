@@ -2,8 +2,9 @@
 using Main.Common.Enums;
 using System.Security.Claims;
 using Main.Services;
+using WebAppCore.Helper;
 
-namespace WebApp.Infrastructure;
+namespace WebAppCore.Runtime.Helper;
 
 public class UserContext: IUserContext
 {
@@ -17,9 +18,7 @@ public class UserContext: IUserContext
     private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
     
     //Current User
-    public string UserId => User?.FindFirst ( ClaimTypes.NameIdentifier )?.Value ?? string.Empty;
-
-    public string IdentityId => User?.FindFirst ( "IdentityId" )?.Value ?? string.Empty;
+    public string IdentityId => User?.FindFirst ( ClaimTypes.NameIdentifier )?.Value ?? string.Empty;
 
     //Configuration file
     public EnumCategoryFor EnumCategoryFor => ( EnumCategoryFor ) AppSettings.Current.EnumCategoryFor;
@@ -29,8 +28,6 @@ public class UserContext: IUserContext
     public EnumCurrency EnumCurrency => ( EnumCurrency ) AppSettings.Current.EnumCurrency;
 
     public EnumCountry EnumCountry => ( EnumCountry ) AppSettings.Current.EnumCountry;
-
-    public int SeedUserId => ( int ) AppSettings.Current.SeedUserId;
 
     public int PostImageSize => ( int ) AppSettings.Current.PostImageSize;
 
@@ -59,6 +56,8 @@ public class UserContext: IUserContext
         baseDataModel.Currency = EnumCurrency;
         baseDataModel.CreatedBy = IdentityId;
         baseDataModel.ModifiedBy = IdentityId;
+
+        baseDataModel.Id = IdentityId;
 
         return baseDataModel;
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using WebAppCore.Helper;
 
 namespace WebAppCore.ViewModel;
 

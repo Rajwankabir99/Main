@@ -1,6 +1,5 @@
 ﻿using Main.Common.Enums;
 using Main.Common.Model;
-
 using System.Security.Claims;
 
 namespace Main.Services;
@@ -8,11 +7,6 @@ namespace Main.Services;
 public interface IUserContext
 {
     public ClaimsPrincipal? User
-    {
-        get;
-    }
-
-    string UserId
     {
         get;
     }
@@ -38,11 +32,6 @@ public interface IUserContext
     }
 
     EnumCategoryFor EnumCategoryFor
-    {
-        get;
-    }
-
-    int SeedUserId
     {
         get;
     }

@@ -1,6 +1,6 @@
 ﻿using Main.Common.Enums;
 
-namespace WebApp.Infrastructure;
+namespace WebAppCore.Helper;
 
 public class MyConfigSettings
 {

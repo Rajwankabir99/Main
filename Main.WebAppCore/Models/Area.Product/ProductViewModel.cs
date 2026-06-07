@@ -1,7 +1,7 @@
 ﻿using Main.Common.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Infrastructure;
+using WebAppCore.Helper;
 
 namespace WebAppCore.ViewModel;
 

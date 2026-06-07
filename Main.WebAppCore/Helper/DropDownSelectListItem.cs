@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ResourceLibrary.Resources;
 using System.Globalization;
 
-namespace WebAppCore.ViewModel;
+namespace WebAppCore.Helper;
 
 public class SelectListItemDropDown
 {

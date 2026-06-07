@@ -23,7 +23,6 @@
     <Compile Remove="Areas\Identity\**" />
     <Compile Remove="Areas\PageContent\**" />
     <Compile Remove="Service\**" />
-    <Compile Remove="Views\Account\**" />
     <Compile Remove="Views\Shared\DesktopPostType\**" />
     <Compile Remove="Views\Shared\DisplayTemplates\**" />
     <Compile Remove="Views\Shared\EditorTemplates\**" />
@@ -35,7 +34,6 @@
     <Content Remove="Areas\Identity\**" />
     <Content Remove="Areas\PageContent\**" />
     <Content Remove="Service\**" />
-    <Content Remove="Views\Account\**" />
     <Content Remove="Views\Shared\DesktopPostType\**" />
     <Content Remove="Views\Shared\DisplayTemplates\**" />
     <Content Remove="Views\Shared\EditorTemplates\**" />
@@ -47,7 +45,6 @@
     <EmbeddedResource Remove="Areas\Identity\**" />
     <EmbeddedResource Remove="Areas\PageContent\**" />
     <EmbeddedResource Remove="Service\**" />
-    <EmbeddedResource Remove="Views\Account\**" />
     <EmbeddedResource Remove="Views\Shared\DesktopPostType\**" />
     <EmbeddedResource Remove="Views\Shared\DisplayTemplates\**" />
     <EmbeddedResource Remove="Views\Shared\EditorTemplates\**" />
@@ -59,7 +56,6 @@
     <None Remove="Areas\Identity\**" />
     <None Remove="Areas\PageContent\**" />
     <None Remove="Service\**" />
-    <None Remove="Views\Account\**" />
     <None Remove="Views\Shared\DesktopPostType\**" />
     <None Remove="Views\Shared\DisplayTemplates\**" />
     <None Remove="Views\Shared\EditorTemplates\**" />
@@ -69,7 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\AccountController.cs" />
     <Compile Remove="Controllers\SecureController.cs" />
     <Compile Remove="Controllers\UserSessionLogController.cs" />
     <Compile Remove="ViewComponents\ShoppingCartNotificationViewComponent.cs" />

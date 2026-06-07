@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using WebAppCore.ViewModel;
 using WebAppCore.ViewModel.Extensions;
-using WebApp.Infrastructure;
+using WebAppCore.Helper;
 
 namespace Main.WebAppCore;
 
@@ -18,7 +18,8 @@ public class ManageAdminPostController : BaseController
     private readonly IUserContext _userContext;
     private readonly ILogger<ManageAdminPostController> _logger;
 
-    public ManageAdminPostController( IAdminPostService adminPostService,
+    public ManageAdminPostController( 
+        IAdminPostService adminPostService,
         IMemoryCache cache, 
         ILogger<ManageAdminPostController> logger,
         IUserContext userContext )
@@ -42,8 +43,7 @@ public class ManageAdminPostController : BaseController
         {
             adminImageFileDataModel = new AdminImageFileDataModel
             {
-                ImageFileContent = imgFile.FileContent,
-                AdminImageFileID = imgFile.FileID
+                ImageFileContent = imgFile.FileContent
             };
 
             adminImageFileDataModel.AdminPostID = imgFile.PostID ?? 0;
@@ -51,10 +51,16 @@ public class ManageAdminPostController : BaseController
             if ( imgFile.IsNew == true )
             {
                 adminImageFileDataModel.BaseDataModel = _userContext.GetCreateBaseDataModel ( );
+
+                _logger.LogWarning ( "Set New Image id: " + imgFile.FileID );
             }
             else
             {
                 adminImageFileDataModel.BaseDataModel = _userContext.GetUpdateBaseDataModel ( );
+
+                adminImageFileDataModel.AdminImageFileID = imgFile.FileID;
+
+                _logger.LogWarning ( "Set Base Data file id: " + adminImageFileDataModel.AdminImageFileID );
             }
         } );
 
