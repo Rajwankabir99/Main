@@ -20,12 +20,6 @@ public class AdminPostDisplayViewModel
     public string PostTitle { get; set; }
 
 
-    public int UserID { get; set; }
-
-   
-    public int PostTypeID { get; set; }
-
-
     [DisplayName ( "Post Type" )]
     public string DiispayPostType { get; set; }
 

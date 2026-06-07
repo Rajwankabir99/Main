@@ -475,19 +475,15 @@ public class ListEnum
 
             ParentChildVriableModel objPair = new ParentChildVriableModel
             {
-                ValueID = (int)value
+                ValueID = (int) value
             };
 
             if ( descriptionAttribute != null )
             {
                 objPair.Text = ( string ) descriptionAttribute.Description;
             }
-            else
-            {
-                objPair.Text = value.ToString ( );
-            }
 
-            if ( objPair != null )
+            if ( objPair != null && objPair.ValueID != 0 )
             {
                 objAdminPostTypeList.Add ( objPair );
             }

@@ -144,36 +144,36 @@ public partial class BaseController
 
     #endregion
 
-   
-    protected void SetSessionImageFile( ImageFile imageFile )
+
+    protected void SetSessionImageFile( ImageFile imageFile)
     {
-        List<ImageFile>? listImageFile = SessionExtensions.GetObject<List<ImageFile>> (
-            HttpContext.Session, "ImageFileList");
+        List<ImageFile>? listImageFile = SessionExtensions.GetObject<List<ImageFile>?>
+                                                (HttpContext.Session, "ImageFileList");
 
         if ( listImageFile == null )
         {
+            List<ImageFile>? listNewImageFile = new List<ImageFile>();
             imageFile.FileID = 1;
-            imageFile.IsNew = true;
-            List<ImageFile> objListFiles = new List<ImageFile>();
-            objListFiles.Add ( imageFile );
+            listNewImageFile.Add ( imageFile );
 
             SessionExtensions.SetObject<List<ImageFile>>
-                ( HttpContext.Session,"ImageFileList",objListFiles );
+               ( HttpContext.Session,"ImageFileList",listNewImageFile );
         }
+        else
+        {
+            int currentId = listImageFile.Any() ? listImageFile.Last ( ).FileID : 0;
 
+            imageFile.FileID += currentId;
+            listImageFile.Add( imageFile );
 
-        int listLength = listImageFile!.Count;
-        imageFile.FileID = listLength += 1;
-        imageFile.IsNew = true;
-        listImageFile.Add(imageFile);
-
-        SessionExtensions.SetObject<List<ImageFile>>
-            (HttpContext.Session, "ImageFileList", listImageFile);
+            SessionExtensions.SetObject<List<ImageFile>>
+               ( HttpContext.Session,"ImageFileList",listImageFile );
+        }
     }
 
     protected List<ImageFile> GetAllSessionImages()
     {
-        List<ImageFile>? listImageFiles = SessionExtensions.GetObject<List<ImageFile>>(
+        List<ImageFile>? listImageFiles = SessionExtensions.GetObject<List<ImageFile>?>(
             HttpContext.Session, "ImageFileList");
         
         if (listImageFiles != null)
@@ -186,7 +186,7 @@ public partial class BaseController
 
     protected bool RemoveSessionImageFile(int iageFileId)
     {
-        List<ImageFile>? listImageFiles = SessionExtensions.GetObject<List<ImageFile>>
+        List<ImageFile>? listImageFiles = SessionExtensions.GetObject<List<ImageFile>?>
                                 (HttpContext.Session, "ImageFileList");
 
         if ( listImageFiles == null )
@@ -204,7 +204,7 @@ public partial class BaseController
         
         listImageFiles.Remove(imageFile);
 
-        SessionExtensions.SetObject<List<ImageFile>>
+        SessionExtensions.SetObject<List<ImageFile>?>
             (HttpContext.Session, "ImageFileList", listImageFiles);
 
         return true;

@@ -20,13 +20,17 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model[0].DiispayPostType)
+                        @Html.DisplayNameFor( model => model[0].HostCompanyName )
                     </th>
 
                     <th>
-                        @Html.DisplayNameFor(model => model[0].PosterName)
+                        @Html.DisplayNameFor( model => model[0].PosterName )
                     </th>
 
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].DiispayPostType)
+                    </th>
+                   
                     <th>
                         @Html.DisplayNameFor(model => model[0].PostTitle)
                     </th>
@@ -39,17 +43,25 @@
 
                 @foreach (var item in Model.ToList()) {
                     <tr>
+
+                        <td>
+                            @Html.DisplayFor( modelItem => item.HostCompanyName )
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor( modelItem => item.PosterName )
+                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.DiispayPostType)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PosterName)
-                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.PostTitle)
                         </td>
            
                         <td data-label="Action">
+
                             <a title="View Admin Content"
                                     class="icon-button flex"
                                     href="@Url.Action("Details", "ManageAdminPost", new { Area = "AdminContent", id = item.AdminPostID })">
@@ -69,17 +81,16 @@
                             </a>
 
                         </td>
+
                     </tr>
                 }
             </tbody>
+
         </table>
 
     </div>
+
 </div>
 
 @section scriptsapp {
-
-    <script>
-
-    </script>
 }

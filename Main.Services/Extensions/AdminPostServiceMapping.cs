@@ -20,9 +20,8 @@ public static class AdminPostServiceMappings
             objDataModel.AdminPostID = postEntity.AdminPostID;
             objDataModel.PosterName = postEntity.PosterName;
             objDataModel.HostCompanyName = postEntity.HostCompanyName;
-
             objDataModel.PostTitle = postEntity.Title;
-            objDataModel.PostTypeID = ( int ) postEntity.PostType;
+            objDataModel.PostType = postEntity.PostType;
 
             listPostDataModel.Add ( objDataModel );
 
@@ -91,7 +90,7 @@ public static class AdminPostServiceMappings
             WebsiteUrl = postEntity.WebsiteUrl,
             ShortNote = postEntity.ShortNote,
             SearchTag = postEntity.SearchTag,
-            PostTypeID = (int)postEntity.PostType,
+            PostType = postEntity.PostType,
             ListAdminPostFileImages = objDMListFiles,
             ListAdminPostComments = objDMListComments
         };
@@ -107,8 +106,6 @@ public static class AdminPostServiceMappings
     {
         AdminPost adminPostEntity = CreareAdminPostEntity ( from );
 
-        adminPostEntity.CreateBaseData ( from.BaseDataModel );
-
         List<AdminImageFile> objListFileEntity = MapAdminFileEntity(from);
 
         adminPostEntity.ListAdminImageFiles = objListFileEntity;
@@ -120,11 +117,11 @@ public static class AdminPostServiceMappings
 
     private static AdminPost CreareAdminPostEntity ( AdminPostDataModel adminPostDataModel )
     {
-        return new AdminPost ( )
+        AdminPost adminPost = new AdminPost ( )
         {
             PosterName = adminPostDataModel.PosterName,
             Title = adminPostDataModel.PostTitle,
-            PostType = ( EnumPostType ) adminPostDataModel.PostTypeID,
+            PostType = ( EnumPostType ) adminPostDataModel.PostType,
             WebsiteUrl = adminPostDataModel.WebsiteUrl,
             SearchTag = adminPostDataModel.SearchTag,
             ShortNote = adminPostDataModel.ShortNote,
@@ -132,6 +129,10 @@ public static class AdminPostServiceMappings
             ListAdminPostComments = new List<AdminPostComment> ( ),
             PosterContactNumber = adminPostDataModel.PosterContactNumber
         };
+
+        adminPost.CreateBaseData(adminPostDataModel.BaseDataModel);
+
+        return adminPost;
     }
 
     private static List<AdminImageFile> MapAdminFileEntity ( AdminPostDataModel adminPostDataModel )
@@ -140,9 +141,12 @@ public static class AdminPostServiceMappings
         = new List<AdminImageFile>();
 
         AdminImageFile adminFileEntity;
+
         adminPostDataModel.ListAdminPostFileImages.ForEach ( fileDataModel =>
         {
             adminFileEntity = new AdminImageFile ( fileDataModel.ImageFileContent );
+
+            adminFileEntity.CreateBaseData ( fileDataModel.BaseDataModel );
             
             objListFileEntity.Add ( adminFileEntity );
 
@@ -155,31 +159,34 @@ public static class AdminPostServiceMappings
     {
         adminPostEntity.ModifyBaseData ( adminPostDataModel.BaseDataModel );
 
-        List<AdminImageFile> imageFieEntityList = new List<AdminImageFile>();
+        List<AdminImageFile> newListFileEntities = new List<AdminImageFile>();
+        newListFileEntities.AddRange ( adminPostEntity.ListAdminImageFiles );
 
-        imageFieEntityList.AddRange ( adminPostEntity.ListAdminImageFiles );
 
-
-        adminPostDataModel.ListAdminPostFileImages.ForEach ( fileVM =>
+        adminPostDataModel.ListAdminPostFileImages.ForEach ( fileDataModel =>
         {
-            var objFile = new AdminImageFile(fileVM.ImageFileContent);
+            AdminImageFile adminImageFile = new AdminImageFile(fileDataModel.ImageFileContent);
+            adminImageFile.AdminPostID = adminPostDataModel.AdminPostID;
 
-            objFile.AdminPostID = adminPostDataModel.AdminPostID;
+            adminImageFile.CreateBaseData( fileDataModel.BaseDataModel );
 
-            imageFieEntityList.Add ( objFile );
+            newListFileEntities.Add ( adminImageFile );
         } );
 
 
-        List<AdminPostComment> commentEntityList = new List<AdminPostComment>();
+        List<AdminPostComment> newListcommentEntities = new List<AdminPostComment>();
 
-        adminPostDataModel.ListAdminPostComments.ForEach ( commentDM =>
+        adminPostDataModel.ListAdminPostComments.ForEach ( commentDataModel =>
         {
-            var objComment = new AdminPostComment();
-            objComment.AdminPostID = adminPostDataModel.AdminPostID;
-            objComment.Comment = commentDM.Comment;
-            commentEntityList.Add ( objComment );
-        } );
+            AdminPostComment adminPostComment = new AdminPostComment();
+            adminPostComment.AdminPostID = adminPostDataModel.AdminPostID;
+            adminPostComment.Comment = commentDataModel.Comment;
 
+            adminPostComment.CreateBaseData ( commentDataModel.BaseDataModel );
+
+            newListcommentEntities.Add ( adminPostComment );
+
+        } );
 
         adminPostEntity.PosterName = adminPostDataModel.PosterName;
         adminPostEntity.Title = adminPostDataModel.PostTitle;
@@ -187,11 +194,10 @@ public static class AdminPostServiceMappings
         adminPostEntity.WebsiteUrl = adminPostDataModel.WebsiteUrl;
         adminPostEntity.ShortNote = adminPostDataModel.ShortNote;
         adminPostEntity.SearchTag = adminPostDataModel.SearchTag;
-        adminPostEntity.PostType = ( EnumPostType ) adminPostDataModel.PostTypeID;
-        adminPostEntity.ListAdminPostComments = commentEntityList;
-        adminPostEntity.ListAdminImageFiles = imageFieEntityList;
+        adminPostEntity.PostType = ( EnumPostType ) adminPostDataModel.PostType;
+        adminPostEntity.ListAdminPostComments = newListcommentEntities;
+        adminPostEntity.ListAdminImageFiles = newListFileEntities;
         adminPostEntity.AdminPostID = adminPostDataModel.AdminPostID;
-        
 
         return adminPostEntity;
     }

@@ -1,5 +1,4 @@
 ﻿using DataTransferModel;
-
 using Main.Common.Enums;
 
 namespace WebAppCore.ViewModel.Extensions;
@@ -22,7 +21,7 @@ public static class AdminPostMapping
             WebsiteUrl = adminPostViewModel.WebsiteUrl,
             ShortNote = adminPostViewModel.ShortNote,
             SearchTag = adminPostViewModel.SearchTag,
-            PostTypeID = adminPostViewModel.PostTypeID
+            PostType = adminPostViewModel.PostType
         };
 
         return adminPostDataModel;
@@ -34,7 +33,7 @@ public static class AdminPostMapping
 
         adminFileViewModel.ListAdminPostFileImages.ForEach ( fileViewModel =>
         {
-            listAdminImageFileDataModel.Add ( new AdminImageFileDataModel ( fileViewModel.ImageFileContent ) );
+            listAdminImageFileDataModel.Add ( new AdminImageFileDataModel ( fileViewModel.FileContent ) );
         } );
 
         return listAdminImageFileDataModel;
@@ -47,10 +46,10 @@ public static class AdminPostMapping
         adminPostViewModel.PosterContactNumber = adminPostDatatModel.PosterContactNumber;
         adminPostViewModel.PosterName = adminPostDatatModel.PosterName;
         adminPostViewModel.WebsiteUrl = adminPostDatatModel.WebsiteUrl;
-        adminPostViewModel.PostTypeID = adminPostDatatModel.PostTypeID;
+        adminPostViewModel.PostType = adminPostDatatModel.PostType;
         adminPostViewModel.SearchTag = adminPostDatatModel.SearchTag;
         adminPostViewModel.ShortNote = adminPostDatatModel.ShortNote;
-        adminPostViewModel.DisplayEnumAdminPostType = EnumDescription.GetDescription ( ( EnumPostType ) adminPostDatatModel.PostTypeID );
+        adminPostViewModel.DisplayPostType = EnumDescription.GetDescription ( ( EnumPostType ) adminPostDatatModel.PostType );
     }
 
     public static List<AdminPostDisplayViewModel> MapAdminPostDisplayViewModelList ( List<AdminPostDisplayModel> adminPostDisplayModelList )
@@ -64,9 +63,7 @@ public static class AdminPostMapping
                 AdminPostID = model.AdminPostID,
                 PosterName = model.PosterName,
                 PostTitle = model.PostTitle,
-                UserID = model.UserID,
-                PostTypeID = model.PostTypeID,
-                DiispayPostType = EnumDescription.GetDescription ( ( EnumPostType ) model.PostTypeID ),
+                DiispayPostType = EnumDescription.GetDescription ( model.PostType),
                 HostCompanyName = model.HostCompanyName,
                 DiispayCompanyName = EnumDescription.GetDescription ( model.HostCompanyName )
             } );
@@ -75,35 +72,19 @@ public static class AdminPostMapping
         return displayViewModels;
     }
 
-    public static List<AdminImageFileViewModel> MapAdminImageFileViewModelList ( List<AdminImageFileDataModel> adminImageFileList )
+    public static List<ImageFile> MapAdminImageFileViewModelList ( List<AdminImageFileDataModel> adminImageFileList )
     {
-        var imageFileViewModels = new List<AdminImageFileViewModel>();
+        var imageFileViewModels = new List<ImageFile>();
 
         foreach ( var model in adminImageFileList )
         {
-            imageFileViewModels.Add ( new AdminImageFileViewModel
+            imageFileViewModels.Add ( new ImageFile
             {
-                ImageFileContent = model.ImageFileContent,
-                AdminImageFileID = model.AdminImageFileID,
-                AdminPostID = model.AdminPostID
+                FileContent = model.ImageFileContent,
+                FileID = model.AdminImageFileID,
+                PostID = model.AdminPostID
             } );
         }
-
-        return imageFileViewModels;
-    }
-
-    public static List<AdminImageFileViewModel> GetAdminPostViewModelImages ( List<AdminImageFileDataModel> listAdminPostFileImages )
-    {
-        var imageFileViewModels = new List<AdminImageFileViewModel>();
-
-        listAdminPostFileImages.ForEach ( imgFile =>
-        {
-            imageFileViewModels.Add ( new AdminImageFileViewModel
-            {
-                AdminImageFileID = imgFile.AdminImageFileID,
-                ImageFileContent = imgFile.ImageFileContent
-            } );
-        } );
 
         return imageFileViewModels;
     }

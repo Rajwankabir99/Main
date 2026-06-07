@@ -1,0 +1,133 @@
+﻿@model AdminPostViewModel
+
+<div id="detailsAdminPostContainerPartial" class="card-form row">
+
+    <div class="offset-2 col-8">
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+            <h4 class="card-title all-caps">
+
+                DETAILES OF THE POST
+
+            </h4>
+
+        </div>
+        
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div data-label="Action" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
+
+            <a title="List Admin Content"
+                    class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" })">
+                <i class="fa fa-list"></i>
+                <span class="action-text">List</span>
+            </a>
+
+            <a title="Edit Admin Content"
+                class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Edit", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                <i class="fa fa-edit"></i>
+                <span class="action-text">Edit</span>
+            </a>
+
+            <a title="Remove Admin Content"
+                class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Delete", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                <i class="fa fa-trash"></i>
+                <span class="action-text">Delete</span>
+            </a>
+
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            <hr />
+        </div>
+        
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+            <h4 class="card-subtitle all-caps">
+
+                Post Pictures
+
+            </h4>
+
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12" id="imageEditPanelContainer">
+            @{
+                foreach ( var postFile in Model.ListAdminPostFileImages.ToList( ) )
+                {
+                    @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_ViewImage.cshtml", postFile )
+                }
+            }
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+            <h4 class="card-subtitle all-caps">
+
+                Post Information
+
+            </h4>
+
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.DisplayPostType) 
+            <br />
+            @Html.DisplayFor(a => a.DisplayPostType, new { @class = "fff" })
+        </div>
+
+        
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.PosterName)
+            <br />
+            @Html.DisplayFor(a => a.PosterName, new { htmlAttributes = new { @class = "fff" } })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.PostTitle)
+            <br />
+            @Html.DisplayFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.WebsiteUrl)
+            <br />
+            @Html.DisplayFor(a => a.WebsiteUrl, new { htmlAttributes = new { @class = "fff" } })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.ShortNote)
+            <br />
+            @Html.DisplayFor(a => a.ShortNote, new { htmlAttributes = new { @class = "fff" } })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor(a => a.SearchTag)
+            <br />
+            @Html.DisplayFor(a => a.SearchTag, new { htmlAttributes = new { @class = "fff" } })
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+    </div>
+
+</div>

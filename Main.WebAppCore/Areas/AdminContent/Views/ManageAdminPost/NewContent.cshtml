@@ -7,19 +7,21 @@
 }
 
 <div id="newAdminPostMainView" class="container">
-    @await Html.PartialAsync("~/Areas/AdminContent/Views/ManageAdminPost/_NewAdminContent.cshtml", Model)
+    @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_NewContent.cshtml",Model )
 </div>
 
 @section scriptsapp {
 
-@await Html.PartialAsync("~/Views/Shared/_ValidationScriptsPartial.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/_ValidationScriptsPartial.cshtml")
 
 <script>
 
     var PAGE_NAME = '@Model.PageName';
 
     var imageLoadURL = '@Url.Action("ImageLoad", "ManageAdminPost")';
+
     var imageUploadURL = '@Url.Action("ImageUpload", "ManageAdminPost")';
+
     var removeImageShortContentURL = '@Url.Action("ImageRemove", "ManageAdminPost")?id=';
 
     var notify = $.notify;
@@ -62,7 +64,6 @@
 
         $("#myMainForm").valid();
 
-
         $('#btnUpload').click(function () {
 
             var fileElement = $('#fileInput')[0];
@@ -98,34 +99,30 @@
             e.preventDefault(); 
 
             const form = e.target;
-            //const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
             const formData = new FormData(form);
              
             fetch(form.action, 
             {
                 method: 'POST',
-                // headers: {
-                //     'RequestVerificationToken': token 
-                // },
                 body: formData
             })
             .then(response => {
             
                 return response.json().then(data => {
               
-                          console.log("Status Code:", response.status);
-                          console.log("JSON Data:", data);
+                    console.log("Status Code:", response.status);
+                    console.log("JSON Data:", data);
       
-                          if (response.status === 200)
-                          {
-                              window.location.href = data.urlGo;
-                          }
-                          else if (response.status === 400)
-                          {
-                              return;
-                          }
-                          return;
-                    });
+                    if (response.status === 200)
+                    {
+                        window.location.href = data.urlGo;
+                    }
+                    else if (response.status === 400)
+                    {
+                        return;
+                    }
+                    return;
+                });
 
             })
             .catch(error => {

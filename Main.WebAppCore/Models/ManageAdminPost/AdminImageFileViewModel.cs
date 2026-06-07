@@ -1,6 +1,6 @@
 ﻿namespace WebAppCore.ViewModel;
 
-public class AdminImageFileViewModel : BaseViewModel
+public class AdminImageFileViewModel
 {
     public AdminImageFileViewModel()
     {

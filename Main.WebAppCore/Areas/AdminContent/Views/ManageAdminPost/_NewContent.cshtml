@@ -16,11 +16,11 @@
 
             </div>
 
-            <div class="gap"></div>
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <form id="myMainForm" 
-                  action="@Url.Action( "SaveNewAdminContent","ManageAdminPost" )"
+                  action="@Url.Action( "SaveContent","ManageAdminPost" )"
                   method="POST">
        
                 @Html.AntiForgeryToken()
@@ -30,13 +30,7 @@
                     <h4 class="card-subtitle all-caps">Post Information</h4>
                 </div>
 
-                <div class="gap"></div>
-
-                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-                    @Html.LabelFor( a => a.PostTypeID )
-                    @Html.DropDownListFor(a => a.PostTypeID, Model.AV_PostType, new { @class = "fff" })
-                    @Html.ValidationMessageFor(m => m.PostTypeID, "", new { @class = "text-danger" })
-                </div>
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.PosterName )
@@ -44,11 +38,6 @@
                     @Html.ValidationMessageFor(m => m.PosterName, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-                    @Html.LabelFor( a => a.PostTitle )
-                    @Html.EditorFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
-                    @Html.ValidationMessageFor(m => m.PostTitle, "", new { @class = "text-danger" })    
-                </div>
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.PosterContactNumber )
@@ -56,10 +45,30 @@
                     @Html.ValidationMessageFor(m => m.PosterContactNumber, "", new { @class = "text-danger" })
                 </div>
 
+
+
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                    @Html.LabelFor( a => a.PostType )
+                    @Html.DropDownListFor(a => a.PostType, Model.AV_PostType, new { @class = "fff" })
+                    @Html.ValidationMessageFor(m => m.PostType, "", new { @class = "text-danger" })
+                </div>
+
+                
+
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                    @Html.LabelFor( a => a.PostTitle )
+                    @Html.EditorFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.ValidationMessageFor(m => m.PostTitle, "", new { @class = "text-danger" })    
+                </div>
+
+
+                
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.WebsiteUrl )
                     @Html.EditorFor(a => a.WebsiteUrl, new { htmlAttributes = new { @class = "fff" } })
+     
                 </div>
+
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.ShortNote )
@@ -67,18 +76,21 @@
                     @Html.ValidationMessageFor(m => m.ShortNote, "", new { @class = "text-danger" })
                 </div>
 
+
+
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.SearchTag )
                     @Html.TextAreaFor(a => a.SearchTag, new { @class = "fff" })
                     @Html.ValidationMessageFor(m => m.ShortNote, "", new { @class = "text-danger" })
                 </div>
+
             </form>
 
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                 <h4 class="card-subtitle all-caps">Post Pictures</h4>
             </div>
 
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <div class="upload-container image-field col-sm-12 col-md-12 col-xs-12 col-lg-12">
                 <input type="file" id="fileInput" class="light-button btn-sm" name="myFile" />
@@ -88,7 +100,7 @@
             <div id="imagePanelContainer" class="image-field col-sm-12 col-md-12 col-xs-12 col-lg-12">
             </div>
 
-            <div class="gap"></div>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                 <button id="btnSubmit"
@@ -98,6 +110,8 @@
                     @SharedLocalizer["NewPostButtonSUBMITAD"]
                 </button>
             </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         </div>
 
