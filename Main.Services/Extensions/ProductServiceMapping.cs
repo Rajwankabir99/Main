@@ -144,10 +144,10 @@ public static class ProductServiceMapping
         {
             ProductID = productEntity.ProductID,
             ProductName = productEntity.ProductName,
-            Discount = productEntity.Discount,
-            SaleCommission = productEntity.SaleCommission,
+            Discount = productEntity.Discount.HasValue ? productEntity.Discount.Value : 0,
+            SaleCommission = productEntity.SaleCommission.HasValue ? productEntity.SaleCommission.Value : 0,
             SearchTag = productEntity.SearchTag,
-            PostType = (EnumPostType)productEntity.PostType,
+            PostType = (EnumPostType) productEntity.PostType,
             Description = productEntity.Description,
             CategoryID = productEntity.CategoryID,
             SubCategoryID = productEntity.SubCategoryID,

@@ -50,12 +50,12 @@ public class ProductViewModel : BaseViewModel
 
     [Display(Name = "Discount")]
     [DataType ( DataType.Currency )]
-    public decimal? Discount { get; set; }
+    public decimal Discount { get; set; }
 
 
     [Display(Name = "Sales Commission")]
     [DataType ( DataType.Currency )]
-    public decimal? SaleCommission { get; set; }
+    public decimal SaleCommission { get; set; }
 
 
     public bool? IsBrandNew { get; set; }

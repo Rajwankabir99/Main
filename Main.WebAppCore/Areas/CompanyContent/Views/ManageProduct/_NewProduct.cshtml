@@ -45,28 +45,27 @@
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.CategoryID )
                     @Html.DropDownListFor(a => a.CategoryID, Model.AV_Category, new { @class = "fff" })
-                    @Html.ValidationMessageFor(m => m.CategoryID, "", new { @class = "text-danger custom-inline-field-error" })
+                    @Html.ValidationMessageFor(m => m.CategoryID, "", new { @class = "text-danger" })
                 </div>
 
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.SubCategoryID )
-                    @Html.EditorFor(a => a.SubCategoryID, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.DropDownListFor(a => a.SubCategoryID, Model.AV_SubCategory, new { @class = "fff" })
                     @Html.ValidationMessageFor(m => m.SubCategoryID, "", new { @class = "text-danger" })
                 </div>
 
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.ProductName )
-                    @Html.EditorFor(a => a.ProductName, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.EditorFor(a => a.ProductName, new { @class = "fff" } )
                     @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-danger" })
                 </div>
 
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.Description )
-                    @Html.TextAreaFor(a => a.Description, new { htmlAttributes = new { @class = "fff" } })
-                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    @Html.TextAreaFor(a => a.Description, new { @class = "fff" } )
                 </div>
 
 
@@ -93,18 +92,20 @@
 
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.UnitPrice )
-                    @Html.EditorFor(a => a.UnitPrice, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.EditorFor(a => a.UnitPrice, new  { @class = "fff" } )
                     @Html.ValidationMessageFor(m => m.UnitPrice, "", new { @class = "text-danger" })
                 </div>
 
                  <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.Discount )
-                    @Html.EditorFor(a => a.Discount, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.EditorFor(a => a.Discount,  new { @class = "fff" } )
+                    @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger" })
                 </div>
 
                  <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                     @Html.LabelFor( a => a.SaleCommission )
-                    @Html.EditorFor(a => a.SaleCommission, new { htmlAttributes = new { @class = "fff" } })
+                    @Html.EditorFor(a => a.SaleCommission, new { @class = "fff" })
+                    @Html.ValidationMessageFor(m => m.SaleCommission, "", new { @class = "text-danger" })
                 </div>
 
             </form>
