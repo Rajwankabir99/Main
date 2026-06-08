@@ -95,6 +95,9 @@ public static class ProductServiceMapping
 
     public static ProductDataModel MapSingelProductDataModel ( Product productEntity )
     {
+        if( productEntity == null )
+            return new ProductDataModel ();
+
         List<ProductFileDataModel> listProductFilesDataModel =
             new List<ProductFileDataModel>();
 
@@ -102,18 +105,14 @@ public static class ProductServiceMapping
             && productEntity.ListImageFiles.Count > 0 )
         {
 
-            productEntity.ListImageFiles
-                .ToList ( )
-                .ForEach (
-                fileEntity =>
+            productEntity.ListImageFiles.ToList ( ).ForEach ( fileEntity =>
                 {
-                    ProductFileDataModel fileDataModel
-                = new ProductFileDataModel()
-                {
-                    ProductImageFileID = fileEntity.ProductImageFileID,
-                    ImageFileContent = fileEntity.ImageFileContent,
-                    ProductID = fileEntity.ProductID
-                };
+                    ProductFileDataModel fileDataModel = new ProductFileDataModel()
+                    {
+                        ProductImageFileID = fileEntity.ProductImageFileID,
+                        ImageFileContent = fileEntity.ImageFileContent,
+                        ProductID = fileEntity.ProductID
+                    };
 
                     listProductFilesDataModel.Add ( fileDataModel );
 
@@ -127,21 +126,18 @@ public static class ProductServiceMapping
              && productEntity.ListComments.Count > 0 )
         {
 
-            productEntity.ListComments
-                .ToList ( )
-                .ForEach ( commentEntity =>
-                {
-                    ProductCommentDataModel objCommentDataModel
-                = new ProductCommentDataModel()
+            productEntity.ListComments.ToList ( ).ForEach ( commentEntity =>
+            {
+                ProductCommentDataModel objCommentDataModel = new ProductCommentDataModel()
                 {
                     ProductCommentID = commentEntity.ProductCommentID,
                     Comment = commentEntity.Comment,
                     ProductID = commentEntity.ProductID
                 };
 
-                    listCommentsDataModel.Add ( objCommentDataModel );
+                listCommentsDataModel.Add ( objCommentDataModel );
 
-                } );
+            } );
         }
 
         ProductDataModel productDataModel = new ProductDataModel()

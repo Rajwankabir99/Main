@@ -161,9 +161,12 @@ public partial class BaseController
         }
         else
         {
-            int currentId = listImageFile.Any() ? listImageFile.Last ( ).FileID : 0;
+            listImageFile = listImageFile.OrderBy( a => a.FileID ).ToList();
+            int currentId = listImageFile.Last ( ).FileID;
+            currentId += 1;
 
-            imageFile.FileID += currentId;
+            imageFile.FileID = currentId;
+
             listImageFile.Add( imageFile );
 
             SessionExtensions.SetObject<List<ImageFile>>

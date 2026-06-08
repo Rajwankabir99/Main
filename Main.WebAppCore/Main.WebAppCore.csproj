@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Compile Remove="Area.Data\**" />
-    <Compile Remove="Areas\CompanyContent\**" />
     <Compile Remove="Areas\Identity\**" />
     <Compile Remove="Areas\PageContent\**" />
     <Compile Remove="Service\**" />
@@ -30,7 +29,6 @@
     <Compile Remove="Views\Shared\HomeSpecialDayBanner\**" />
     <Compile Remove="Views\Shared\ProductTemplates\**" />
     <Content Remove="Area.Data\**" />
-    <Content Remove="Areas\CompanyContent\**" />
     <Content Remove="Areas\Identity\**" />
     <Content Remove="Areas\PageContent\**" />
     <Content Remove="Service\**" />
@@ -41,7 +39,6 @@
     <Content Remove="Views\Shared\HomeSpecialDayBanner\**" />
     <Content Remove="Views\Shared\ProductTemplates\**" />
     <EmbeddedResource Remove="Area.Data\**" />
-    <EmbeddedResource Remove="Areas\CompanyContent\**" />
     <EmbeddedResource Remove="Areas\Identity\**" />
     <EmbeddedResource Remove="Areas\PageContent\**" />
     <EmbeddedResource Remove="Service\**" />
@@ -52,7 +49,6 @@
     <EmbeddedResource Remove="Views\Shared\HomeSpecialDayBanner\**" />
     <EmbeddedResource Remove="Views\Shared\ProductTemplates\**" />
     <None Remove="Area.Data\**" />
-    <None Remove="Areas\CompanyContent\**" />
     <None Remove="Areas\Identity\**" />
     <None Remove="Areas\PageContent\**" />
     <None Remove="Service\**" />
@@ -126,8 +122,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Area.Product\" />
-    <Folder Include="Models\Area.Page\" />
+    <Folder Include="Models\Page\" />
   </ItemGroup>
 
 </Project>

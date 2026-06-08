@@ -245,7 +245,10 @@ public class ManageAdminPostController : BaseController
                             var resut = stream.ReadAsync(imgByte);
 
                             ImageFile objFile = new ImageFile ()
-                            { FileContent = imgByte, IsNew = true };
+                            { 
+                                FileContent = imgByte, 
+                                IsNew = true 
+                            };
                             
                             SetSessionImageFile(objFile);
                         }

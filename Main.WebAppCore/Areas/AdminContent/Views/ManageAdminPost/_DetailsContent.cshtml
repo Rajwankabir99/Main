@@ -19,21 +19,21 @@
 
         <div data-label="Action" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
 
-            <a title="List Admin Content"
+            <a title="List of Contents"
                     class="icon-button btn-lg flex link-dark"
                     href="@Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" })">
                 <i class="fa fa-list"></i>
                 <span class="action-text">List</span>
             </a>
 
-            <a title="Edit Admin Content"
+            <a title="Edit Content"
                 class="icon-button btn-lg flex link-dark"
                     href="@Url.Action("Edit", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
                 <i class="fa fa-edit"></i>
                 <span class="action-text">Edit</span>
             </a>
 
-            <a title="Remove Admin Content"
+            <a title="Remove Content"
                 class="icon-button btn-lg flex link-dark"
                     href="@Url.Action("Delete", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
                 <i class="fa fa-trash"></i>
@@ -47,13 +47,12 @@
         </div>
         
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
-        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
             <h4 class="card-subtitle all-caps">
 
-                Post Pictures
+                Pictures
 
             </h4>
 
@@ -71,13 +70,12 @@
         </div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
-        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
             <h4 class="card-subtitle all-caps">
 
-                Post Information
+                Content Information
 
             </h4>
 
@@ -126,6 +124,37 @@
             @Html.DisplayFor(a => a.SearchTag, new { htmlAttributes = new { @class = "fff" } })
         </div>
 
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            <hr />
+        </div>
+
+        <div data-label="Action" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
+
+            <a title="List of Contents"
+                    class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" })">
+                <i class="fa fa-list"></i>
+                <span class="action-text">List</span>
+            </a>
+
+            <a title="Edit Content"
+                class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Edit", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                <i class="fa fa-edit"></i>
+                <span class="action-text">Edit</span>
+            </a>
+
+            <a title="Remove Content"
+                class="icon-button btn-lg flex link-dark"
+                    href="@Url.Action("Delete", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                <i class="fa fa-trash"></i>
+                <span class="action-text">Delete</span>
+            </a>
+
+        </div>
+        
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
     </div>

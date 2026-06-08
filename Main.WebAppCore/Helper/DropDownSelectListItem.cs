@@ -199,6 +199,27 @@ public class SelectListItemDropDown
         return GetSelectList(listSubCat, "");
     }
 
+    [ResponseCache ( CacheProfileName = "Cache30Mins" )]
+    public static IEnumerable<SelectListItem> GetSubCategories ( EnumCategoryFor categoryFor, int categoryId )
+    {
+        var listSubCat = new List<ParentChildVriableModel>();
+
+        if ( categoryFor == EnumCategoryFor.FineArts )
+        {
+            listSubCat = BusinessSeedFineArts
+                            .GetSubCategoryList ( );
+        }
+        else if ( categoryFor == EnumCategoryFor.LifeStyles )
+        {
+            listSubCat = BusinessSeedLifeStyle
+                            .GetSubCategoryList ( );
+        }
+
+        listSubCat =  listSubCat.Where<ParentChildVriableModel> ( a => a.ParentValueID == categoryId ).ToList();
+
+        return GetSelectList ( listSubCat, "" );
+    }
+
 
     [ResponseCache(CacheProfileName = "Cache1dayServerNBrowser")]
     public static IEnumerable<SelectListItem> GetDeviceTypeList()
@@ -351,5 +372,32 @@ public class SelectListItemDropDown
         }
 
         return new List<SelectListItem> ( );
+    }
+
+    public static string GetCategoryText ( 
+        EnumCategoryFor categoryFor,
+        int id )
+    {
+        List<SelectListItem> ctegoryItems = GetCategoryList ( ( EnumCategoryFor ) categoryFor ).ToList();
+
+        SelectListItem? category = ctegoryItems.FirstOrDefault ( a => a.Value == id.ToString().Trim() );
+        
+        string text = category != null ? category.Text : "";
+
+        return text;
+    }
+
+
+    public static string GetSubCategoryText (
+        EnumCategoryFor categoryFor,
+        int id )
+    {
+        List<SelectListItem> subCtegoryItems = GetSubCategoryList ( ( EnumCategoryFor ) categoryFor ).ToList();
+
+        SelectListItem? subCategory = subCtegoryItems.FirstOrDefault ( a => a.Value == id.ToString().Trim() );
+
+        string text = subCategory != null ? subCategory.Text : "";
+
+        return text;
     }
 }

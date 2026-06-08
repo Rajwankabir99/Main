@@ -1,16 +1,11 @@
-﻿@using Common;
-@using FineArtsWebApp;
-@model ProductFileViewModel;
-@using Microsoft.AspNetCore.Mvc.Localization;
-@using Microsoft.Extensions.Localization;
-@inject IStringLocalizer<SharedResource> SharedLocalizer
+﻿@model ImageFile
 
 <div class="image-content">
     <div title="Product Image">
         <a class="thumbnail">
-            @if (Model != null && Model.ImageFileContent != null && Model.ImageFileContent.Length > 1)
+            @if (Model != null && Model.FileContent != null && Model.FileContent.Length > 1)
             {
-                string imageBase64 = Convert.ToBase64String(Model.ImageFileContent);
+                string imageBase64 = Convert.ToBase64String(Model.FileContent);
                 string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
                 <img src="@imageSrc"
                      class="img-responsive new-post-mobile-image"
@@ -29,9 +24,18 @@
             }
         </a>
     </div>
-    <button type="button" class="light-button btn-remove-image" data-id="@Model.ProductImageFileID" data-postId="@Model.ProductID">
+
+    @{
+        int postId = Model?.PostID ?? 0;
+        int fileId = Model?.FileID ?? 0;
+    }
+
+    <button type="button"
+            class="light-button btn-remove-image"
+            data-id="@fileId"
+            data-postid="@postId">
         REMOVE
-    </button>    
+    </button>
 </div>
 
 
