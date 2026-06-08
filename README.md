@@ -13,6 +13,27 @@ We as a vendor or provider; we will provide the domain and hosting for the shop 
 
 Based on the request of the shop, we will make enhancements or changes. For a new feature or change, the shop needs to pay for the change. In short, this is a very small size CMS for small busines[...]
 
+# Manage Content:
+Here in this shop example, we are considering content (image, link, short note, YouTube link) which are not the shop owner's products to sell. These are to advertise or give message to the visitors about a business or advertisements. These are for giving ads for a third-party company or businesses or for self. The purpose of such contents is to show images or ads with links to go to the actual website link or open a YouTube video.
+
+### Admin User: He/she can add, update and delete a content and see the list of contents for the shop; he is the Admin.
+
+### A Content has few fields:
+
+1. Poster Name
+1. Poster Contact Number
+1. Post Title
+1. Type of Post: (Ad Space, Short Note, YouTube Video)
+1. Website: The link of the advertainment (company) or YouTube link
+1. Search Tag 
+1. Images (any number)
+
+***
+### Use of these Contents
+When you will configure the Pages of the website, you can select template for the panel (a row in a page) to select from the (Ad Space, Short Note, YouTube Video) contents. This module will setup the contents to use in the pages. Templates are designed for these contents. These templates only from show advertisement with or with a link to go navigate to the ad website or video.
+
+Remember that there are other templates for Products (shop owners) which includes the add to cart button.
+
 
 # Solution Design & Best Practices (.Net 8.0)
 
