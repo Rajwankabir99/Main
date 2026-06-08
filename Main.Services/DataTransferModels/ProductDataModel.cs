@@ -22,9 +22,9 @@ public class ProductDataModel : DataModel
 
     public decimal UnitPrice { get; set; }
 
-    public decimal? Discount { get; set; }
+    public decimal Discount { get; set; }
 
-    public decimal? SaleCommission { get; set; }
+    public decimal SaleCommission { get; set; }
 
     public bool? IsBrandNew { get; set; }
 
@@ -34,9 +34,9 @@ public class ProductDataModel : DataModel
 
     public int UserID { get; set; } 
 
-    public string? CategoryText { get; set; }
+    public string CategoryText { get; set; }
 
-    public string? SubCategoryText { get; set; }
+    public string SubCategoryText { get; set; }
 
     public List<ProductFileDataModel> ImageFiles { get; set; } = new List<ProductFileDataModel>();
 

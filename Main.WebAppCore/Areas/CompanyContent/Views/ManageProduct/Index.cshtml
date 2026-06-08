@@ -1,98 +1,98 @@
-﻿@using FineArtsWebApp;
-@model ManageProductViewModel
-@using Microsoft.AspNetCore.Mvc.Localization;
-@using Microsoft.Extensions.Localization;
-@inject IStringLocalizer<SharedResource> SharedLocalizer
+﻿@model List<ProductDisplayViewModel>
 
 @{
     ViewData["Title"] = "Manage Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.ExcludeHeader = true;
-    var taka = " Taka";
 }
 
-<div id="manageProductDesktop" class="container">
+<div id="manageAdminPostDesktop" class="container">
 
     <div class="card-form">
 
-        <h4 class="card-title">MANAGE PRODUCTS</h4>
-       
+        <h4 class="card-title">MANAGE YOUR PRODUCTS</h4>
 
-    <div class="gap"></div>
-    <div class="gap"></div>
+        <div class="gap"></div>
 
-    <table class="table">
+        <div class="gap"></div>
 
-        <thead>
-
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ListProduct[0].CategoryID)
-                </th>                    
-                <th>
-                    @Html.DisplayNameFor(model => model.ListProduct[0].SubCategoryID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ListProduct[0].ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ListProduct[0].UnitPrice)
-                </th>
-           
-                <th></th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @{
-                foreach (var item in Model.ListProduct.ToList()) {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryText)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SubCategoryText)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UnitPrice) @taka
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor( model => model[0].DisplayCategory )
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor( model => model[0].DisplaySubCategory )
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].ProductName)
+                    </th>
+                   
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].UnitPrice)
+                    </th>
            
-                    <td data-label="Action">
-
-                        <a title="View Admin Content"
-                                class="icon-button flex"
-                                href="@Url.Action("Details", "ManageProduct", new { id = item.ProductID })">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <a title="Edit Admin Content"
-                                class="icon-button flex"
-                                href="@Url.Action("Edit", "ManageProduct", new { id = item.ProductID })">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        <a title="Remove Admin Content"
-                                class="icon-button flex"
-                                href="@Url.Action("Delete", "ManageProduct", new { id = item.ProductID })">
-                            <i class="fa fa-trash"></i>
-                        </a>
-
-                    </td>
+                    <th></th>
                 </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.ToList()) {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor( modelItem => item.DisplayCategory )
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor( modelItem => item.DisplaySubCategory )
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnitPrice)
+                        </td>
+           
+                        <td data-label="Action">
+
+                            <a title="View Admin Content"
+                                    class="icon-button flex"
+                                    href="@Url.Action("Details", "ManageProduct", new { Area = "CompanyContent", id = item.ProductID })">
+                                <i class="fa fa-eye"></i>
+                            </a>
+
+                            <a title="Edit Admin Content"
+                                    class="icon-button flex"
+                                    href="@Url.Action("Edit", "ManageProduct", new { Area = "CompanyContent", id = item.ProductID })">
+                                <i class="fa fa-edit"></i>
+                            </a>
+
+                            <a title="Remove Admin Content"
+                                    class="icon-button flex"
+                                    href="@Url.Action("Delete", "ManageProduct", new { Area = "CompanyContent", id = item.ProductID })">
+                                <i class="fa fa-trash"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
                 }
-           }
+            </tbody>
 
-        </tbody>
+        </table>
 
-    </table>
- </div>
+    </div>
+
 </div>
 
 @section scriptsapp {
-    <script type="text/javascript">
-        PAGE_NAME = '@Model.PageName';
-    </script>
+
 }
+

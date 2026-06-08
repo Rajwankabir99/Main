@@ -2,45 +2,99 @@
 using Domain.Model;
 using Main.Common.Enums;
 
+using WebAppCore.Helper;
+
 namespace WebAppCore.ViewModel.Extensions;
 
 public static class ProductMapping
 {
-    public static Product NewProductEntity (ProductDataModel productDM)
+    public static ProductDataModel NewProductDataModel (ProductViewModel productViewModel)
     {
-        return new Product( )
+        return new ProductDataModel( )
         {
-            ProductName = productDM.ProductName,
-            SearchTag = productDM.SearchTag,
-            Price = productDM.UnitPrice,
-            Discount = productDM.Discount,
-            SaleCommission = productDM.SaleCommission,
-            CategoryID = productDM.CategoryID,
-            SubCategoryID = productDM.SubCategoryID,
-            Description = productDM.Description,
-            PostType = EnumPostType.Product
+            ProductName = productViewModel.ProductName,
+            SearchTag = productViewModel.SearchTag,
+            UnitPrice = productViewModel.UnitPrice,
+            Discount = productViewModel.Discount,
+            SaleCommission = productViewModel.SaleCommission,
+            CategoryID = productViewModel.CategoryID,
+            SubCategoryID = productViewModel.SubCategoryID,
+            Description = productViewModel.Description,
+            PostType = EnumPostType.Product,
+            ProductID = 0
         };
     }
 
-    public static void MapProductDataModel(Product postEntity, ProductDataModel productDataModel)
+    public static ProductViewModel MapProductViewModel ( ProductDataModel productDataModel )
     {
-        productDataModel.ProductID = postEntity.ProductID;
-        productDataModel.CategoryID = postEntity.CategoryID;
-        productDataModel.SubCategoryID = postEntity.SubCategoryID;  
-        productDataModel.ProductName = postEntity.ProductName;
-        productDataModel.UnitPrice = postEntity.Price;
-        productDataModel.Discount = postEntity.Discount;
+        ProductViewModel productViewModel = new ProductViewModel();
+
+        productViewModel.ProductID = productDataModel.ProductID;
+        productViewModel.CategoryID = productDataModel.CategoryID;
+        productViewModel.SubCategoryID = productDataModel.SubCategoryID;  
+        productViewModel.ProductName = productDataModel.ProductName;
+        productViewModel.UnitPrice = productDataModel.UnitPrice;
+        productViewModel.Discount = productDataModel.Discount;
+        productViewModel.SaleCommission = productDataModel.SaleCommission;
+        productViewModel.Description = productDataModel.Description;
+
+        List <ImageFile> imageFiles = new List<ImageFile>();
+        ImageFile imageFile;
+
+        productDataModel.ImageFiles.ForEach ( file =>
+        {
+            imageFile = new ImageFile (file.ImageFileContent, file.ProductID, file.ProductImageFileID);
+            imageFiles.Add(imageFile);
+        } );
+
+        productViewModel.ImageFiles = imageFiles;
+
+        return  productViewModel;
+
     }
 
-    public static List<ProductImageFile> MapProductFileEntity(ProductDataModel productFileDM)
+    public static ProductDataModel MapProductDataModel ( ProductViewModel productViewModel )
     {
-        List<ProductImageFile> objListFileEntity = new List<ProductImageFile>();
-
-        productFileDM.ImageFiles.ForEach(fileDM =>
+        if ( productViewModel == null )
         {
-            objListFileEntity.Add(new ProductImageFile( fileDM.ImageFileContent ));
-        });
+            return new ProductDataModel ( );
+        }
 
-        return objListFileEntity;
+        ProductDataModel productDataModel = new ProductDataModel();
+
+        productDataModel.ProductID = productViewModel.ProductID;
+        productDataModel.CategoryID = productViewModel.CategoryID;
+        productDataModel.SubCategoryID = productViewModel.SubCategoryID;
+        productDataModel.ProductName = productViewModel.ProductName;
+        productDataModel.UnitPrice = productViewModel.UnitPrice;
+        productDataModel.Discount = productViewModel.Discount;
+        productDataModel.SaleCommission = productViewModel.SaleCommission;
+        productDataModel.Description = productViewModel.Description;
+        productDataModel.PostType = EnumPostType.Product;
+
+        return productDataModel;
+    }
+
+    public static List<ProductDisplayViewModel> MapDisplayProductViewModel ( List<ProductDisplayModel> productDataModels, EnumCategoryFor enumCategoryFor )
+    {
+        List<ProductDisplayViewModel> dispayProductViewModels = new List<ProductDisplayViewModel>();
+
+        ProductDisplayViewModel productDisplayViewModel;
+
+        productDataModels.ForEach( model =>
+        {
+            productDisplayViewModel = new ProductDisplayViewModel ( )
+            {
+                ProductID = model.ProductID,
+                DisplayCategory = SelectListItemDropDown.GetCategoryText ( enumCategoryFor,model.CategoryID ),
+                ProductName = model.ProductName,
+                DisplaySubCategory = SelectListItemDropDown.GetSubCategoryText ( enumCategoryFor,model.SubCategoryID )  ,
+                UnitPrice = model.UnitPrice
+            };
+
+            dispayProductViewModels.Add( productDisplayViewModel );
+        } );
+
+        return dispayProductViewModels.ToList();
     }
 }

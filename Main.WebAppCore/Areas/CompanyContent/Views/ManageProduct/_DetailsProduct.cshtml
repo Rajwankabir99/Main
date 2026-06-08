@@ -1,4 +1,4 @@
-﻿@model AdminPostViewModel
+﻿@model ProductViewModel
 
 <div id="detailsAdminPostContainerPartial" class="card-form row">
 
@@ -8,7 +8,7 @@
 
             <h4 class="card-title all-caps">
 
-                DETAILES OF THE POST
+                PRODUCT INFORMATION
 
             </h4>
 
@@ -19,23 +19,23 @@
 
         <div data-label="Action" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
 
-            <a title="List of Contents"
+            <a title="List Products"
                     class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" })">
+                    href="@Url.Action("Index", "ManageProduct", new { Area = "CompanyContent" })">
                 <i class="fa fa-list"></i>
                 <span class="action-text">List</span>
             </a>
 
-            <a title="Edit Content"
+            <a title="Edit Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Edit", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                    href="@Url.Action("Edit", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-edit"></i>
                 <span class="action-text">Edit</span>
             </a>
 
-            <a title="Remove Content"
+            <a title="Remove Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Delete", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                    href="@Url.Action("Delete", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-trash"></i>
                 <span class="action-text">Delete</span>
             </a>
@@ -62,20 +62,20 @@
 
         <div class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12" id="imageEditPanelContainer">
             @{
-                foreach ( var postFile in Model.ListAdminPostFileImages.ToList( ) )
+                foreach ( var postFile in Model.ImageFiles.ToList( ) )
                 {
-                    @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_ViewImage.cshtml", postFile )
+                    @await Html.PartialAsync( "~/Areas/CompanyContent/Views/ManageProduct/_ViewImage.cshtml",postFile )
                 }
             }
         </div>
-
+        
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
             <h4 class="card-subtitle all-caps">
 
-                Content Information
+                Product Information
 
             </h4>
 
@@ -84,42 +84,35 @@
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.DisplayPostType) 
+            @Html.LabelFor( a => a.CategoryText )
             <br />
-            @Html.DisplayFor(a => a.DisplayPostType, new { @class = "fff" })
+            @Html.DisplayFor(a => a.CategoryText, new { @class = "fff" })
         </div>
 
         
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.PosterName)
+            @Html.LabelFor( a => a.SubCategoryText )
             <br />
-            @Html.DisplayFor(a => a.PosterName, new { htmlAttributes = new { @class = "fff" } })
+            @Html.DisplayFor(a => a.SubCategoryText, new { htmlAttributes = new { @class = "fff" } })
         </div>
 
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.PostTitle)
+            @Html.LabelFor( a => a.ProductName )
             <br />
-            @Html.DisplayFor(a => a.PostTitle, new { htmlAttributes = new { @class = "fff" } })
+            @Html.DisplayFor(a => a.ProductName, new { htmlAttributes = new { @class = "fff" } })
         </div>
 
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.WebsiteUrl)
+            @Html.LabelFor( a => a.Description )
             <br />
-            @Html.DisplayFor(a => a.WebsiteUrl, new { htmlAttributes = new { @class = "fff" } })
+            @Html.DisplayFor(a => a.Description, new { htmlAttributes = new { @class = "fff" } })
         </div>
 
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.ShortNote)
-            <br />
-            @Html.DisplayFor(a => a.ShortNote, new { htmlAttributes = new { @class = "fff" } })
-        </div>
-
-
-        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            @Html.LabelFor(a => a.SearchTag)
+            @Html.LabelFor( a => a.SearchTag )
             <br />
             @Html.DisplayFor(a => a.SearchTag, new { htmlAttributes = new { @class = "fff" } })
         </div>
@@ -127,36 +120,75 @@
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            <hr />
+
+            <h4 class="card-subtitle all-caps">
+
+                Price Information
+
+            </h4>
+
         </div>
 
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor( a => a.UnitPrice )
+            <br />
+            @Html.DisplayFor(a => a.UnitPrice, new { @class = "fff" })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor( a => a.Discount )
+            <br />
+            @Html.DisplayFor(a => a.Discount, new { @class = "fff" })
+        </div>
+
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            @Html.LabelFor( a => a.SaleCommission )
+            <br />
+            @Html.DisplayFor(a => a.SaleCommission, new { @class = "fff" })
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
+
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            <hr />
+        </div>
+        
         <div data-label="Action" class="image-field col-md-12 col-xs-12 col-sm-12 col-lg-12">
 
-            <a title="List of Contents"
+            <a title="List Products"
                     class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" })">
+                    href="@Url.Action("Index", "ManageProduct", new { Area = "CompanyContent" })">
                 <i class="fa fa-list"></i>
                 <span class="action-text">List</span>
             </a>
 
-            <a title="Edit Content"
+            <a title="Edit Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Edit", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                    href="@Url.Action("Edit", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-edit"></i>
                 <span class="action-text">Edit</span>
             </a>
 
-            <a title="Remove Content"
+            <a title="Remove Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Delete", "ManageAdminPost", new { Area = "AdminContent", id = Model.AdminPostID })">
+                    href="@Url.Action("Delete", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-trash"></i>
                 <span class="action-text">Delete</span>
             </a>
 
         </div>
-        
+
         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 gap"></div>
 
     </div>
 
 </div>
+
+
+
+

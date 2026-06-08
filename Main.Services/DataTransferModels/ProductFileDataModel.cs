@@ -1,8 +1,18 @@
-﻿namespace DataTransferModel;
+﻿using Main.Common.Model;
 
-public class ProductFileDataModel
+namespace DataTransferModel;
+
+public class ProductFileDataModel : DataModel
 {
-    public ProductFileDataModel() { }
+    public ProductFileDataModel() {
+        BaseDataModel = new BaseDataModel ( );
+    }
+
+    public ProductFileDataModel ( BaseDataModel baseDataModel )
+    {
+        BaseDataModel = new BaseDataModel ( );
+        BaseDataModel = baseDataModel;
+    }
 
     public int ProductImageFileID { get; set; }
 

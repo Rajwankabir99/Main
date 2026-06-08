@@ -85,9 +85,13 @@ public static class ProductServiceMapping
         List<ProductImageFile> listProductFileEntity
             = new List<ProductImageFile>();
 
+        ProductImageFile productImageFile;
         productDataModel.ImageFiles.ForEach ( fileDataModel =>
         {
-            listProductFileEntity.Add ( new ProductImageFile ( fileDataModel.ImageFileContent ) );
+            productImageFile = new ProductImageFile ( fileDataModel.ImageFileContent );
+            productImageFile.ProductID = fileDataModel.ProductID;
+            productImageFile.CreateBaseData ( fileDataModel.BaseDataModel );
+            listProductFileEntity.Add ( productImageFile );
         } );
 
         return listProductFileEntity;
@@ -95,6 +99,9 @@ public static class ProductServiceMapping
 
     public static ProductDataModel MapSingelProductDataModel ( Product productEntity )
     {
+        if( productEntity == null )
+            return new ProductDataModel ();
+
         List<ProductFileDataModel> listProductFilesDataModel =
             new List<ProductFileDataModel>();
 
@@ -102,18 +109,14 @@ public static class ProductServiceMapping
             && productEntity.ListImageFiles.Count > 0 )
         {
 
-            productEntity.ListImageFiles
-                .ToList ( )
-                .ForEach (
-                fileEntity =>
+            productEntity.ListImageFiles.ToList ( ).ForEach ( fileEntity =>
                 {
-                    ProductFileDataModel fileDataModel
-                = new ProductFileDataModel()
-                {
-                    ProductImageFileID = fileEntity.ProductImageFileID,
-                    ImageFileContent = fileEntity.ImageFileContent,
-                    ProductID = fileEntity.ProductID
-                };
+                    ProductFileDataModel fileDataModel = new ProductFileDataModel()
+                    {
+                        ProductImageFileID = fileEntity.ProductImageFileID,
+                        ImageFileContent = fileEntity.ImageFileContent,
+                        ProductID = fileEntity.ProductID
+                    };
 
                     listProductFilesDataModel.Add ( fileDataModel );
 
@@ -127,31 +130,28 @@ public static class ProductServiceMapping
              && productEntity.ListComments.Count > 0 )
         {
 
-            productEntity.ListComments
-                .ToList ( )
-                .ForEach ( commentEntity =>
-                {
-                    ProductCommentDataModel objCommentDataModel
-                = new ProductCommentDataModel()
+            productEntity.ListComments.ToList ( ).ForEach ( commentEntity =>
+            {
+                ProductCommentDataModel objCommentDataModel = new ProductCommentDataModel()
                 {
                     ProductCommentID = commentEntity.ProductCommentID,
                     Comment = commentEntity.Comment,
                     ProductID = commentEntity.ProductID
                 };
 
-                    listCommentsDataModel.Add ( objCommentDataModel );
+                listCommentsDataModel.Add ( objCommentDataModel );
 
-                } );
+            } );
         }
 
         ProductDataModel productDataModel = new ProductDataModel()
         {
             ProductID = productEntity.ProductID,
             ProductName = productEntity.ProductName,
-            Discount = productEntity.Discount,
-            SaleCommission = productEntity.SaleCommission,
+            Discount = productEntity.Discount.HasValue ? productEntity.Discount.Value : 0,
+            SaleCommission = productEntity.SaleCommission.HasValue ? productEntity.SaleCommission.Value : 0,
             SearchTag = productEntity.SearchTag,
-            PostType = (EnumPostType)productEntity.PostType,
+            PostType = (EnumPostType) productEntity.PostType,
             Description = productEntity.Description,
             CategoryID = productEntity.CategoryID,
             SubCategoryID = productEntity.SubCategoryID,
@@ -170,10 +170,13 @@ public static class ProductServiceMapping
 
         listProductImageFileEntity.AddRange ( productEntity.ListImageFiles );
 
+        ProductImageFile fileEntity;
+
         productDataModel.ImageFiles.ForEach ( fileDataModel =>
         {
-            var fileEntity
-                = new ProductImageFile(fileDataModel.ImageFileContent);
+            fileEntity = new ProductImageFile(fileDataModel.ImageFileContent);
+
+            fileEntity.ModifyBaseData ( fileDataModel.BaseDataModel );
 
             fileEntity.ProductID = productEntity.ProductID;
 

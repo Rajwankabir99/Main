@@ -35,7 +35,7 @@ public class SelectListItemDropDown
     }
 
 
-    [ResponseCache(CacheProfileName = "Cache1dayServerNBrowser")]
+ //   [ResponseCache(CacheProfileName = "Cache1dayServerNBrowser")]
     public static IEnumerable<SelectListItem> GetPostTypeList()
     {
         var listCountries = ListEnum.GetPostTypeList().OrderBy(a => a.Text).ToList();
@@ -180,7 +180,7 @@ public class SelectListItemDropDown
     }
 
 
-    [ResponseCache(CacheProfileName = "Cache30Mins")]
+   // [ResponseCache(CacheProfileName = "Cache30Mins")]
     public static IEnumerable<SelectListItem> GetSubCategoryList(EnumCategoryFor categoryFor)
     {
         var listSubCat = new List<ParentChildVriableModel>();
@@ -197,6 +197,27 @@ public class SelectListItemDropDown
         }
         
         return GetSelectList(listSubCat, "");
+    }
+
+    //[ResponseCache ( CacheProfileName = "Cache30Mins" )]
+    public static IEnumerable<SelectListItem> GetSubCategories ( EnumCategoryFor categoryFor, int categoryId )
+    {
+        var listSubCat = new List<ParentChildVriableModel>();
+
+        if ( categoryFor == EnumCategoryFor.FineArts )
+        {
+            listSubCat = BusinessSeedFineArts
+                            .GetSubCategoryList ( );
+        }
+        else if ( categoryFor == EnumCategoryFor.LifeStyles )
+        {
+            listSubCat = BusinessSeedLifeStyle
+                            .GetSubCategoryList ( );
+        }
+
+        listSubCat =  listSubCat.Where<ParentChildVriableModel> ( a => a.ParentValueID == categoryId ).ToList();
+
+        return GetSelectList ( listSubCat, "" );
     }
 
 
@@ -329,27 +350,51 @@ public class SelectListItemDropDown
     }
 
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
+    //[ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
     public static IEnumerable<SelectListItem> GetCategoryList ( EnumCategoryFor categoryFor )
     {
+        var listSubCat = new List<ParentChildVriableModel>();
+
         if ( categoryFor == EnumCategoryFor.LifeStyles )
         {
-            return GetSelectList
-            (
-                BusinessSeedLifeStyle.GetListByVariable ( EnumAllowedVariable.Category,EnumCategoryFor.LifeStyles )
-            ,"" )
-            .ToList ( ).AsEnumerable ( );
+            listSubCat =
+                BusinessSeedLifeStyle.GetListByVariable ( EnumAllowedVariable.Category, EnumCategoryFor.LifeStyles );
+            
         }
         else if ( categoryFor == EnumCategoryFor.FineArts )
         {
-            return GetSelectList
-             (
+            listSubCat =
                  BusinessSeedFineArts.GetListByVariable ( EnumAllowedVariable.Category,
-                 EnumCategoryFor.LifeStyles )
-             ,"" )
-             .ToList ( ).AsEnumerable ( );
+                 EnumCategoryFor.FineArts );
         }
 
-        return new List<SelectListItem> ( );
+        return GetSelectList ( listSubCat );
+    }
+
+    public static string GetCategoryText ( 
+        EnumCategoryFor categoryFor,
+        int id )
+    {
+        List<SelectListItem> ctegoryItems = GetCategoryList ( ( EnumCategoryFor ) categoryFor ).ToList();
+
+        SelectListItem? category = ctegoryItems.FirstOrDefault ( a => a.Value == id.ToString().Trim() );
+        
+        string text = category != null ? category.Text : "";
+
+        return text;
+    }
+
+
+    public static string GetSubCategoryText (
+        EnumCategoryFor categoryFor,
+        int id )
+    {
+        List<SelectListItem> subCtegoryItems = GetSubCategoryList ( ( EnumCategoryFor ) categoryFor ).ToList();
+
+        SelectListItem? subCategory = subCtegoryItems.FirstOrDefault ( a => a.Value == id.ToString().Trim() );
+
+        string text = subCategory != null ? subCategory.Text : "";
+
+        return text;
     }
 }
