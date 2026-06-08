@@ -21,21 +21,21 @@
 
             <a title="List Products"
                     class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Index", "ManageProduct", new { Area = "AdminContent" })">
+                    href="@Url.Action("Index", "ManageProduct", new { Area = "CompanyContent" })">
                 <i class="fa fa-list"></i>
                 <span class="action-text">List</span>
             </a>
 
             <a title="Edit Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Edit", "ManageProduct", new { Area = "AdminContent", id = Model.ProductID })">
+                    href="@Url.Action("Edit", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-edit"></i>
                 <span class="action-text">Edit</span>
             </a>
 
             <a title="Remove Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Delete", "ManageProduct", new { Area = "AdminContent", id = Model.ProductID })">
+                    href="@Url.Action("Delete", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-trash"></i>
                 <span class="action-text">Delete</span>
             </a>
@@ -64,7 +64,7 @@
             @{
                 foreach ( var postFile in Model.ImageFiles.ToList( ) )
                 {
-                    @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageProduct/_ViewImage.cshtml",postFile )
+                    @await Html.PartialAsync( "~/Areas/CompanyContent/Views/ManageProduct/_ViewImage.cshtml",postFile )
                 }
             }
         </div>
@@ -162,21 +162,21 @@
 
             <a title="List Products"
                     class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Index", "ManageProduct", new { Area = "AdminContent" })">
+                    href="@Url.Action("Index", "ManageProduct", new { Area = "CompanyContent" })">
                 <i class="fa fa-list"></i>
                 <span class="action-text">List</span>
             </a>
 
             <a title="Edit Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Edit", "ManageProduct", new { Area = "AdminContent", id = Model.ProductID })">
+                    href="@Url.Action("Edit", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-edit"></i>
                 <span class="action-text">Edit</span>
             </a>
 
             <a title="Remove Product"
                 class="icon-button btn-lg flex link-dark"
-                    href="@Url.Action("Delete", "ManageProduct", new { Area = "AdminContent", id = Model.ProductID })">
+                    href="@Url.Action("Delete", "ManageProduct", new { Area = "CompanyContent", id = Model.ProductID })">
                 <i class="fa fa-trash"></i>
                 <span class="action-text">Delete</span>
             </a>

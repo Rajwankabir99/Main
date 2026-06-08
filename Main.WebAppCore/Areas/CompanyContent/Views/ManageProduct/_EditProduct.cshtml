@@ -138,7 +138,7 @@
                 @{
                     foreach ( var imageFile in Model.ImageFiles.ToList( ) )
                     {
-                        @await Html.PartialAsync( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",imageFile )
+                        @await Html.PartialAsync( "~/Areas/CompanyContent/Views/ManageProduct/_Image.cshtml", imageFile )
                     }
                 }
 
