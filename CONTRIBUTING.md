@@ -46,9 +46,3 @@ Help us improve the user experience:
 - Aim for good test coverage
 - Include both positive and negative test cases
 - Test across different browsers and devices for UX work
-
-## Questions?
-
-If you have questions or need clarification, please open an issue or check the [project homepage](https://nayeeem81.github.io/Main/).
-
-We appreciate your contributions! Happy coding! 🎉
