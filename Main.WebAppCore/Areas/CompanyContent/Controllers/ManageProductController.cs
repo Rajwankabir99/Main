@@ -323,14 +323,12 @@ public class ManageProductController : BaseController
 
     [HttpGet]
     [Authorize(Roles = "Company")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            var objProductViewModel = await _productService.GetProductForEditProductID(id);
-
             ProductViewModel productViewModel = new ProductViewModel ();
-            productViewModel.ProductID = productViewModel.ProductID;
+            productViewModel.ProductID = id;
 
             return View ( productViewModel );
         }                                                         
@@ -346,7 +344,7 @@ public class ManageProductController : BaseController
 
     [HttpGet]
     [Authorize(Roles = "Company")]
-    public async Task<ActionResult> DeleteProduct(int id, int fakeId)
+    public async Task<IActionResult> DeleteProduct(int id, int fakeId)
     {
         try
         {
