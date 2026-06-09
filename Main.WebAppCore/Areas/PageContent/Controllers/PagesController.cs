@@ -34,14 +34,14 @@ public class LocalModel
 }
 
 
-[Area("PageContent")]
-[Authorize(Roles = "Admin")]
-public class PagesController : BaseController
+[Area ( "PageContent" )]
+[Authorize ( Roles = "Admin" )]
+public class PagesController: BaseController
 {
     private readonly IPageService _pageService;
     private readonly IUserContext _userContext;
 
-    public PagesController(IPageService pageDataService,
+    public PagesController ( IPageService pageDataService,
                            IUserContext userContext )
     {
         _pageService = pageDataService;
@@ -49,106 +49,106 @@ public class PagesController : BaseController
     }
 
 
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Index()
+    [Authorize ( Roles = "Admin" )]
+    public async Task<IActionResult> Index ( )
     {
-        try {
-
+        try
+        {
             EnumCompanyName company = _userContext.EnumCompanyName;
 
             List<PageDisplayDataModel> listPageDataodel = await _pageService.GetAllPages(company);
 
             List<PageDisplayViewModel> listPageViewModel = PageMapping.PageDisplayMapping(listPageDataodel);
 
-            return View( listPageViewModel );
+            return View ( listPageViewModel );
 
         }
-        catch
+        catch ( Exception ex )
         {
-            return View(new List<PageDisplayViewModel> ());
+            {
+                return BadRequest ( ex.Message );
+            }
         }
     }
+        //[Authorize ( Roles = "Admin" )]
+        //public async Task<IActionResult> NewProductPanel(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    PagePanelViewModel pageContentVM = new PagePanelViewModel();
+
+        //    pageContentVM.PageID = id.Value;
+
+        //    List<PanelPostViewModel> listSelectProductsVM = await _pagePanelService.GetSelectProducts(StaticAppSettings.CompanyName);
+
+        //    pageContentVM.ListSelectProducts = listSelectProductsVM;
+
+        //    return View(pageContentVM);
+        //}
 
 
-    //[Authorize ( Roles = "Admin" )]
-    //public async Task<IActionResult> NewProductPanel(int? id)
-    //{
-    //    if (id == null)
-    //    {
-    //        return NotFound();
-    //    }
+        //[HttpPost]
+        //[Authorize ( Roles = "Admin" )]
+        //public async Task<IActionResult> SaveNewProductPanel ( [FromBody] LocalModel model )
+        //{
+        //    if ( model == null )
+        //        return BadRequest ( "Invalid data." );
 
-    //    PagePanelViewModel pageContentVM = new PagePanelViewModel();
+        //    try
+        //    {
+        //        PagePanelDataModel pagePanelDataModel = new PagePanelDataModel();
+        //        pagePanelDataModel.PanelTitle = model.PanelTitle;
+        //        pagePanelDataModel.PageID = model.PageID;
+        //        pagePanelDataModel.PanelTemplate 
+        //            = (EnumPanelTemplate) model.TemplateTypeID;
 
-    //    pageContentVM.PageID = id.Value;
-
-    //    List<PanelPostViewModel> listSelectProductsVM = await _pagePanelService.GetSelectProducts(StaticAppSettings.CompanyName);
-
-    //    pageContentVM.ListSelectProducts = listSelectProductsVM;
-
-    //    return View(pageContentVM);
-    //}
-
-
-    //[HttpPost]
-    //[Authorize ( Roles = "Admin" )]
-    //public async Task<IActionResult> SaveNewProductPanel ( [FromBody] LocalModel model )
-    //{
-    //    if ( model == null )
-    //        return BadRequest ( "Invalid data." );
-
-    //    try
-    //    {
-    //        PagePanelDataModel pagePanelDataModel = new PagePanelDataModel();
-    //        pagePanelDataModel.PanelTitle = model.PanelTitle;
-    //        pagePanelDataModel.PageID = model.PageID;
-    //        pagePanelDataModel.PanelTemplate 
-    //            = (EnumPanelTemplate) model.TemplateTypeID;
-
-    //        pagePanelDataModel.BaseDataModel 
-    //            = _userContext.GetCreateBaseDataModel();
+        //        pagePanelDataModel.BaseDataModel 
+        //            = _userContext.GetCreateBaseDataModel();
 
 
-    //        List<PanelPostDataModel> listReferencePosts 
-    //            = _pagePanelService
-    //            .GetSelectProducts((EnumCompanyName)_userContext.EnumCompanyName);
+        //        List<PanelPostDataModel> listReferencePosts 
+        //            = _pagePanelService
+        //            .GetSelectProducts((EnumCompanyName)_userContext.EnumCompanyName);
 
-    //        List<PanelPostDataModel> listUserSelectedPosts = listReferencePosts.Where(obj => model.Numbers.Contains(obj.PanelPostID)).ToList();
-
-
-    //          int newPanelId  = await _pagePanelService.CreateNewPanel ( pagePanelDataModel, listUserSelectedPosts);
+        //        List<PanelPostDataModel> listUserSelectedPosts = listReferencePosts.Where(obj => model.Numbers.Contains(obj.PanelPostID)).ToList();
 
 
-    //        return Json ( new
-    //        {
-    //            success = newPanelId > 0 ? true : false,
-
-    //            receivedUrl = Url.Action ( "Index" , "Pages", new
-    //            {
-    //                Area = "PageContent"
-    //            } )
-    //        } );
-
-    //    }
-    //    catch ( Exception ex ) 
-    //    {
-    //        throw ex;
-    //    } 
-    //}
+        //          int newPanelId  = await _pagePanelService.CreateNewPanel ( pagePanelDataModel, listUserSelectedPosts);
 
 
-    //public async Task<IActionResult> PreviewPageContent ( int? id )
-    //{
-    //    if ( id == null )
-    //    {
-    //        return NotFound ( );
-    //    }
+        //        return Json ( new
+        //        {
+        //            success = newPanelId > 0 ? true : false,
 
-    //    List<PagePanelViewModel> listPagePanelVM = await _pagePanelService.GetPanelList(id.Value);
-        
-    //    return View ( listPagePanelVM );
-    //}
-    
+        //            receivedUrl = Url.Action ( "Index" , "Pages", new
+        //            {
+        //                Area = "PageContent"
+        //            } )
+        //        } );
+
+        //    }
+        //    catch ( Exception ex ) 
+        //    {
+        //        throw ex;
+        //    } 
+        //}
+
+
+        //public async Task<IActionResult> PreviewPageContent ( int? id )
+        //{
+        //    if ( id == null )
+        //    {
+        //        return NotFound ( );
+        //    }
+
+        //    List<PagePanelViewModel> listPagePanelVM = await _pagePanelService.GetPanelList(id.Value);
+
+        //    return View ( listPagePanelVM );
+        //}
+
 
 
         // GET: PageContent/Pages/Details/5
@@ -279,8 +279,5 @@ public class PagesController : BaseController
         //{
         //    return _context.Pages.Any(e => e.PageID == id);
         //}
+    
 }
-
-
-
-// Define a model that matches your JSON structure
