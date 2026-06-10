@@ -1,4 +1,5 @@
 ﻿using DataTransferModel;
+
 using Domain.Model;
 
 namespace Main.Services.Extensions;
@@ -39,7 +40,8 @@ public static class PageServiceMapping
         panelEntity.CreateBaseData ( pagePanelDataModel.BaseDataModel );
 
 
-        listPanelPostDataModel.ForEach ( objPost => {
+        listPanelPostDataModel.ForEach ( objPost =>
+        {
 
             PanelPost panelPost = new PanelPost ( )
             {
@@ -134,8 +136,8 @@ public static class PageServiceMapping
                     panelPostDataModel = new PanelPostDataModel ( );
 
                     panelPostDataModel.PanelPostID = panelPost.PanelPostID;
-                    panelPostDataModel.PostTitle = panelPost.PostTitle;
-                    panelPostDataModel.Price = panelPost.Price;
+                    panelPostDataModel.PostTitle = panelPost.PostTitle ?? "";
+                    panelPostDataModel.Price = panelPost.Price.HasValue ? panelPost.Price.Value : 0;
                     panelPostDataModel.PostDescription = panelPost.PostDescription;
                     panelPostDataModel.ImageFileContent = panelPost.ImageFileContent;
                     panelPostDataModel.PostOrder = panelPost.PostOrder;

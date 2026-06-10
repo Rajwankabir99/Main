@@ -13,31 +13,49 @@
     <h4 class="card-title">NEW PANEL (PRODUCTS)</h4>
 
     <form id ="frmMain">
-    <div class="gap"></div>
+        <div class="gap"></div>
   
         @Html.HiddenFor( a => a.PageID )
+
         <div class="row">
             <div class="input-field col-md-8">
+
                 @Html.LabelFor( a => a.PanelTemplate )
-                @Html.DropDownListFor(a => a.PanelTemplate, Model.AV_PanelTemplate, new { @class = "fff" })
-                @Html.ValidationMessageFor(m => m.PanelTemplate, "", new { @class = "text-danger custom-inline-field-error" })
+
+                @Html.DropDownListFor(a => a.PanelTemplate, 
+                                                        Model.AV_PanelTemplate, 
+                                                        new { @class = "fff" })
+
+                @Html.ValidationMessageFor(m => m.PanelTemplate,
+                                                "", 
+                                                new { @class = "text-danger" })
             </div>       
         </div>
 
 
         <div class="row">
+
             <div class="input-field  col-md-8">
+
                 @Html.LabelFor( a => a.PanelTitle )
-                @Html.EditorFor(a => a.PanelTitle, new { htmlAttributes = new { @class = "fff" } })
-                @Html.ValidationMessageFor(m => m.PanelTitle, "", new { @class = "text-danger custom-inline-field-error" })
+
+                @Html.EditorFor(a => a.PanelTitle, 
+                                new { htmlAttributes = new { @class = "fff" } })
+
+                @Html.ValidationMessageFor(m => m.PanelTitle,
+                                "", new { @class = "text-danger" })
             </div>
+
         </div>
+
     </form>
 
         
     <button id="btnSave" role="button"
             class="primary-button max">
+
         SAVE
+
     </button>
 
     
@@ -47,7 +65,10 @@
     <div class="row">
 
         <!-- Left Column -->
-        <span><i class="fa fa-box-open"></i>DROP YOUR PRODUCTS HERE:</span>
+        <span>
+            <i class="fa fa-box-open"></i>
+            DROP YOUR PRODUCTS HERE:
+        </span>
 
         <div id="dropHereCotainer" class="col-md-2 card-form">
            
@@ -56,45 +77,48 @@
 
         <!-- Right Column -->
         <div id="dropFromContainer" class="col-md-10 card-form">
-                @{
-                    foreach (var product in Model.ListSelectProducts)
-                    {
-                        <div id="@product.PanelPostID" 
-                             draggable="true" 
-                             style="display:inline-block;
-                                    padding:2px;    
-                                    margin-bottom:15px;">
+    @{
+        foreach (var product in Model.ListSelectProducts)
+        {
+            <div id="@product.PanelPostID" 
+                    draggable="true" 
+                    style="display:inline-block;
+                        padding:2px;    
+                        margin-bottom:15px;">
 
-                            @await Html.PartialAsync("~/Areas/PageContent/Views/Pages/PanelPartials/_SelectImage.cshtml", product)
+@await Html.PartialAsync("~/Areas/PageContent/Views/Pages/PanelPartials/_SelectImage.cshtml", product)
                             
-                            <div class="text-bg-info" draggable="false"> 
-                                @product.GetTextCategory()
-                            </div>
-                            <div draggable="false">@product.Price Taka</div>
-                        </div>
+                <div class="text-bg-info" draggable="false"> 
+                    @product.CategoryName
+                </div>
 
-                        <script>
+                <div draggable="false">
+                    <span>
+                        @product.Price &nbsp; @product.Currency
+                    </span>
+                </div>
 
-                            document.getElementById('@product.PanelPostID')
-                                    .addEventListener('dragstart', (e) => 
-                            {
+            </div>
 
-                                e.dataTransfer.setData('text/plain', e.target.id);
+            <script>
+
+                document.getElementById('@product.PanelPostID')
+                        .addEventListener('dragstart', (e) => 
+                {
+
+                    e.dataTransfer.setData('text/plain', e.target.id);
 
     
-                                e.dataTransfer.effectAllowed = 'all';
+                    e.dataTransfer.effectAllowed = 'all';
 
-                            });
+                });
 
-                        </script>
-                    }
-                }
+            </script>
+        }
+    }
         </div>
     </div>
 </div>
-
-
-
 
 @section scriptsapp {
 
@@ -148,7 +172,10 @@
                 };
 
 
-                const response = await fetch('@Url.Action("SaveNewProductPanel", "Pages", new { Area = "PageContent" })', {
+                const response = 
+                
+                await fetch('@Url.Action("SaveNewProductPanel", "Pages", new { Area = "PageContent" })', 
+                {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' 
@@ -199,13 +226,10 @@
                 // 2. Subtract the target's position from the mouse position
                 const x = event.clientX - rect.left;
                 const y = event.clientY - rect.top;
-
                 
                 const id = event.dataTransfer.getData('text/plain');
 
-
                 const element = document.getElementById(id);
-
     
                 if (event.dataTransfer.dropEffect === 'copy') {
 
@@ -218,7 +242,6 @@
                 }
                 else 
                 {
-
                     var elementDdl = document.getElementById("PanelTemplate");
 
                     if (elementDdl) {
@@ -282,7 +305,6 @@
                         }
                     }
                 }
-                
             };
 
             
