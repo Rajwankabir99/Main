@@ -1,14 +1,16 @@
 ﻿using Main.Common.Enums;
 
-namespace DataTransferModel;
+using System.ComponentModel.DataAnnotations;
+namespace WebAppCore.ViewModel;
 
-public class PanelPostDataModel: DataModel
+public class PanelPostSelectViewModel
 {
-    public PanelPostDataModel ( )
+    public PanelPostSelectViewModel ( )
     {
     }
 
-    public PanelPostDataModel ( EnumPostType enumPostType,int rootId,int imageId,int order )
+
+    public PanelPostSelectViewModel ( EnumPostType enumPostType,int rootId,int imageId,int order )
     {
         EnumPostType = enumPostType;
         RootID = rootId;
@@ -21,77 +23,63 @@ public class PanelPostDataModel: DataModel
         get; set;
     }
 
+
     public EnumPostType EnumPostType
     {
         get; set;
     }
 
+
     public int RootID
     {
         get; set;
-    }
+    } // Admin or Company (Key) of EnumPostType
 
-    public int PostOrder
-    {
-        get; set;
-    }
 
     public int ImageOrderID
     {
         get; set;
     }
 
+
     public int ImageFileID
     {
         get; set;
     }
 
-    public int CategoryID
+    public string CategoryName
     {
         get; set;
     }
 
-    public byte[]? ImageFileContent
-    {
-        get; set;
-    }
+
+    public byte[]? ImageFileContent { get; set; } = null;
+
 
     public string PostTitle
     {
         get; set;
     }
 
-    public string? PostDescription
-    {
-        get; set;
-    }
-
+    [DataType ( DataType.Currency )]
     public decimal Price
     {
         get; set;
     }
 
-    public string? WebsiteUrl
+    public string Currency
     {
         get; set;
     }
+
 
     public int PanelID
     {
         get; set;
     }
 
-    public PagePanelDataModel? PagePanel
-    {
-        get; set;
-    }
 
     public int PageID
-    {
-        get; set;
-    }
-
-    public int ImageArea
     {
         get; set;
     }
