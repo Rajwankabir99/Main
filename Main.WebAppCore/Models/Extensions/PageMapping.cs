@@ -18,6 +18,8 @@ public static class PageMapping
         {
             pageDisplayViewModel = new PageDisplayViewModel ( );
 
+            pageDisplayViewModel.PageID = dataModel.PageID;
+
             pageDisplayViewModel.PageName = ListEnum.GetPageDescription ( dataModel.EnumPublicPage );
 
             pageDisplayViewModel.CompanyName =
