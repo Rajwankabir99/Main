@@ -53,7 +53,7 @@ public static class PageMapping
             panelPostSelectViewModel.PostTitle = dataModel.PostTitle;
             panelPostSelectViewModel.Price = dataModel.Price;
             panelPostSelectViewModel.Currency = ListEnum.GetCurrencyDescription ( currency );
-
+            panelPostSelectViewModel.PanelPostID = dataModel.PanelPostID;
 
             listPanelPostSelectViewModels.Add ( panelPostSelectViewModel );
 
