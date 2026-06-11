@@ -62,9 +62,9 @@ public class PagesController: BaseController
         {
             EnumCompanyName company = _userContext.EnumCompanyName;
 
-            List<PageDisplayDataModel> listPageDataodel = await _pageService.GetAllPages(company);
+            List<PageDisplayDataModel> listPageDataModel = await _pageService.GetAllPages(company);
 
-            List<PageDisplayViewModel> listPageViewModel = PageMapping.PageDisplayMapping(listPageDataodel);
+            List<PageDisplayViewModel> listPageViewModel = PageMapping.PageDisplayMapping(listPageDataModel);
 
             return View ( listPageViewModel );
 

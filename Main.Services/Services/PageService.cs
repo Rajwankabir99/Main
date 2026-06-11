@@ -34,9 +34,7 @@ public class PageService: IPageService
         Page pageEntity = await _pageRepository.GetSinglePage (pagePanelDataModel.PageID);
         Panel panelEntity = PageServiceMapping.CreatePanelEntity(pagePanelDataModel);
 
-        pageEntity.CreatePanel ( panelEntity );
-
-        var result = await _pageRepository.UpdatePage ( pageEntity );
+        var result = await _pageRepository.UpdatePage ( pageEntity, panelEntity );
 
         return result;
     }

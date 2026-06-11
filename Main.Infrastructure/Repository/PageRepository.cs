@@ -38,8 +38,10 @@ public class PageRepository: IPageRepository
         return page;
     }
 
-    public async Task<bool> UpdatePage ( Page page )
+    public async Task<bool> UpdatePage ( Page page,Panel panel )
     {
+        page.CreatePanel ( panel );
+
         _context.Pages.Update ( page );
 
         int result = await _context.SaveChangesAsync();
