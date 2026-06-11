@@ -40,8 +40,6 @@ public class PageService: IPageService
 
         pageEntity = PageServiceMapping.CreatePageContent ( pagePanelDataModel,pageEntity,panelEntity );
 
-        pageEntity.ModifyBaseData ( pagePanelDataModel.BaseDataModel );
-
         var result = await _pageRepository.UpdatePage ( pageEntity );
 
         return result;

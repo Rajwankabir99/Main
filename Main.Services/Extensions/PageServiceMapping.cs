@@ -12,9 +12,7 @@ public static class PageServiceMapping
     {
 
         PageContent pageCotentEntity = pageEntity.GetNewOrExistingPageContent (
-            pagePanelDataModel.PageID, pagePanelDataModel.BaseDataModel ) ;
-
-        pageCotentEntity.CreatePagePanel ( panelEntity );
+            pageEntity.PageID, pagePanelDataModel.BaseDataModel ) ;
 
         if ( pageEntity != null )
         {
@@ -22,7 +20,7 @@ public static class PageServiceMapping
             return pageEntity;
         }
 
-        return new Page ( );
+        return pageEntity;
     }
 
     public static PagePanel CreatePanelEntity ( PagePanelDataModel pagePanelDataModel )

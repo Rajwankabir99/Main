@@ -61,10 +61,12 @@ public class PageContent: BaseEntity
 
             if ( count > 0 )
             {
+                pagePanel.PageContentID = PageContentID;
                 pagePanel.PanelPosition = count + 1;
             }
             else
             {
+                pagePanel.PageContentID = PageContentID;
                 pagePanel.PanelPosition = 1;
             }
 

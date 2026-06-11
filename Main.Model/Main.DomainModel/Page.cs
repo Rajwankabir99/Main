@@ -66,7 +66,17 @@ public class Page: BaseEntity
 
         if ( pageContent != null )
         {
-            ListPageContents.Add ( pageContent );
+            PageContent? pageContentUpdate = ListPageContents
+                .FirstOrDefault(a=>a.PageID == pageContent.PageID);
+
+            if ( pageContentUpdate != null )
+            {
+                pageContentUpdate = pageContent;
+            }
+            else
+            {
+                ListPageContents.Add ( pageContent );
+            }
         }
     }
 
