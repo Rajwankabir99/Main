@@ -85,7 +85,7 @@ public class PagesController: BaseController
 
         pagePanelViewModel.PageID = id;
 
-        List<PanelPostDataModel> listSelectProductsDataModel =
+        List<PostDataModel> listSelectProductsDataModel =
             await _pageService.GetSelectProducts(_userContext.EnumCompanyName);
 
         pagePanelViewModel.ListSelectProducts =
@@ -114,32 +114,29 @@ public class PagesController: BaseController
 
         //try
         //{
-        PagePanelDataModel pagePanelDataModel = new PagePanelDataModel();
+        PanelDataModel pagePanelDataModel = new PanelDataModel();
         pagePanelDataModel.PanelTitle = model.PanelTitle;
         pagePanelDataModel.PageID = model.PageID;
         pagePanelDataModel.PanelTemplate
             = ( EnumPanelTemplate ) model.TemplateTypeID;
 
-        pagePanelDataModel.BaseDataModel
-            = _userContext.GetCreateBaseDataModel ( );
+        pagePanelDataModel.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
 
-
-
-        List<PanelPostDataModel> listReferencePosts
+        List<PostDataModel> listReferencePosts
                 = await _pageService.GetSelectProducts( _userContext.EnumCompanyName );
 
-        var listUserSelectedPosts = listReferencePosts.Where(obj =>
+        List<PostDataModel> listUserSelectedPosts = listReferencePosts.Where(obj =>
         {
             return model.Numbers.Contains(obj.PanelPostID);
         } ).ToList();
 
         listUserSelectedPosts.ForEach ( selectedPost =>
         {
-            selectedPost.BaseDataModel = _userContext.GetCreateBaseDataModel ( );
+            selectedPost.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
         } );
 
 
-        pagePanelDataModel.ListPanelPosts = listUserSelectedPosts;
+        pagePanelDataModel.ListPosts = listUserSelectedPosts;
 
         bool result  = await _pageService.CreateNewPanel ( pagePanelDataModel );
 

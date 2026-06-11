@@ -1,5 +1,4 @@
 ﻿using Main.Common.Enums;
-using Main.Common.Model;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -9,25 +8,22 @@ public class Page: BaseEntity
 {
     public Page ( )
     {
-        ListPageContents = new List<PageContent> ( );
+        ListPanels = new List<Panel> ( );
     }
-
 
     public Page ( EnumPublicPage enumPublicPage )
     {
+        ListPanels = new List<Panel> ( );
         EnumPublicPage = enumPublicPage;
-
-        ListPageContents = new List<PageContent> ( );
     }
 
 
     //Ony used for seeding
-    //Seed constructr hard coded
+    //Seed constructor hard coded
     public Page ( EnumPublicPage enumPublicPage,int pageId )
     {
         PageID = pageId;
         EnumPublicPage = enumPublicPage;
-        ListPageContents = new List<PageContent> ( );
 
         ModifiedBy = "e02fd0e4-00fd-000a-ca30-0F00a0898ba1";
         CreatedBy = "e02fd0e4-00fd-000a-ca30-0F00a0898ba1";
@@ -40,7 +36,6 @@ public class Page: BaseEntity
 
         IdentityUserId = "e02fd0e4-00fd-000a-ca30-0F00a0898ba1";
     }
-
 
 
     [Key]
@@ -56,63 +51,31 @@ public class Page: BaseEntity
         get; set;
     }
 
+    public virtual ICollection<Panel> ListPanels { get; set; } = new HashSet<Panel> ( );
 
-    public virtual ICollection<PageContent> ListPageContents { get; set; } = new HashSet<PageContent> ( );
 
-
-    public void SavePageContent ( PageContent pageContent )
+    public void CreatePanel ( Panel panel )
     {
-        ListPageContents ??= [];
-
-        if ( pageContent != null )
+        if ( ListPanels == null )
         {
-            PageContent? pageContentUpdate = ListPageContents
-                .FirstOrDefault(a=>a.PageID == pageContent.PageID);
+            ListPanels = new List<Panel> ( );
+        }
 
-            if ( pageContentUpdate != null )
+        if ( panel != null )
+        {
+            if ( ListPanels.Any<Panel> ( ) )
             {
-                pageContentUpdate = pageContent;
+                int position = ListPanels.OrderBy ( a => a.PanelPosition ).Last().PanelPosition;
+                panel.PanelPosition = position + 1;
             }
             else
             {
-                ListPageContents.Add ( pageContent );
+                panel.PanelPosition = 1;
             }
+
+            ListPanels.Add ( panel );
         }
-    }
 
-
-    public PageContent GetNewOrExistingPageContent ( int pageId,BaseDataModel modelBase )
-    {
-        ListPageContents ??= [];
-
-        int count = ListPageContents.Count;
-
-        if ( count > 0 )
-        {
-            PageContent? objOldPageContent = ListPageContents.FirstOrDefault<PageContent> ( a => a.PageID == pageId);
-
-            if ( objOldPageContent != null )
-            {
-                objOldPageContent.ModifyBaseData ( modelBase );
-
-                return objOldPageContent;
-            }
-            else
-            {
-                PageContent objNewPageContent = new ( pageId );
-
-                objNewPageContent.CreateBaseData ( modelBase );
-
-                return objNewPageContent;
-            }
-        }
-        else
-        {
-            PageContent objNewPageContent = new ( pageId );
-
-            objNewPageContent.CreateBaseData ( modelBase );
-
-            return objNewPageContent;
-        }
+        return;
     }
 }

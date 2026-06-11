@@ -40,10 +40,7 @@ public class PageRepository: IPageRepository
 
     public async Task<bool> UpdatePage ( Page page )
     {
-        if ( await PageExists ( page.PageID ) )
-        {
-            _context.Pages.Update ( page );
-        }
+        _context.Pages.Update ( page );
 
         int result = await _context.SaveChangesAsync();
 
