@@ -22,29 +22,34 @@
     }
 }
 
-<div class="container @hide edit-panel-item" data-panelorder="@Model.PanelPosition" 
-                                             data-panelid="@Model.PanelID" 
-                                             draggable="true">
-
-    <h4 class="sub-title" draggable="false">
-
-        @Model.PanelTitle
-
-    </h4>
+<div class="container @hide panel" 
+     data-panelorder="@Model.PanelPosition"
+     data-panelid="@Model.PanelID" 
+     >
+   
+    <div class="row panel-header">
+        <span class="drag-handle">⋮⋮</span>
+        <div class="col-12">
+            <h4 class="sub-title" draggable="false">
+                @Model.PanelTitle
+            </h4>
+        </div>
+    </div>
 
     @{
         string droppostid = "dropPost" + @Model.PanelID.ToString();
     }
 
-    <div id="@droppostid" class="row edit-post-parent" draggable="false">
+    <div id="@droppostid" class="row edit-post-parent panel-content" draggable="false">
 
         @{
             foreach ( var product in list.ToList())
             {
-                <div id="@product.PanelPostID" class="col-md-6 col-sm-6 col-lg-6 col-xs-6 card edit-post-item" 
-                                                                data-postorder="@product.ImageOrderID"
-                                                                data-postid = "@product.PanelPostID"
-                                                                draggable="true">
+                <div id="@product.PanelPostID" 
+                     class="col-md-6 col-sm-6 col-lg-6 col-xs-6 card edit-post-item" 
+                     data-postorder="@product.ImageOrderID"
+                     data-postid = "@product.PanelPostID"
+                     draggable="true">
                            
                     <a class="thumbnail only-image" draggable="false">
 

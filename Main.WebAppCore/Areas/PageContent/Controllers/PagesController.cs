@@ -186,4 +186,13 @@ public class PagesController: BaseController
 
         return View ( pageViewModel.ListPagePanels.ToList ( ) );
     }
+
+    public async Task<IActionResult> EditPageContent ( int id )
+    {
+        PageDataModel pagePanelDataModel = await _pageService.GetPageDataModel(id);
+
+        PageViewModel pageViewModel = PageMapping.MapPageViewModel ( pagePanelDataModel );
+
+        return View ( pageViewModel.ListPagePanels.ToList ( ) );
+    }
 }

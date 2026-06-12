@@ -1,8 +1,10 @@
 ﻿@using Main.Common.Enums
 @model List<PagePanelViewModel>
 
+
+
 @{
-    ViewData["Title"] = "Preview Contents";
+    ViewData["Title"] = "Edit Panels";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.ExcludeHeader = false;
 }
@@ -11,12 +13,14 @@
 
     <div class="gap"></div>
 
-    <h4 class="card-title">PREVIEW CONTENT</h4>
+    <h4 class="card-title">EDIT PANELS</h4>
 
     <div class="gap"></div>
     <div class="gap"></div>
 
 </div>
+
+<div class="panel-list">
 
     @{
         foreach(var model in Model.ToList())
@@ -40,3 +44,100 @@
             }
         }
     }
+
+</div>
+
+@section scriptsapp {
+
+    <script>
+
+        (function () {
+
+            const container = document.querySelector('.panel-list');
+
+            let dragSrcEl = null;
+
+            // 1. Listen for mousedown to activate dragging ONLY when clicking the handle
+            container.addEventListener('mousedown', (e) => {
+
+                  const handle = e.target.closest('.drag-handle');
+
+                  if (!handle) return;
+
+                  const panel = handle.closest('.panel');
+
+                  if (panel) {
+                    panel.setAttribute('draggable', 'true');
+                  }
+            });
+
+            // 2. Clean up: Turn off dragging on mouseup or if the user leaves the panel
+            const disableDragging = (e) => {
+
+                  const panel = e.target.closest('.panel');
+
+                  if (panel) {
+                    panel.removeAttribute('draggable');
+                  }
+            };
+
+            container.addEventListener('mouseup', disableDragging);
+            container.addEventListener('mouseleave', disableDragging);
+
+            // 3. Drag Start: Native behavior triggers now that draggable="true" is set
+            container.addEventListener('dragstart', (e) => {
+
+                  const targetPanel = e.target.closest('.panel');
+
+                  // Extra security check: ensure they actually used the handle
+                  const activeElement = document.activeElement;
+
+                  const usedHandle = e.target.querySelector('.drag-handle')?.contains(activeElement) || true;
+
+                  if (!targetPanel || !usedHandle) {
+                    e.preventDefault();
+                    return;
+                  }
+
+                  dragSrcEl = targetPanel;
+
+                  setTimeout(() => {
+                    targetPanel.classList.add('is-dragging');
+                  }, 0);
+
+                  e.dataTransfer.effectAllowed = 'move';
+            });
+
+            // 4. Drag Over: Keep identical logic for moving elements
+            container.addEventListener('dragover', (e) => {
+                  e.preventDefault();
+
+                  const targetPanel = e.target.closest('.panel');
+
+                  if (!targetPanel || targetPanel === dragSrcEl) return;
+
+                  const rect = targetPanel.getBoundingClientRect();
+
+                  const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+
+                  container.insertBefore(dragSrcEl, next ? targetPanel.nextSibling : targetPanel);
+            });
+
+            // 5. Drag End: Reset everything safely
+            container.addEventListener('dragend', (e) => {
+
+                  const targetPanel = e.target.closest('.panel');
+
+                  if (targetPanel) {
+                    targetPanel.classList.remove('is-dragging');
+                    targetPanel.removeAttribute('draggable'); // Reset state
+                  }
+                  dragSrcEl = null;
+            });
+
+
+        });
+
+    </script>
+
+}
