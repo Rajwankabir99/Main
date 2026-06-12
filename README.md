@@ -70,6 +70,45 @@ When you will configure the Pages of the website, you can select template for th
 
 Remember that there are other templates for Products (shop owners) which includes the add to cart button.
 
+## Manage Products 
+
+Here in this shop example, we are considering Product (Name, Price, Description, Images) which are the shop owner's items to sell. These are to be sold to online users. Users can add the products to the shopping cart and order them from the shop.  
+
+### Company User: He/she can add, update and delete a product and see the list of products for the shop. 
+
+### The purpose of this module is: 
+
+1. Add a Product 
+2. Update an existing Product 
+3. Delete a product 
+4. See the list of all products 
+
+### Each Products can have as many images as he/she (shop owners) wants. Until now, no validation has been provided to restrict users from entering a limited number of product images. 
+
+### A Product has few fields: 
+
+1. Product Name 
+2. Description 
+3. Category 
+4. Subcategory 
+5. Price  
+6. Discount 
+7. Sale Commission (If the shop wants to sell by any third-party shop) 
+8. Search Tag 
+9. Images (any number) 
+
+### Note: It is recommended to enter product images in the golden ratio for a nice display on the web page. 
+
+### Formula:
+Height =     
+Width = Height × 1.618 
+
+### Use of these Contents 
+1. When Shop Admin will configure the Pages of the website, he/she can select template for the panel (a row in a page) to select from the Products. This module will setup the products to display on the pages.  
+2. Templates are designed for these products. These templates only show products with links to view details of the product or to add to cart. Remember that there are other templates for Products (shop admin configure) which include the add to the cart button only without viewing details of the product. 
+
+ 
+
 
 # Solution Design & Architecture (.Net 8.0)
 ## Background: 
