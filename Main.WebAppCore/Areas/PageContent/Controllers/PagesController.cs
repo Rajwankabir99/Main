@@ -46,12 +46,14 @@ public class PagesController: BaseController
 {
     private readonly IPageService _pageService;
     private readonly IUserContext _userContext;
+    private readonly ILogger<PagesController> _logger;
 
     public PagesController ( IPageService pageDataService,
-                           IUserContext userContext )
+                           IUserContext userContext,ILogger<PagesController> logger )
     {
         _pageService = pageDataService;
         _userContext = userContext;
+        _logger = logger;
     }
 
 
@@ -62,9 +64,9 @@ public class PagesController: BaseController
         {
             EnumCompanyName company = _userContext.EnumCompanyName;
 
-            List<PageDisplayDataModel> listPageDataodel = await _pageService.GetAllPages(company);
+            List<PageDisplayDataModel> listPageDataModel = await _pageService.GetAllPages(company);
 
-            List<PageDisplayViewModel> listPageViewModel = PageMapping.PageDisplayMapping(listPageDataodel);
+            List<PageDisplayViewModel> listPageViewModel = PageMapping.PageDisplayMapping(listPageDataModel);
 
             return View ( listPageViewModel );
 
@@ -83,7 +85,7 @@ public class PagesController: BaseController
     {
         PagePanelViewModel pagePanelViewModel = new PagePanelViewModel();
 
-        pagePanelViewModel.PageID = id;
+
 
         List<PostDataModel> listSelectProductsDataModel =
             await _pageService.GetSelectProducts(_userContext.EnumCompanyName);
@@ -92,6 +94,9 @@ public class PagesController: BaseController
             PageMapping.MapSelectPostViewModel ( listSelectProductsDataModel
                                                 ,_userContext.EnumCategoryFor
                                                 ,_userContext.EnumCurrency );
+        pagePanelViewModel.PageID = id;
+        pagePanelViewModel.PanelTitle = "";
+        pagePanelViewModel.PanelTemplate = EnumPanelTemplate.ProductQuard;
 
 
         return View ( pagePanelViewModel );
@@ -101,8 +106,13 @@ public class PagesController: BaseController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize ( Roles = "Admin" )]
-    public async Task<IActionResult> SaveNewProductPanel ( LocalModel model )
+    public async Task<IActionResult> SaveNewProductPanel ( [FromBody] LocalModel model )
     {
+        _logger.LogWarning ( model.PanelTitle );
+        _logger.LogWarning ( model.PageID.ToString ( ) );
+        _logger.LogWarning ( model.TemplateTypeID.ToString ( ) );
+        _logger.LogWarning ( model.Numbers[0].ToString ( ) );
+
         if ( model == null )
         {
             return Json ( new
@@ -112,54 +122,59 @@ public class PagesController: BaseController
             } );
         }
 
-        //try
-        //{
-        PanelDataModel pagePanelDataModel = new PanelDataModel();
-        pagePanelDataModel.PanelTitle = model.PanelTitle;
-        pagePanelDataModel.PageID = model.PageID;
-        pagePanelDataModel.PanelTemplate
-            = ( EnumPanelTemplate ) model.TemplateTypeID;
+        try
+        {
+            PanelDataModel pagePanelDataModel
+            = new PanelDataModel( ( EnumPanelTemplate ) model.TemplateTypeID,
+                                    model.PageID, model.PanelTitle  );
 
-        pagePanelDataModel.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
+            _logger.LogWarning ( pagePanelDataModel.PanelTitle );
+            _logger.LogWarning ( pagePanelDataModel.PageID.ToString ( ) );
+            _logger.LogWarning ( pagePanelDataModel.PanelTemplate.ToString ( ) );
 
-        List<PostDataModel> listReferencePosts
+            pagePanelDataModel.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
+
+            List<PostDataModel> listReferencePosts
                 = await _pageService.GetSelectProducts( _userContext.EnumCompanyName );
 
-        List<PostDataModel> listUserSelectedPosts = listReferencePosts.Where(obj =>
-        {
-            return model.Numbers.Contains(obj.PanelPostID);
-        } ).ToList();
+            _logger.LogWarning ( "listReferencePosts (count):" + listReferencePosts.Count.ToString ( ) );
 
-        listUserSelectedPosts.ForEach ( selectedPost =>
-        {
-            selectedPost.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
-        } );
+            List<PostDataModel> listUserSelectedPosts = new List<PostDataModel>();
 
-
-        pagePanelDataModel.ListPosts = listUserSelectedPosts;
-
-        bool result  = await _pageService.CreateNewPanel ( pagePanelDataModel );
-
-
-        return Json ( new
-        {
-            success = result,
-            receivedUrl = Url.Action ( "Index","Pages",new
+            listUserSelectedPosts = listReferencePosts.Where ( obj =>
             {
-                Area = "PageContent"
-            } )
-        } );
+                return model.Numbers.Contains ( obj.PanelPostID );
+            } ).ToList ( );
 
-        //}
-        //catch ( Exception ex )
-        //{
-        //    throw ex;
-        //    //return Json ( new
-        //    //{
-        //    //    success = false,
-        //    //    message = ex.Message
-        //    //} );
-        //}
+            _logger.LogWarning ( "listUserSelectedPosts (count):" + listUserSelectedPosts.Count.ToString ( ) );
+
+            listUserSelectedPosts.ForEach ( selectedPost =>
+            {
+                selectedPost.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
+                pagePanelDataModel.CreatePost ( selectedPost );
+            } );
+
+            bool result  = await _pageService.CreateNewPanel ( pagePanelDataModel );
+
+
+            return Json ( new
+            {
+                success = result,
+                receivedUrl = Url.Action ( "Index","Pages",new
+                {
+                    Area = "PageContent"
+                } )
+            } );
+
+        }
+        catch ( Exception ex )
+        {
+            return Json ( new
+            {
+                success = false,
+                message = ex.Message
+            } );
+        }
     }
 
 

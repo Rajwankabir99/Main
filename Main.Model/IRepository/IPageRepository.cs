@@ -12,5 +12,5 @@ public interface IPageRepository
 
     Task<bool> PageExists ( int id );
 
-    Task<bool> UpdatePage ( Page page );
+    Task<bool> UpdatePage ( Panel panel,List<Post> listPosts );
 }

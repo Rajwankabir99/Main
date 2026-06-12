@@ -8,30 +8,36 @@ public static class PageServiceMapping
 {
     public static Panel CreatePanelEntity ( PanelDataModel panelDataModel )
     {
-        Panel panelEntity = new Panel(panelDataModel.PageID);
+        Panel panelEntity = new Panel( panelDataModel.PageID, panelDataModel.PanelTemplate,
+            panelDataModel.PanelTitle );
 
-        panelEntity.PanelTemplate = panelDataModel.PanelTemplate;
-        panelEntity.PanelTitle = panelDataModel.PanelTitle;
         panelEntity.CreateBaseData ( panelDataModel.BaseDataModel );
 
-        Post panelPost;
+        return panelEntity;
+    }
 
-        panelDataModel.ListPosts.ForEach ( objPost =>
+    public static List<Post> CreateListPostEntity ( PanelDataModel panelDataModel )
+    {
+        List<Post>  listPosts = new List<Post>();
+        Post post;
+        int order = 1;
+        panelDataModel.ListPosts.ForEach ( postDataModel =>
         {
-            panelPost = new Post ( objPost.EnumPostType,objPost.RootID,objPost.PanelPostID )
+            post =
+            new Post ( postDataModel.EnumPostType,postDataModel.Price,postDataModel.RootID )
             {
-                FileContent = objPost.ImageFileContent,
-                Price = objPost.Price,
-                Title = objPost.PostTitle
+                FileContent = postDataModel.ImageFileContent,
+                Title = postDataModel.PostTitle,
+                Order = order
             };
 
-            panelPost.CreateBaseData ( panelDataModel.BaseDataModel );
+            post.CreateBaseData ( panelDataModel.BaseDataModel );
+            listPosts.Add ( post );
 
-            panelEntity.CreatePost ( panelPost );
-
+            order += 1;
         } );
 
-        return panelEntity;
+        return listPosts;
     }
 
 
@@ -73,8 +79,7 @@ public static class PageServiceMapping
             } );
         } );
 
-        return listPanelPostDataModel
-            .ToList ( );
+        return listPanelPostDataModel.ToList ( );
     }
 
     public static PageDataModel MapPageDataModel ( Page pageEntity )
