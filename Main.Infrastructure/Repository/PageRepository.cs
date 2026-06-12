@@ -38,8 +38,16 @@ public class PageRepository: IPageRepository
         return page;
     }
 
-    public async Task<bool> UpdatePage ( Page page,Panel panel )
+    public async Task<bool> UpdatePage ( Panel panel,List<Post> listPosts )
     {
+        panel.ListPosts = listPosts;
+
+        Page? page = await _context.Pages.FirstOrDefaultAsync<Page>
+                                  ( m => m.PageID == panel.PageID );
+
+        if ( page == null )
+            return false;
+
         page.CreatePanel ( panel );
 
         _context.Pages.Update ( page );

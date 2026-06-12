@@ -31,10 +31,11 @@ public class PageService: IPageService
 
     public async Task<bool> CreateNewPanel ( PanelDataModel pagePanelDataModel )
     {
-        Page pageEntity = await _pageRepository.GetSinglePage (pagePanelDataModel.PageID);
-        Panel panelEntity = PageServiceMapping.CreatePanelEntity(pagePanelDataModel);
+        Panel panelEntity = PageServiceMapping.CreatePanelEntity ( pagePanelDataModel );
 
-        var result = await _pageRepository.UpdatePage ( pageEntity, panelEntity );
+        List<Post> listPostEntity = PageServiceMapping.CreateListPostEntity ( pagePanelDataModel );
+
+        var result = await _pageRepository.UpdatePage ( panelEntity, listPostEntity );
 
         return result;
     }

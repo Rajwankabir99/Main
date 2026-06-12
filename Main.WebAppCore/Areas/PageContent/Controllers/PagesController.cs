@@ -46,12 +46,14 @@ public class PagesController: BaseController
 {
     private readonly IPageService _pageService;
     private readonly IUserContext _userContext;
+    private readonly ILogger<PagesController> _logger;
 
     public PagesController ( IPageService pageDataService,
-                           IUserContext userContext )
+                           IUserContext userContext,ILogger<PagesController> logger )
     {
         _pageService = pageDataService;
         _userContext = userContext;
+        _logger = logger;
     }
 
 
@@ -104,8 +106,13 @@ public class PagesController: BaseController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize ( Roles = "Admin" )]
-    public async Task<IActionResult> SaveNewProductPanel ( LocalModel model )
+    public async Task<IActionResult> SaveNewProductPanel ( [FromBody] LocalModel model )
     {
+        _logger.LogWarning ( model.PanelTitle );
+        _logger.LogWarning ( model.PageID.ToString ( ) );
+        _logger.LogWarning ( model.TemplateTypeID.ToString ( ) );
+        _logger.LogWarning ( model.Numbers[0].ToString ( ) );
+
         if ( model == null )
         {
             return Json ( new
@@ -115,55 +122,59 @@ public class PagesController: BaseController
             } );
         }
 
-        //try
-        //{
-        PanelDataModel pagePanelDataModel
+        try
+        {
+            PanelDataModel pagePanelDataModel
             = new PanelDataModel( ( EnumPanelTemplate ) model.TemplateTypeID,
                                     model.PageID, model.PanelTitle  );
 
+            _logger.LogWarning ( pagePanelDataModel.PanelTitle );
+            _logger.LogWarning ( pagePanelDataModel.PageID.ToString ( ) );
+            _logger.LogWarning ( pagePanelDataModel.PanelTemplate.ToString ( ) );
 
-        pagePanelDataModel.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
+            pagePanelDataModel.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
 
-        List<PostDataModel> listReferencePosts
+            List<PostDataModel> listReferencePosts
                 = await _pageService.GetSelectProducts( _userContext.EnumCompanyName );
 
+            _logger.LogWarning ( "listReferencePosts (count):" + listReferencePosts.Count.ToString ( ) );
 
+            List<PostDataModel> listUserSelectedPosts = new List<PostDataModel>();
 
-        List<PostDataModel> listUserSelectedPosts = new List<PostDataModel>();
-
-        listUserSelectedPosts = listReferencePosts.Where ( obj =>
-        {
-            return model.Numbers.Contains ( obj.PanelPostID );
-        } ).ToList ( );
-
-        listUserSelectedPosts.ForEach ( selectedPost =>
-        {
-            selectedPost.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
-            pagePanelDataModel.CreatePost ( selectedPost );
-        } );
-
-        bool result  = await _pageService.CreateNewPanel ( pagePanelDataModel );
-
-
-        return Json ( new
-        {
-            success = result,
-            receivedUrl = Url.Action ( "Index","Pages",new
+            listUserSelectedPosts = listReferencePosts.Where ( obj =>
             {
-                Area = "PageContent"
-            } )
-        } );
+                return model.Numbers.Contains ( obj.PanelPostID );
+            } ).ToList ( );
 
-        //}
-        //catch ( Exception ex )
-        //{
-        //    throw ex;
-        //    //return Json ( new
-        //    //{
-        //    //    success = false,
-        //    //    message = ex.Message
-        //    //} );
-        //}
+            _logger.LogWarning ( "listUserSelectedPosts (count):" + listUserSelectedPosts.Count.ToString ( ) );
+
+            listUserSelectedPosts.ForEach ( selectedPost =>
+            {
+                selectedPost.SetBaseDataModel ( _userContext.GetCreateBaseDataModel ( ) );
+                pagePanelDataModel.CreatePost ( selectedPost );
+            } );
+
+            bool result  = await _pageService.CreateNewPanel ( pagePanelDataModel );
+
+
+            return Json ( new
+            {
+                success = result,
+                receivedUrl = Url.Action ( "Index","Pages",new
+                {
+                    Area = "PageContent"
+                } )
+            } );
+
+        }
+        catch ( Exception ex )
+        {
+            return Json ( new
+            {
+                success = false,
+                message = ex.Message
+            } );
+        }
     }
 
 
