@@ -89,9 +89,9 @@ function addArrows() {
         moveDown();
     });
 
-    // Down arrow button
+    // Save button
     const saveBtn = document.createElement('button');
-    saveBtn.className = 'arrow-btn down-arrow-btn';
+    saveBtn.className = 'save-btn';
     saveBtn.innerHTML = 'Save';
     saveBtn.title = 'Save or Press Enter';
     saveBtn.setAttribute('aria-label', 'Save or Press Enter');
@@ -101,9 +101,23 @@ function addArrows() {
         unselectPanel();
     });
 
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.innerHTML = 'Delete';
+    deleteBtn.title = 'Click to Delete Panel';
+    deleteBtn.setAttribute('aria-label', 'Click to Delete Panel');
+
+    deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deletePanel();
+    });
+
+    arrowContainer.appendChild(deleteBtn);
+    arrowContainer.appendChild(saveBtn);
     arrowContainer.appendChild(upArrowBtn);
     arrowContainer.appendChild(downArrowBtn);
-    arrowContainer.appendChild(saveBtn);
+    
     selectedPanel.appendChild(arrowContainer);
 
     // Update arrow visibility
@@ -208,6 +222,15 @@ function unselectPanel() {
         removeArrows();
         selectedPanel = null;
     }
+}
+
+function deletePanel() {
+    if (!selectedPanel)
+        return;
+
+    let panelId = selectedPanel.id;
+    console.log("Delete Panel Id:" + panelId);
+    alert(panelId);
 }
 
 // Listen for Enter key to unselect
