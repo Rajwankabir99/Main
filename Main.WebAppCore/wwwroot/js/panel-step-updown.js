@@ -57,6 +57,29 @@ function scrollToMiddle() {
     });
 }
 
+function GetPanelPositionData()
+{
+    const panels = listPanel.querySelectorAll('.panel');
+    let count = 0;
+    let panelId = 0;
+    const listPanelOrder = [];
+    panels.forEach(panel => {
+        count += 1;
+        panelId = panel.id;
+        listPanelOrder.push({ "PanelID": panelId, "PanelPosition": count })
+    });
+
+    return listPanelOrder;
+}
+
+function savePanelOrders()
+{
+    var data = GetPanelPositionData();
+
+
+
+}
+
 // Add up and down arrow buttons to selected panel
 function addArrows() {
     const existingArrows = selectedPanel.querySelector('.arrow-buttons');
