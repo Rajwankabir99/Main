@@ -1,21 +1,17 @@
 ﻿@using Main.Common.Enums
 @model List<PagePanelViewModel>
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/panel-up-down.css" />
-}
-
 @{
     ViewData["Title"] = "Edit Panels";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.ExcludeHeader = true;
 }
 
-
+@section Styles {
+    <link rel="stylesheet" href="~/css/panel-up-down.css" />
+}
 
 <div class="container"> 
-
-    <div class="gap"></div>
 
     <h4 class="card-title">EDIT PANELS</h4>
 
@@ -23,7 +19,8 @@
 
 </div>
 
-<div class="container panel-list">
+<div class="list-panel">
+    @Html.AntiForgeryToken()
 
     @{
         foreach(var model in Model.ToList())
@@ -49,12 +46,6 @@
     }
 
 </div>
-
 @section scriptsapp {
-
     <script src="~/js/panel-step-updown.js"></script>
-
-    <script>
-    </script>
-
 }

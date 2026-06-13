@@ -1,4 +1,4 @@
-const listPanel = document.querySelector('.panel-list');
+const listPanel = document.querySelector('.list-panel');
 let selectedPanel = null;
 const panelOrder = [];
 
@@ -43,17 +43,17 @@ function selectPanel(panel) {
     // Add arrow buttons
     addArrows();
 
-    // Scroll to make panel visible
-    ensureVisible();
+    // Scroll to middle of screen
+    scrollToMiddle();
 }
 
-// Ensure selected panel is visible on screen
-function ensureVisible() {
+// Scroll selected panel to middle of screen
+function scrollToMiddle() {
     if (!selectedPanel) return;
 
     selectedPanel.scrollIntoView({
         behavior: 'smooth',
-        block: 'nearest'
+        block: 'center'
     });
 }
 
@@ -89,8 +89,21 @@ function addArrows() {
         moveDown();
     });
 
+    // Down arrow button
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'arrow-btn down-arrow-btn';
+    saveBtn.innerHTML = 'Save';
+    saveBtn.title = 'Save or Press Enter';
+    saveBtn.setAttribute('aria-label', 'Save or Press Enter');
+
+    saveBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        unselectPanel();
+    });
+
     arrowContainer.appendChild(upArrowBtn);
     arrowContainer.appendChild(downArrowBtn);
+    arrowContainer.appendChild(saveBtn);
     selectedPanel.appendChild(arrowContainer);
 
     // Update arrow visibility
@@ -153,8 +166,8 @@ function moveUp() {
         updatePanelOrder();
         updateArrowVisibility();
 
-        // Ensure panel stays visible on screen after move
-        ensureVisible();
+        // Keep panel centered on screen after move
+        scrollToMiddle();
     }
 }
 
@@ -173,8 +186,8 @@ function moveDown() {
         updatePanelOrder();
         updateArrowVisibility();
 
-        // Ensure panel stays visible on screen after move
-        ensureVisible();
+        // Keep panel centered on screen after move
+        scrollToMiddle();
     }
 }
 
@@ -183,10 +196,8 @@ function updatePanelOrder() {
     const panels = Array.from(listPanel.querySelectorAll('.panel'));
     panelOrder.length = 0;
     panels.forEach((panel, index) => {
-        var panelId = panel.id;
-        panelOrder.push({ "PanelID" : panelId, "PanelPosition" : index });
+        panelOrder.push(index);
     });
-
     console.log('Current panel order:', panelOrder);
 }
 
