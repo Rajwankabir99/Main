@@ -84,5 +84,28 @@ public class PageService: IPageService
 
         return listPageDisplayDataModel.ToList ( );
     }
+
+    public async Task<bool> UpdatePanelsOrderAsync
+        ( List<PanelPositionDataModel> listPanelPositions )
+    {
+
+        List<(int PanelID, int PanelPosition)> listTuplePanelPositions = new List<(int, int)>();
+
+        listTuplePanelPositions.ForEach ( panelPosition =>
+        {
+            listTuplePanelPositions.Add ( (panelPosition.PanelID,panelPosition.PanelPosition) );
+        } );
+
+        bool result = await _pageRepository.UpdatePanelsOrderAsync ( listTuplePanelPositions );
+
+        return result;
+    }
+
+    public async Task<bool> DeletePanelAsync ( int panelId )
+    {
+        bool result = await _pageRepository.DeletePanelAsync ( panelId );
+
+        return result;
+    }
 }
 

@@ -62,5 +62,48 @@ public class PageRepository: IPageRepository
     {
         return await _context.Pages.AnyAsync ( e => e.PageID == id );
     }
+
+    public async Task<bool> UpdatePanelsOrderAsync
+        ( List<(int PanelID,int PanelPosition)> listPanelPositions )
+    {
+        int result = 0;
+
+        listPanelPositions.ForEach ( async p =>
+        {
+            Panel? panel = _context.Panels.FirstOrDefault<Panel>
+                                ( a => a.PanelID == p.PanelID );
+
+            if ( panel == null )
+            {
+                return;
+            }
+
+            panel.PanelPosition = p.PanelPosition;
+
+            _context.Panels.Update ( panel );
+
+            result = await _context.SaveChangesAsync ( );
+
+        } );
+
+        return result > 0;
+    }
+
+    public async Task<bool> DeletePanelAsync ( int panelID )
+    {
+        Panel? panel = _context.Panels.FirstOrDefault<Panel>
+                                ( a => a.PanelID == panelID );
+
+        if ( panel == null )
+        {
+            return false;
+        }
+
+        _context.Panels.Remove ( panel );
+
+        int result = await _context.SaveChangesAsync();
+
+        return result > 0;
+    }
 }
 

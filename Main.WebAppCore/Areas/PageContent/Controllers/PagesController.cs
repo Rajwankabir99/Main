@@ -4,57 +4,12 @@ using Main.Common.Enums;
 using Main.Services;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using WebAppCore.ViewModel;
 using WebAppCore.ViewModel.Extensions;
 
 namespace Main.WebAppCore;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-
-public class PanelPositionDto
-{
-    public string Id { get; set; } = string.Empty;
-    public int Position
-    {
-        get; set;
-    }
-}
-
-public class LocalModel
-{
-    public LocalModel ( )
-    {
-        Numbers = new List<int> ( );
-    }
-
-    public string PanelTitle
-    {
-        get; set;
-    }
-
-    public int TemplateTypeID
-    {
-        get; set;
-    }
-
-    public int PageID
-    {
-        get; set;
-    }
-
-    public List<int> Numbers
-    {
-        get; set;
-    }
-}
-
 
 [Area ( "PageContent" )]
 [Authorize ( Roles = "Admin" )]
@@ -213,12 +168,13 @@ public class PagesController: BaseController
         return View ( pageViewModel.ListPagePanels.ToList ( ) );
     }
 
-
+    [IgnoreAntiforgeryToken]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdatePositions ( [FromBody] List<PanelPositionDto>? dtos )
+    [Authorize ( Roles = "Admin" )]
+    public async Task<IActionResult> UpdatePositions ( [FromBody] List<PanelPositionDataModel>? listPanelPositionDataModel )
     {
-        if ( dtos == null || dtos.Count == 0 )
+        if ( listPanelPositionDataModel == null || listPanelPositionDataModel.Count == 0 )
         {
             return BadRequest ( new
             {
@@ -228,38 +184,60 @@ public class PagesController: BaseController
 
         try
         {
-            // Basic validation
-            foreach ( var item in dtos )
+            foreach ( var item in listPanelPositionDataModel )
             {
-                if ( string.IsNullOrEmpty ( item?.Id ) )
+                if ( item == null )
+                {
                     return BadRequest ( new
                     {
                         success = false,
                         error = "One or more items missing Id."
                     } );
+                }
             }
 
-            // Example: persist the order using your domain/service layer
-            // await _pageService.UpdatePanelsOrderAsync(dtos);
+            bool result = await _pageService.UpdatePanelsOrderAsync ( listPanelPositionDataModel );
 
-            // For now just log and return the received ordering
-            _logger.LogWarning ( "Received panel order update. Count: {Count}",dtos.Count );
 
-            // Return the updated list as confirmation
             return Ok ( new
             {
-                success = true,
-                order = dtos
+                success = result
             } );
         }
         catch ( Exception ex )
         {
             _logger.LogError ( ex,"Error updating panel positions" );
 
-            return StatusCode ( 500,new
+            return BadRequest ( new
             {
                 success = false,
-                error = "Server error"
+                error = ex.Message
+            } );
+        }
+    }
+
+
+    [IgnoreAntiforgeryToken]
+    [HttpDelete]
+    [ValidateAntiForgeryToken]
+    [Authorize ( Roles = "Admin" )]
+    public async Task<IActionResult> DeletePanel ( int id )
+    {
+        try
+        {
+            bool result = await _pageService.DeletePanelAsync(id);
+
+            return Ok ( new
+            {
+                success = result
+            } );
+        }
+        catch ( Exception ex )
+        {
+            return BadRequest ( new
+            {
+                success = false,
+                error = ex.Message
             } );
         }
     }
