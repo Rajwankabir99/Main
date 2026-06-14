@@ -1,29 +1,59 @@
+
 const listPanel = document.querySelector('.list-panel');
 let selectedPanel = null;
 const panelOrder = [];
 
+
+function confirmAndProceed()
+{
+
+    // 1. Display the native confirmation box
+    const userConfirmed = confirm ("Are you sure you want to delete this Panel?");
+
+    // 2. Evaluate the user's choice
+    if (userConfirmed)
+    {
+        console.log("User clicked OK (Yes). Proceeding with action...");
+        // Call your delete logic here
+
+        return true;
+    }
+    else
+    {
+        console.log("User clicked Cancel (No). Action aborted.");
+
+        return false;
+    }
+}
+
+
 // Initialize panel order array
-function initializePanelOrder()
+async function initializePanelOrder()
 {
     const panels = Array.from(listPanel.querySelectorAll('.panel'));
+
     panelOrder.length = 0;
-    panels.forEach((panel, index) =>
-    {
-        panelOrder.push(index);
+
+    panels.forEach((panel, index) => {
+
+        panelId = panel.id;
+
+        panelOrder.push({ "PanelID": panelId, "PanelPosition": index });
     });
 }
 
 // Setup event listeners for all panels
-function setupPanels()
+async function setupPanels()
 {
     const panels = listPanel.querySelectorAll('.panel');
 
     panels.forEach(panel =>
     {
         // Single click to select
-        panel.addEventListener('click', (e) => {
-            if (e.detail !== 2) { // Ignore double-clicks
-                selectPanel(panel);
+        panel.addEventListener('click', async (e) => {
+            if (e.detail !== 2)
+            { // Ignore double-clicks
+                await selectPanel(panel);
             }
         });
 
@@ -33,7 +63,7 @@ function setupPanels()
 }
 
 // Select a panel
-function selectPanel(panel)
+async function selectPanel(panel)
 {
     // Deselect previous panel
     if (selectedPanel)
@@ -47,7 +77,7 @@ function selectPanel(panel)
     selectedPanel.classList.add('selected');
 
     // Add arrow buttons
-    addArrows();
+    await addArrows();
 
     // Scroll to middle of screen
     scrollToMiddle();
@@ -69,7 +99,7 @@ function scrollToMiddle()
 
 
 // Add up and down arrow buttons to selected panel
-function addArrows()
+async function addArrows()
 {
     const existingArrows = selectedPanel.querySelector('.arrow-buttons');
 
@@ -86,10 +116,10 @@ function addArrows()
     upArrowBtn.title = 'Move up';
     upArrowBtn.setAttribute('aria-label', 'Move up');
 
-    upArrowBtn.addEventListener('click', (e) =>
+    upArrowBtn.addEventListener('click', async (e) =>
     {
         e.stopPropagation();
-        moveUp();
+        await moveUp();
     });
 
     // Down arrow button
@@ -99,10 +129,10 @@ function addArrows()
     downArrowBtn.title = 'Move down';
     downArrowBtn.setAttribute('aria-label', 'Move down');
 
-    downArrowBtn.addEventListener('click', (e) =>
+    downArrowBtn.addEventListener('click', async (e) =>
     {
         e.stopPropagation();
-        moveDown();
+        await moveDown();
     });
 
     // Save button
@@ -112,11 +142,11 @@ function addArrows()
     saveBtn.title = 'Save or Press Enter';
     saveBtn.setAttribute('aria-label', 'Save or Press Enter');
 
-    saveBtn.addEventListener('click', (e) =>
+    saveBtn.addEventListener('click', async (e) =>
     {
         e.stopPropagation();
        
-        savePanelOrders();
+        await savePanelOrders();
     });
 
     // Delete button
@@ -127,11 +157,16 @@ function addArrows()
     deleteBtn.title = 'Click to Delete Panel';
     deleteBtn.setAttribute('aria-label', 'Click to Delete Panel');
 
-    deleteBtn.addEventListener('click', (e) =>
+    deleteBtn.addEventListener('click', async (e) =>
     {
         e.stopPropagation();
 
-        deletePanel(e.target.id);
+        var id = e.target.id
+
+        if (confirmAndProceed())
+        {
+            await deletePanel(id);
+        }
     });
 
     arrowContainer.appendChild(deleteBtn);
@@ -152,29 +187,41 @@ async function deletePanel(id)
 
     console.log("Delete Panel Id:" + id);
 
+    const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+
+    if (!tokenElement) {
+        console.error("Anti-forgery token element not found in the DOM.");
+        return false;
+    }
+
+    const tokenValue = tokenElement.value;
+
     try
     {
 
         const response =
 
-            await fetch( '@Url.Action("DeletePanel", "Pages", new { area = "PageContent" })' + $ { id },
+            await fetch( '@Url.Action("DeletePanel", "Pages", new { area = "PageContent" })' +  id ,
             {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': tokenValue
                 }
-            });
+                });
 
-        if (response.ok)
+        const dataresponse = await response.json();
+
+        consoe.log(dataresponse);
+
+        if (dataresponse.success)
         {
-            console.log(`Product ${id} successfully deleted.`);
-
             const element = document.getElementById(id);
 
             if (element)
             {
                 element.remove();
-                unselectPanel();
+                await unselectPanel();
 
                 return true;
             }
@@ -196,31 +243,27 @@ async function deletePanel(id)
     return false;
 }
 
-function GetPanelPositionData()
+async function GetPanelPositionData()
 {
-    const panels = listPanel.querySelectorAll('.panel');
-
-    let count = 0;
-    let panelId = 0;
-    const listPanelOrder = [];
-
-    panels.forEach(panel =>
-    {
-        count += 1;
-        panelId = panel.id;
-
-        listPanelOrder.push({ "PanelID": panelId, "PanelPosition": count })
-    });
-
-    return listPanelOrder;
+    return await updatePanelOrder();
 }
 
 async function savePanelOrders()
 {
 
-    const data = GetPanelPositionData();
+    const data = await GetPanelPositionData();
 
     const urlUpdateOprders = '@Url.Action("UpdatePositions", "Pages", new { area = "PageContent" })';
+    
+    const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+
+    if (!tokenElement)
+    {
+        console.error("Anti-forgery token element not found in the DOM.");
+        return false;
+    }
+
+    const tokenValue = tokenElement.value;
 
     try
     {
@@ -229,21 +272,24 @@ async function savePanelOrders()
             await fetch( urlUpdateOprders ,
             {
                 method: 'POST' ,
-                headers: { 'Content-Type': 'application/json' } ,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': tokenValue
+                },
                 body: JSON.stringify(data)
             } );
 
-        if (response.ok)
+        const dataresponse = await response.json();
+
+        if (dataresponse.success)
         {
-            const result = await response.json();
+            await unselectPanel();
 
-            unselectPanel();
-
-            console.log("Success:", result.success);
+            console.log("Success:", dataresponse.success);
         }
         else
         {
-            console.error("Server Error:", response.success, response.error);
+            console.error("Server Error:", dataresponse.success, dataresponse.error);
         }
     }
     catch (error)
@@ -307,21 +353,22 @@ function updateArrowVisibility()
 }
 
 // Move selected panel up one step
-function moveUp()
+async function moveUp()
 {
     if (!selectedPanel)
         return;
 
     const panels = Array.from(listPanel.querySelectorAll('.panel'));
+
     const currentIndex = panels.indexOf(selectedPanel);
 
-    if (currentIndex > 0)
-    {
+    if (currentIndex > 0) {
         const prevPanel = selectedPanel.previousElementSibling;
+
         listPanel.insertBefore(selectedPanel, prevPanel);
 
         // Update order array and arrow visibility
-        updatePanelOrder();
+        await updatePanelOrder();
         updateArrowVisibility();
 
         // Keep panel centered on screen after move
@@ -329,8 +376,9 @@ function moveUp()
     }
 }
 
+
 // Move selected panel down one step
-function moveDown()
+async function moveDown()
 {
     if (!selectedPanel)
         return;
@@ -345,7 +393,7 @@ function moveDown()
         listPanel.insertBefore(nextPanel, selectedPanel);
 
         // Update order array and arrow visibility
-        updatePanelOrder();
+        await updatePanelOrder();
         updateArrowVisibility();
 
         // Keep panel centered on screen after move
@@ -353,42 +401,47 @@ function moveDown()
     }
 }
 
-// Update panel order array
-function updatePanelOrder()
+// Update panel order array 
+ async function updatePanelOrder()
 {
     const panels = Array.from(listPanel.querySelectorAll('.panel'));
+
     panelOrder.length = 0;
 
     panels.forEach((panel, index) => {
-        panelOrder.push(index);
+        
+        panelId = panel.id;
+
+        panelOrder.push({ "PanelID": panelId, "PanelPosition": index });
     });
 
     console.log('Current panel order:', panelOrder);
 }
 
 // Unselect panel
-function unselectPanel()
+async function unselectPanel()
 {
     if (selectedPanel)
     {
         selectedPanel.classList.remove('selected');
-        removeArrows();
+        await removeArrows();
         selectedPanel = null;
     }
 }
 
 
 // Listen for Enter key to unselect
-document.addEventListener('keydown', (e) =>
+document.addEventListener('keydown', async (e) =>
 {
     if (e.key === 'Enter' && selectedPanel) {
-        unselectPanel();
+       await unselectPanel();
     }
 });
 
 // Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', () =>
+document.addEventListener('DOMContentLoaded', async () =>
 {
-    initializePanelOrder();
-    setupPanels();
+    await initializePanelOrder();
+
+    await setupPanels();
 });

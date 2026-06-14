@@ -168,9 +168,10 @@ public class PagesController: BaseController
         return View ( pageViewModel.ListPagePanels.ToList ( ) );
     }
 
-
+    [IgnoreAntiforgeryToken]
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize ( Roles = "Admin" )]
     public async Task<IActionResult> UpdatePositions ( [FromBody] List<PanelPositionDataModel>? listPanelPositionDataModel )
     {
         if ( listPanelPositionDataModel == null || listPanelPositionDataModel.Count == 0 )
@@ -207,7 +208,7 @@ public class PagesController: BaseController
         {
             _logger.LogError ( ex,"Error updating panel positions" );
 
-            return StatusCode ( 500,new
+            return BadRequest ( new
             {
                 success = false,
                 error = ex.Message
@@ -216,7 +217,9 @@ public class PagesController: BaseController
     }
 
 
-    [HttpDelete ( "{id:int}" )]
+    [IgnoreAntiforgeryToken]
+    [HttpDelete]
+    [ValidateAntiForgeryToken]
     [Authorize ( Roles = "Admin" )]
     public async Task<IActionResult> DeletePanel ( int id )
     {
