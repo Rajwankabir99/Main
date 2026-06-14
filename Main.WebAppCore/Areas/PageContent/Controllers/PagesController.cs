@@ -168,17 +168,17 @@ public class PagesController: BaseController
         return View ( pageViewModel.ListPagePanels.ToList ( ) );
     }
 
-    [IgnoreAntiforgeryToken]
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize ( Roles = "Admin" )]
-    public async Task<IActionResult> UpdatePositions ( [FromBody] List<PanelPositionDataModel>? listPanelPositionDataModel )
+    public async Task<IActionResult> UpdatePositions ( [FromBody] List<PanelPositionDataModel> listPanelPositionDataModel )
     {
-        if ( listPanelPositionDataModel == null || listPanelPositionDataModel.Count == 0 )
+        if ( listPanelPositionDataModel.Count == 0 )
         {
             return BadRequest ( new
             {
-                success = false,error = "Payload is empty or invalid."
+                success = false,
+                error = "Payload is empty or invalid!"
             } );
         }
 
@@ -188,10 +188,10 @@ public class PagesController: BaseController
             {
                 if ( item == null )
                 {
-                    return BadRequest ( new
+                    return Json ( new
                     {
                         success = false,
-                        error = "One or more items missing Id."
+                        error = "Validation failed!"
                     } );
                 }
             }
@@ -199,7 +199,7 @@ public class PagesController: BaseController
             bool result = await _pageService.UpdatePanelsOrderAsync ( listPanelPositionDataModel );
 
 
-            return Ok ( new
+            return Json ( new
             {
                 success = result
             } );
@@ -207,8 +207,7 @@ public class PagesController: BaseController
         catch ( Exception ex )
         {
             _logger.LogError ( ex,"Error updating panel positions" );
-
-            return BadRequest ( new
+            return Json ( new
             {
                 success = false,
                 error = ex.Message
@@ -217,7 +216,7 @@ public class PagesController: BaseController
     }
 
 
-    [IgnoreAntiforgeryToken]
+
     [HttpDelete]
     [ValidateAntiForgeryToken]
     [Authorize ( Roles = "Admin" )]
@@ -227,14 +226,15 @@ public class PagesController: BaseController
         {
             bool result = await _pageService.DeletePanelAsync(id);
 
-            return Ok ( new
+            return Json ( new
             {
-                success = result
+                success = result,
+                id = id
             } );
         }
         catch ( Exception ex )
         {
-            return BadRequest ( new
+            return Json ( new
             {
                 success = false,
                 error = ex.Message

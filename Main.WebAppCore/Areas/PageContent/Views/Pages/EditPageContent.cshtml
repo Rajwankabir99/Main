@@ -23,8 +23,11 @@
     @Html.AntiForgeryToken()
 
     @{
+        
+
         foreach(var model in Model.ToList())
         {
+            
 
             if ( model.PanelTemplate == EnumPanelTemplate.ProductSixer)
             {
@@ -46,6 +49,13 @@
     }
 
 </div>
-@section scriptsapp {
+
+<partial name="~/Views/Shared/_ConfirmModal.cshtml" />
+
+
+
+
+@section scriptsapp 
+{
     <script src="~/js/panel-step-updown.js"></script>
 }
