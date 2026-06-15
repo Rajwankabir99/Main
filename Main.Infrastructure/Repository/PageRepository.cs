@@ -64,47 +64,5 @@ public class PageRepository: IPageRepository
     }
 
 
-    public async Task<bool> UpdatePanelsOrderAsync (
-        List<(int PageId,int PanelId,int PanelPosition,
-            EnumCompanyName company,EnumCountry country)> listPanelPositions )
-    {
-        foreach ( var panelVariable in listPanelPositions )
-        {
-            Panel panel = await _context.Panels.FirstAsync<Panel>
-                                ( a =>
-                                  a.PanelID == panelVariable.PanelId
-                               && a.PageID == panelVariable.PageId
-                               && a.HostCompanyName == panelVariable.company
-                               && a.HostCountry == panelVariable.country);
-
-            panel.PanelPosition = panelVariable.PanelPosition;
-
-            _context.Panels.Update ( panel );
-
-        }
-
-        int result = await _context.SaveChangesAsync ( );
-
-        return result > 0;
-    }
-
-    public async Task<bool> DeletePanelAsync (
-        int panelId,int pageId,
-        EnumCompanyName company,
-        EnumCountry country )
-    {
-        Panel panel = await _context.Panels.FirstAsync<Panel>
-                                ( a =>
-                                  a.PanelID == panelId
-                               && a.PageID == pageId
-                               && a.HostCompanyName == company
-                               && a.HostCountry == country);
-
-        _context.Panels.Remove ( panel );
-
-        int result = await _context.SaveChangesAsync();
-
-        return result > 0;
-    }
 }
 

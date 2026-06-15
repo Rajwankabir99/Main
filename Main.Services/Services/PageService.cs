@@ -5,6 +5,7 @@ using Domain.Model;
 using IRepository;
 
 using Main.Common.Enums;
+using Main.Common.Model;
 using Main.Services.Extensions;
 
 namespace Main.Services;
@@ -16,17 +17,20 @@ public class PageService: IPageService
     public readonly IAdminPostImageRepository _adminPostImageRepository;
     public readonly IAdminPostImageRepository _adminPostsImageRepository;
     public readonly IPageRepository _pageRepository;
+    public readonly IPanelRepository _panelRepository;
 
     public PageService (
         IProductImageRepository productImageRepository,
         IAdminPostImageRepository adminPostsImageRepository,
         IPageRepository pageRepository,
-        IAdminPostImageRepository adminPostImageRepository )
+        IAdminPostImageRepository adminPostImageRepository,
+        IPanelRepository panelRepository )
     {
         _productImageRepository = productImageRepository;
         _adminPostsImageRepository = adminPostsImageRepository;
         _pageRepository = pageRepository;
         _adminPostImageRepository = adminPostImageRepository;
+        _panelRepository = panelRepository;
     }
 
     public async Task<bool> CreateNewPanel ( PanelDataModel pagePanelDataModel )
@@ -86,27 +90,30 @@ public class PageService: IPageService
     }
 
     public async Task<bool> UpdatePanelsOrderAsync
-        ( List<PanelPositionDataModel> listPanelPositions )
+        ( List<PanelPositionDataModel> listPanelPositions,BaseDataModel baseDataModel )
     {
 
-        List<(int PanelId,int PageId, int PanelPosition, EnumCompanyName company,
-            EnumCountry country)> listTuplePanelPositions = new List<(int, int, int, EnumCompanyName, EnumCountry)>();
+        List<(int PanelID, int PageID, int PanelPosition)> listTuplePanelPositions = new();
 
-        listTuplePanelPositions.ForEach ( panelPosition =>
+
+
+        listPanelPositions.ForEach ( panelPosition =>
         {
+
             listTuplePanelPositions.Add (
-                (panelPosition.PanelId,panelPosition.PageId,
-                panelPosition.PanelPosition,panelPosition.company,panelPosition.country) );
+                (PanelID: panelPosition.PanelID,
+                 PageID: panelPosition.PageID,
+                 PanelPosition: panelPosition.PanelPosition) );
         } );
 
-        bool result = await _pageRepository.UpdatePanelsOrderAsync ( listTuplePanelPositions );
+        bool result = await _panelRepository.UpdatePanelsOrderAsync ( listTuplePanelPositions, baseDataModel );
 
         return result;
     }
 
-    public async Task<bool> DeletePanelAsync ( int panelId,int pageId,EnumCompanyName company,EnumCountry country )
+    public async Task<bool> DeletePanelAsync ( int panelId )
     {
-        bool result = await _pageRepository.DeletePanelAsync ( panelId, pageId, company, country );
+        bool result = await _panelRepository.DeletePanelAsync ( panelId );
 
         return result;
     }
