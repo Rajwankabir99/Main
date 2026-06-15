@@ -54,14 +54,14 @@ public class PagesController: BaseController
     [Authorize ( Roles = "Admin" )]
     public async Task<IActionResult> NewProductPanel ( int id )
     {
-        PagePanelViewModel pagePanelViewModel = new PagePanelViewModel();
+        PanelViewModel pagePanelViewModel = new PanelViewModel();
 
 
 
         List<PostDataModel> listSelectProductsDataModel =
             await _pageService.GetSelectProducts(_userContext.EnumCompanyName);
 
-        pagePanelViewModel.ListSelectProducts =
+        pagePanelViewModel.ListSelectPosts =
             PageMapping.MapSelectPostViewModel ( listSelectProductsDataModel
                                                 ,_userContext.EnumCategoryFor
                                                 ,_userContext.EnumCurrency );

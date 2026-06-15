@@ -1,4 +1,4 @@
-﻿@model PagePanelViewModel
+﻿@model PanelViewModel
 
 @{
     ViewData["Title"] = "Add Product Template";
@@ -82,23 +82,23 @@
         <div id="dropFromContainer" class="col-md-10 card-form">
     @{
 
-        foreach (var product in Model.ListSelectProducts)
+        foreach (var postViewModel in Model.ListSelectPosts)
         {
-            <div id="@product.PanelPostID" 
+                <div id="@postViewModel.PanelPostID"
                     draggable="true" 
                     style="display:inline-block;
                         padding:2px;    
                         margin-bottom:15px;">
 
-                @await Html.PartialAsync( "~/Areas/PageContent/Views/Pages/_SelectImage.cshtml", product)
+                @await Html.PartialAsync( "~/Areas/PageContent/Views/Pages/_SelectImage.cshtml",postViewModel )
                             
                 <div class="text-bg-info" draggable="false"> 
-                    @product.CategoryName
+                        @postViewModel.CategoryName
                 </div>
 
                 <div draggable="false">
                     <span>
-                        @product.Price &nbsp; @product.Currency
+                        @postViewModel.Price &nbsp; @postViewModel.Currency
                     </span>
                 </div>
 
@@ -106,8 +106,7 @@
 
             <script>
 
-                document.getElementById('@product.PanelPostID')
-                        .addEventListener('dragstart', (e) => 
+                document.getElementById('@postViewModel.PanelPostID').addEventListener('dragstart', (e) => 
                 {
 
                     e.dataTransfer.setData('text/plain', e.target.id);

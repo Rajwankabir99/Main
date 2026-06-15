@@ -364,30 +364,7 @@ document.addEventListener('DOMContentLoaded', async () =>
             selectedPanel = null;
         }
     }
-    
-
-    async function confirmAndProceed()
-    {
-
-        // 1. Display the native confirmation box
-        const confirmed =
-            await showCustomConfirm("Delete Panel", "Are you sure you want to delete this Panel?");
-
-        // 2. Evaluate the user's choice
-        if (confirmed)
-        {
-            console.log("User clicked OK (Yes). Proceeding with action...");
-            // Call your delete logic here
-
-            return true;
-        }
-        else
-        {
-            console.log("User clicked Cancel (No). Action aborted.");
-
-            return false;
-        }
-    }
+   
 
     function deleteElementById(elementId)
     {
@@ -396,11 +373,6 @@ document.addEventListener('DOMContentLoaded', async () =>
             element.remove();
         } 
     }
-
-    // Example usage:
-    // deleteElementById('panel-12');
-
-
 
     async function deletePanel(id)
     {

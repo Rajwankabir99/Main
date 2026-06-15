@@ -8,18 +8,18 @@ using WebAppCore.Helper;
 
 namespace WebAppCore.ViewModel;
 
-public class PagePanelViewModel: BaseViewModel
+public class PanelViewModel: BaseViewModel
 {
-    public PagePanelViewModel ( )
+    public PanelViewModel ( )
     {
-        ListSelectProducts = new List<PanelPostSelectViewModel> ( );
-        ListPanelPosts = new List<PanelPostViewModel> ( );
+        ListSelectPosts = new List<PostSelectViewModel> ( );
+        ListPosts = new List<PostViewModel> ( );
         AV_PanelTemplate = SelectListItemDropDown.GetPanelTempletList ( );
     }
 
-    public PagePanelViewModel ( EnumPanelTemplate enumPanelTemplate )
+    public PanelViewModel ( EnumPanelTemplate enumPanelTemplate )
     {
-        ListPanelPosts = new List<PanelPostViewModel> ( );
+        ListPosts = new List<PostViewModel> ( );
         AV_PanelTemplate = SelectListItemDropDown.GetPanelTempletList ( );
         PanelTemplate = enumPanelTemplate;
     }
@@ -60,26 +60,26 @@ public class PagePanelViewModel: BaseViewModel
         get; set;
     }
 
-    public List<PanelPostSelectViewModel> ListSelectProducts
+    public List<PostSelectViewModel> ListSelectPosts
     {
         get; set;
     }
 
-    public List<PanelPostViewModel> ListPanelPosts
+    public List<PostViewModel> ListPosts
     {
         get; set;
     }
 
-    public void CreatePanelPost ( PanelPostViewModel panelPost )
+    public void CreatePanelPost ( PostViewModel postViewModel )
     {
-        if ( ListPanelPosts == null )
+        if ( ListPosts == null )
         {
-            ListPanelPosts = new List<PanelPostViewModel> ( );
+            ListPosts = new List<PostViewModel> ( );
         }
 
-        if ( panelPost != null )
+        if ( postViewModel != null )
         {
-            ListPanelPosts.Add ( panelPost );
+            ListPosts.Add ( postViewModel );
         }
     }
 }

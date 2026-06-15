@@ -21,36 +21,4 @@
         $("body").removeClass("no-scroll");
     });
 
-
-    // wwwroot/js/site.js
-    function showCustomConfirm(title, message) {
-        return new Promise((resolve) => {
-            const dialog = document.getElementById('customConfirmModal');
-            if (!dialog) {
-                console.error("Confirm partial view HTML is missing from this page.");
-                return resolve(false);
-            }
-
-            document.getElementById('confirmTitle').textContent = title;
-            document.getElementById('confirmMessage').textContent = message;
-
-            dialog.showModal();
-
-            const yesBtn = document.getElementById('confirmYesBtn');
-            const noBtn = document.getElementById('confirmNoBtn');
-
-            const handleYes = () => { cleanup(); resolve(true); };
-            const handleNo = () => { cleanup(); resolve(false); };
-
-            function cleanup() {
-                yesBtn.removeEventListener('click', handleYes);
-                noBtn.removeEventListener('click', handleNo);
-                dialog.close();
-            }
-
-            yesBtn.addEventListener('click', handleYes);
-            noBtn.addEventListener('click', handleNo);
-        });
-    }
-
 })(jQuery);

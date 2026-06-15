@@ -6,7 +6,7 @@ namespace WebAppCore.ViewModel;
 public class PageViewModel : BaseViewModel
 {
     public PageViewModel() {
-        ListPagePanels = new List<PagePanelViewModel>();
+        ListPagePanels = new List<PanelViewModel>();
     }
 
 
@@ -14,7 +14,7 @@ public class PageViewModel : BaseViewModel
                         EnumPublicPage enumPublicPage, 
                         EnumCompanyName enumCompany)
     {
-        ListPagePanels = new List<PagePanelViewModel>();
+        ListPagePanels = new List<PanelViewModel>();
 
         PageID = id;
         
@@ -40,14 +40,14 @@ public class PageViewModel : BaseViewModel
     public string? CompanyName { get; set; }
 
 
-    public List<PagePanelViewModel> ListPagePanels { get; set; }
+    public List<PanelViewModel> ListPagePanels { get; set; }
 
 
-    public void CreatePageContent(PagePanelViewModel pageContentViveModel)
+    public void CreatePageContent(PanelViewModel pageContentViveModel)
     {
         if (ListPagePanels == null)
         {
-            ListPagePanels = new List<PagePanelViewModel>();
+            ListPagePanels = new List<PanelViewModel>();
         }
 
         if (pageContentViveModel != null)

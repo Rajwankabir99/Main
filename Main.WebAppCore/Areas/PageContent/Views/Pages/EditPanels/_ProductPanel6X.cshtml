@@ -1,23 +1,23 @@
-﻿@model PagePanelViewModel
+﻿@model PanelViewModel
 
 @{
     string hide = "";
 
-    List<PanelPostViewModel> list = new List<PanelPostViewModel>();
+    List<PostViewModel> list = new List<PostViewModel>();
 
-    if ( Model.ListPanelPosts == null || Model.ListPanelPosts.Count == 0)
+    if ( Model.ListPosts == null || Model.ListPosts.Count == 0)
     {
         hide = "hide";
     }
     else
     {
-        if ( Model.ListPanelPosts.Count < 6)
+        if ( Model.ListPosts.Count < 6)
         {
             hide = "hide";
         }
         else
         {
-            list = Model.ListPanelPosts.Take<PanelPostViewModel> ( 6 ).ToList();
+            list = Model.ListPosts.Take<PostViewModel> ( 6 ).ToList();
         }
     }
 }

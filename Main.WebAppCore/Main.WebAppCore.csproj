@@ -80,6 +80,7 @@
     <Content Remove="Views\Home\Terms.cshtml" />
     <Content Remove="Views\Home\Terms.Mobile.cshtml" />
     <Content Remove="Views\Home\Terms.Tablet.cshtml" />
+    <Content Remove="Views\Shared\_ConfirmModal.cshtml" />
     <Content Remove="Views\Shared\_PageContent.cshtml" />
     <Content Remove="Views\Shared\_ShoppingCartNotification.cshtml" />
   </ItemGroup>
