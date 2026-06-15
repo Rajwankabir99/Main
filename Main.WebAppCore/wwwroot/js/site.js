@@ -20,4 +20,5 @@
         $("[data-request=modal],[data-request=content]").removeClass("active");
         $("body").removeClass("no-scroll");
     });
+
 })(jQuery);

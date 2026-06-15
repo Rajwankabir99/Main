@@ -3,14 +3,14 @@
 using System.ComponentModel.DataAnnotations;
 namespace WebAppCore.ViewModel;
 
-public class PanelPostSelectViewModel
+public class PostSelectViewModel
 {
-    public PanelPostSelectViewModel ( )
+    public PostSelectViewModel ( )
     {
     }
 
 
-    public PanelPostSelectViewModel ( EnumPostType enumPostType,int rootId,int imageId,int order )
+    public PostSelectViewModel ( EnumPostType enumPostType,int rootId,int imageId,int order )
     {
         EnumPostType = enumPostType;
         RootID = rootId;
