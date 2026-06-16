@@ -60,8 +60,11 @@ public class PageRepository: IPageRepository
     public async Task<bool> UpdatePage ( Page page,List<Panel> listPanels )
     {
         page.ListPanels = listPanels;
+
         _context.Pages.Update ( page );
+
         int result = await _context.SaveChangesAsync();
+
         return result > 0;
     }
 

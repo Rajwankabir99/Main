@@ -85,13 +85,9 @@ public class PageService: IPageService
         return listPageDisplayDataModel.ToList ( );
     }
 
-    public async Task<bool> UpdatePanelsOrderAsync ( List<PanelPositionDataModel> listPanelPositionDataModel,BaseDataModel baseDataModel )
+    public async Task<bool> UpdatePanelsOrderAsync ( List<PanelPositionDataModel> listPanelPositionDataModel,BaseDataModel baseDataModel,int pageId )
     {
         List<int> listPanelIds = listPanelPositionDataModel.Select(x => x.PanelID).ToList();
-
-        int pageId = listPanelPositionDataModel.Any< PanelPositionDataModel >  ()
-                                        ? listPanelPositionDataModel.Last().PageID
-                                        : 0;
 
         Page page = await _pageRepository.GetSinglePage ( pageId );
 
