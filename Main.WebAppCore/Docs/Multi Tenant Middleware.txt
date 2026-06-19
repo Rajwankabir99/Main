@@ -34,44 +34,7 @@ public class TenantResolverMiddleware
         ITenantRepository tenantRepository, 
         ITenantService tenantService)
     {
-        // 1. Get the clean host name (e.g., "://mysapp.com" or "clientdomain.com")
-        string host = context.Request.Host.Host.ToLowerProvider();
 
-        if (!string.IsNullOrWhiteSpace(host) && host != "localhost")
-        {
-            Tenant? tenant = null;
-
-            // 2. Identify the identifier (Is it a subdomain or a top-level custom domain?)
-            string[] segments = host.Split('.');
-
-            // Filter out 'www' if it's at the beginning
-            if (segments.Length > 0 && segments[0] == "www")
-            {
-                segments = segments.Skip(1).ToArray();
-                host = string.Join(".", segments);
-            }
-
-            // 3. Database Lookup Strategy
-            if (segments.Length > 2)
-            {
-                // It's a subdomain lookup (e.g., "://myapp.com" -> looks up "tenant1")
-                string subdomain = segments[0];
-                tenant = await tenantRepository.GetBySubdomainAsync(subdomain);
-            }
-            
-            // 4. Fallback to full top-level domain lookup if subdomain failed or wasn't present
-            if (tenant == null)
-            {
-                // Looks up the full domain (e.g., "clientdomain.com")
-                tenant = await tenantRepository.GetByCustomDomainAsync(host);
-            }
-
-            // 5. Store the found tenant into the scoped service
-            if (tenant != null)
-            {
-                tenantService.CurrentTenant = tenant;
-            }
-        }
 
         // Continue the HTTP request pipeline
         await _next(context);
@@ -191,7 +154,7 @@ public class TenantResolverMiddleware
         ITenantService tenantService)
     {
         // 1. Get the clean host name (e.g., "://mysapp.com" or "clientdomain.com")
-        string host = context.Request.Host.Host.ToLowerProvider();
+        string host = context.Request.Host.Host.ToLower();
 
         if (!string.IsNullOrWhiteSpace(host) && host != "localhost")
         {
