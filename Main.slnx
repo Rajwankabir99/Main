@@ -40,6 +40,9 @@
     <File Path="Docs/View Component Best Practices.txt" />
     <File Path="Docs/View Component.txt" />
   </Folder>
+  <Folder Name="/Docs/Website/">
+    <File Path="Header CSS.txt" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path="index.html" />
