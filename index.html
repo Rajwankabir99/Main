@@ -6,6 +6,30 @@
     <title>Multi tenant shopping store</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <style>
+        header {
+            background: linear-gradient(90deg, #FF0033, #0066FF); /* Electric red to electric blue */
+            color: #FFFFFF; /* White text for contrast */
+            font-family: 'Roboto', sans-serif; /* Clean, modern font */
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+
+            header h1 {
+                text-shadow: 0 0 8px #FF0033, 0 0 12px #0066FF;
+            }
+
+            header label {
+                color: #FFFFFF;
+                font-weight: bold;
+                font-family: 'Roboto', sans-serif; /* Clean, modern font */
+                text-align: justify-all;
+                background-color: #5D6532;
+                padding: 2px;
+                text-shadow: 0 0 8px #FF0033, 0 0 12px #0066FF;
+            }
+
         /* Global Reset */
         *, ::before, ::after {
             box-sizing: border-box;
@@ -76,7 +100,7 @@
             .sidebar h2 {
                 margin-bottom: 1rem;
                 font-size: 1.2rem;
-                color: #0066cc;
+                color: #FF0033;
             }
 
             .sidebar ul {
@@ -116,31 +140,9 @@
                 color: #FF0033;
             }
 
-        header {
-            background: linear-gradient(90deg, #FF0033, #0066FF); /* Electric red to electric blue */
-            color: #FFFFFF; /* White text for contrast */
-            font-family: 'Roboto', sans-serif; /* Clean, modern font */
-            font-size: 2rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-        }
+       
 
-            header h1 {
-                text-shadow: 0 0 8px #FF0033, 0 0 12px #0066FF;
-            }
-
-            header label {
-                color: #FFFFFF;
-                font-weight: bold;
-                font-family: 'Roboto', sans-serif; /* Clean, modern font */
-                font-size: 3rem;
-                font-weight: bold;
-                text-align: center;
-                background-color: #5D6532;
-                padding: 3px;
-                text-shadow: 0 0 8px #FF0033, 0 0 12px #0066FF;
-            }
+           
     </style>
 </head>
 <body>
@@ -151,7 +153,7 @@
                 <li><a href="#">Project</a></li>
                 <li><a href="#">Github Repository</a></li>
                 <li><a href="#">Learning Zone</a></li>
-                <li><label>عربي</label></li>
+                <li><a >عربي</a></li>
             </ul>
         </nav>
     </header>
