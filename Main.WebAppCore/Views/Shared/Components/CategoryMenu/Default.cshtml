@@ -28,7 +28,16 @@
         <div class="subcategory side-menu" data-subcategory="@counter1">
             <h4 class="sub-category-title">@category.Text</h4>
             <ul>
-                @foreach (var subcategory in Model.ListSubCategory.Where(a => a.ParentID == category.ValueID).ToList())
+                @{
+                    var itemList = Model.ListSubCategory.Where( a => a.ParentID == category.ValueID ).ToList( );
+
+                    if ( itemList == null )
+                    {
+                        continue;
+                    }
+                }
+
+                @foreach ( var subcategory in itemList.ToList() )
                 {
                     <li class="sub-category">
                         <a class="sub-category-li @subcategory.Text.Replace(" ", "")"

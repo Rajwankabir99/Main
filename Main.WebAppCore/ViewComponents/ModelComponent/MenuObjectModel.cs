@@ -1,7 +1,11 @@
 ﻿
+using Main.Common.Enums;
+using Main.Common.HelperServices;
 using Main.Common.Model;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+using WebAppCore.Helper;
 
 namespace Main.WebAppCore;
 
@@ -9,6 +13,24 @@ public class MenuObjectModel
 {
     public MenuObjectModel ( )
     {
+    }
+
+    public MenuObjectModel ( bool isAdvancedSearch,EnumTenantStore store )
+    {
+        AV_Category = DropDownListItems.GetCategoryList ( store );
+
+        AV_SubCategory = DropDownListItems.GetSubCategoryList ( store );
+    }
+
+    public MenuObjectModel ( EnumTenantStore store )
+    {
+        TenantStore = store;
+
+        ListCategory = new List<TenantVariableModel> ( );
+        ListSubCategory = new List<TenantVariableModel> ( );
+
+        ListCategory = TenantStoreHelper.GetCategoryList ( store );
+        ListSubCategory = TenantStoreHelper.GetSubCategoryList ( store );
     }
 
     public string ClientName
@@ -62,6 +84,11 @@ public class MenuObjectModel
     }
 
     public List<TenantVariableModel> ListSubCategory
+    {
+        get; set;
+    }
+
+    public EnumTenantStore TenantStore
     {
         get; set;
     }

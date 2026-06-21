@@ -54,10 +54,10 @@
         <header id="layoutHeaderContainer">
             @await Component.InvokeAsync("TopHeaderPanel")
             @await Component.InvokeAsync("MainHeaderPanel")
-            @* @await Component.InvokeAsync("BottomHeaderPanel")  *@
+            @await Component.InvokeAsync( "BottomHeaderPanel",new MenuObjectModel( TenantSetter.TenantStore ) )
         </header>
 
-        @* @await Component.InvokeAsync("AdvancedSearch") *@
+        @await Component.InvokeAsync( "AdvancedSearch",new MenuObjectModel( true,TenantSetter.TenantStore ) )
         @* @await Component.InvokeAsync("ShoppingCartNotification")  *@
        
         <div id="layoutBodyContainer" class="body-content">
