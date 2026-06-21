@@ -1,7 +1,9 @@
-﻿<div id="header-bottom" class="bottom-header">
+﻿@model MenuObjectModel
+
+<div id="header-bottom" class="bottom-header">
     <div class="header-container">
         <div id="headerCategoryDropdown" class="market-list-dropdown">
-            @await Component.InvokeAsync("CategoryMenu")
+            @await Component.InvokeAsync("CategoryMenu", Model)
         </div>
         <ul class="header-menu-list">
             <li class="main-menu" id="btnMainMenu">

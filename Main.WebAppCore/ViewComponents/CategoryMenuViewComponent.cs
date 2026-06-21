@@ -1,4 +1,5 @@
 ﻿using Main.Common.HelperServices;
+using Main.Common.Model;
 using Main.Infrastructure;
 
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,13 @@ public class CategoryMenuViewComponent: ViewComponent
     {
         MenuObjectModel menuObjectModel = new MenuObjectModel
         {
-            ListCategory = TenantStoreHelper.GetCategoryList ( _tenantSetter.TenantStore ),
-
-            ListSubCategory = TenantStoreHelper.GetSubCategoryList ( _tenantSetter.TenantStore )
+            ListCategory = new List<TenantVariableModel> ( ),
+            ListSubCategory = new List<TenantVariableModel> ( )
         };
+
+        menuObjectModel.ListCategory = TenantStoreHelper.GetCategoryList ( _tenantSetter.TenantStore );
+        menuObjectModel.ListSubCategory = TenantStoreHelper.GetSubCategoryList ( _tenantSetter.TenantStore );
+
 
         return View ( menuObjectModel );
     }

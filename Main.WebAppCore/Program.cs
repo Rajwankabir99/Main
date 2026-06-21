@@ -12,14 +12,12 @@ public class Program
 
         builder.Services.AddScoped<ITenantSetter,TenantService> ( );
 
-        builder.Services.AddControllersWithViews ( );
+        AppSettings.Current = builder.Configuration.GetSection ( "MyAppSettings" )
+                           .Get<MyConfigSettings> ( ) ?? new MyConfigSettings ( );
 
         builder.Services.AddDatabase ( builder.Configuration );
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter ( );
-
-        AppSettings.Current = builder.Configuration.GetSection ( "MyAppSettings" )
-                            .Get<MyConfigSettings> ( ) ?? new MyConfigSettings ( );
 
         builder.Services.AddRepository ( builder.Configuration );
 
