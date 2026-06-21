@@ -39,6 +39,7 @@
     <File Path="Docs/TaskRajwan1.txt" />
     <File Path="Docs/View Component Best Practices.txt" />
     <File Path="Docs/View Component.txt" />
+    <File Path="Multi Tenant Email Policy.txt" />
     <File Path="Multi Tenant ITenentContext.txt" />
   </Folder>
   <Folder Name="/Docs/Website/">
