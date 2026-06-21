@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Main.WebAppCore;
 
-public class ProductCategoryMenuViewComponent: ViewComponent
+public class CategoryMenuViewComponent: ViewComponent
 {
     private readonly ITenantSetter _tenantSetter;
 
-    public ProductCategoryMenuViewComponent ( ITenantSetter tenantSetter )
+    public CategoryMenuViewComponent ( ITenantSetter tenantSetter )
     {
         _tenantSetter = tenantSetter;
     }

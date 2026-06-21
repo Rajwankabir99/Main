@@ -9,7 +9,7 @@ public interface ITenantSetter
         get; set;
     }
 
-    EnumShopType TenantShopType
+    EnumTenantStore TenantStore
     {
         get; set;
     }

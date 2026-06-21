@@ -66,7 +66,7 @@ public class PagesController: BaseController
 
         pagePanelViewModel.ListSelectPosts =
             PageMapping.MapSelectPostViewModel ( listSelectProductsDataModel
-                                                ,_tenantSetter.TenantShopType
+                                                ,_tenantSetter.TenantStore
                                                 ,_userContext.EnumCurrency );
         pagePanelViewModel.PageID = id;
         pagePanelViewModel.PanelTitle = "";

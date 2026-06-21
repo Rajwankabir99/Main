@@ -1,25 +1,14 @@
-﻿using Main.Common.Enums;
+﻿
 using Main.Common.Model;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-using WebAppCore.Helper;
-
-namespace Main.WebAppCore.ViewCompont;
+namespace Main.WebAppCore;
 
 public class MenuObjectModel
 {
     public MenuObjectModel ( )
     {
-    }
-
-    public MenuObjectModel ( EnumShopType tenantShopType )
-    {
-        ListCatSubCategory = new List<ParentChildVriableModel> ( );
-
-        AV_Category = DropDownListItems.GetCategoryList ( tenantShopType );
-
-        AV_SubCategory = DropDownListItems.GetSubCategoryList ( tenantShopType );
     }
 
     public string ClientName
@@ -67,7 +56,12 @@ public class MenuObjectModel
         get; set;
     }
 
-    public List<ParentChildVriableModel> ListCatSubCategory
+    public List<TenantVariableModel> ListCategory
+    {
+        get; set;
+    }
+
+    public List<TenantVariableModel> ListSubCategory
     {
         get; set;
     }

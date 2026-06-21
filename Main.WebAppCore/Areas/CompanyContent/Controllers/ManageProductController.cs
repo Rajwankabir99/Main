@@ -44,7 +44,7 @@ public class ManageProductController: BaseController
             List<ProductDisplayModel> productDataModels = await _productService.GetAllProducts();
 
             List<ProductDisplayViewModel> disayProductViewModels = ProductMapping.MapDisplayProductViewModel
-                ( productDataModels, _tenantSetter.TenantShopType );
+                ( productDataModels, _tenantSetter.TenantStore );
 
             return View ( disayProductViewModels );
         }
@@ -91,7 +91,7 @@ public class ManageProductController: BaseController
         {
             ClearImageFileListSession ( );
 
-            ProductViewModel objProductViewModel = new ProductViewModel(_tenantSetter.TenantShopType);
+            ProductViewModel objProductViewModel = new ProductViewModel(_tenantSetter.TenantStore);
 
             objProductViewModel.PageName = "New Product";
 
@@ -99,7 +99,7 @@ public class ManageProductController: BaseController
         }
         catch
         {
-            return View ( new ProductViewModel ( _tenantSetter.TenantShopType ) );
+            return View ( new ProductViewModel ( _tenantSetter.TenantStore ) );
         }
     }
 
@@ -152,7 +152,7 @@ public class ManageProductController: BaseController
 
             ProductDataModel productDataModel = await _productService.GetProductForEditProductID(id);
 
-            ProductViewModel productViewModel = ProductMapping.MapProductViewModel ( productDataModel, _tenantSetter.TenantShopType );
+            ProductViewModel productViewModel = ProductMapping.MapProductViewModel ( productDataModel, _tenantSetter.TenantStore );
 
             productViewModel.PageName = "Edit Product";
 
@@ -160,7 +160,7 @@ public class ManageProductController: BaseController
         }
         catch
         {
-            return View ( new ProductViewModel ( _tenantSetter.TenantShopType ) );
+            return View ( new ProductViewModel ( _tenantSetter.TenantStore ) );
         }
     }
 
@@ -211,9 +211,9 @@ public class ManageProductController: BaseController
         {
             ProductDataModel productDataModel = await _productService.GetProductForEditProductID(id);
 
-            ProductViewModel productViewModel = ProductMapping.MapProductViewModel ( productDataModel , _tenantSetter.TenantShopType);
+            ProductViewModel productViewModel = ProductMapping.MapProductViewModel ( productDataModel , _tenantSetter.TenantStore);
 
-            productViewModel.SetDisplaytext ( _tenantSetter.TenantShopType );
+            productViewModel.SetDisplaytext ( _tenantSetter.TenantStore );
 
             productViewModel.PageName = "Product Details";
 
@@ -221,7 +221,7 @@ public class ManageProductController: BaseController
         }
         catch
         {
-            return View ( new ProductViewModel ( _tenantSetter.TenantShopType ) );
+            return View ( new ProductViewModel ( _tenantSetter.TenantStore ) );
         }
     }
 
@@ -348,7 +348,7 @@ public class ManageProductController: BaseController
     {
         try
         {
-            var listSubCategories = DropDownListItems.GetSubCategories( _tenantSetter.TenantShopType, id );
+            var listSubCategories = DropDownListItems.GetSubCategories( _tenantSetter.TenantStore, id );
 
             return Json ( listSubCategories );
         }
@@ -365,7 +365,7 @@ public class ManageProductController: BaseController
     {
         try
         {
-            ProductViewModel productViewModel = new ProductViewModel (_tenantSetter.TenantShopType);
+            ProductViewModel productViewModel = new ProductViewModel (_tenantSetter.TenantStore);
             productViewModel.ProductID = id;
 
             return View ( productViewModel );

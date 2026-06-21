@@ -12,14 +12,8 @@ public class TenancyService: ITenancyService
 
     public TenancyService ( ITenantRepository tenantRepository )
     {
-        TenantTd = "";
         TenancyFound = false;
         _tenantRepository = tenantRepository;
-    }
-
-    public string TenantTd
-    {
-        get; set;
     }
 
     public bool TenancyFound

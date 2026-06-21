@@ -12,13 +12,13 @@ public class PostViewModel: BaseViewModel
     {
     }
 
-    public PostViewModel ( EnumShopType shopType )
+    public PostViewModel ( EnumTenantStore shopType )
     {
         AV_Category = DropDownListItems.GetCategoryList ( shopType );
     }
 
 
-    public PostViewModel ( EnumShopType shopType,EnumPostType enumPostType,int rootId,int imageId,int order )
+    public PostViewModel ( EnumTenantStore shopType,EnumPostType enumPostType,int rootId,int imageId,int order )
     {
         AV_Category = DropDownListItems.GetCategoryList ( shopType );
 

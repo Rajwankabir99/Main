@@ -10,7 +10,7 @@ public class TenantService: ITenantSetter
         get; set;
     }
 
-    public EnumShopType TenantShopType
+    public EnumTenantStore TenantStore
     {
         get; set;
     }
@@ -66,7 +66,7 @@ public class TenantResolverMiddleware
         {
             tenantSetter.CurrentTenantId = tenancyService.CurrentTenant!.TenantId;
             tenantSetter.TenantName = tenancyService.CurrentTenant!.Name;
-            tenantSetter.TenantShopType = tenancyService.CurrentTenant!.ShopType;
+            tenantSetter.TenantStore = tenancyService.CurrentTenant!.ShopType;
         }
         else
         {

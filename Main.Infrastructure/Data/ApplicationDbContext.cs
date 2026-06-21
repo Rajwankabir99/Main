@@ -101,10 +101,10 @@ public class ApplicationDbContext: DbContext
         string seedTenancyId2 = "e02fd0e1-00fd-008a-ca30-5d00a5242ba0";
 
         // Tenant 1
-        TenantSeed ( builder,seedTenancyId1,"Fine Arts Store","fanarts-local",EnumShopType.FineArtsShop );
+        TenantSeed ( builder,seedTenancyId1,"Fine Arts Store","fanarts-local",EnumTenantStore.FineArts );
 
         // Tenant 2
-        TenantSeed ( builder,seedTenancyId2,"LifeStyle Store","lifestyle-local",EnumShopType.LifeStylesShop );
+        TenantSeed ( builder,seedTenancyId2,"LifeStyle Store","lifestyle-local",EnumTenantStore.LifeStyles );
 
         string RoleAdminID1 = "e02fd0e4-00fd-090a-ca30-0d00a0038ba0";
         string RoleUserID1 =  "e02fd0e4-00fd-090a-ca30-0d00a0038ba4";
@@ -299,7 +299,7 @@ public class ApplicationDbContext: DbContext
         }
     }
 
-    private void TenantSeed ( ModelBuilder builder,string seedTenantId,string name,string domain,EnumShopType shopType )
+    private void TenantSeed ( ModelBuilder builder,string seedTenantId,string name,string domain,EnumTenantStore shopType )
     {
         builder.Entity<Tenant> ( ).HasData (
             new Tenant ( seedTenantId )

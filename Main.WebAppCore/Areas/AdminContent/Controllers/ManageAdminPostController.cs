@@ -1,35 +1,42 @@
 ﻿using DataTransferModel;
+
 using Main.Common.Model;
+using Main.Infrastructure;
 using Main.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+
 using WebAppCore.Helper;
 using WebAppCore.ViewModel;
 using WebAppCore.ViewModel.Extensions;
 
 namespace Main.WebAppCore;
 
-[Area("AdminContent")]
-[Authorize(Roles = "Admin")]
-public class ManageAdminPostController : BaseController
+[Area ( "AdminContent" )]
+[Authorize ( Roles = "Admin" )]
+public class ManageAdminPostController: BaseController
 {
     private readonly IAdminPostService _adminPostService;
     private readonly IUserContext _userContext;
     private readonly ILogger<ManageAdminPostController> _logger;
+    private readonly ITenantSetter _tenantSetter;
 
-    public ManageAdminPostController( 
+    public ManageAdminPostController (
         IAdminPostService adminPostService,
-        IMemoryCache cache, 
+        IMemoryCache cache,
         ILogger<ManageAdminPostController> logger,
-        IUserContext userContext )
+        IUserContext userContext,
+        ITenantSetter tenantSetter )
     {
         _adminPostService = adminPostService;
         _logger = logger;
         _userContext = userContext;
+        _tenantSetter = tenantSetter;
     }
 
-    private void SetImageInDataModel( AdminPostDataModel adminPostDataModel )
+    private void SetImageInDataModel ( AdminPostDataModel adminPostDataModel )
     {
         List<AdminImageFileDataModel> listAdminImageFileDataModels
                                       = new List<AdminImageFileDataModel>();
@@ -48,7 +55,7 @@ public class ManageAdminPostController : BaseController
                 AdminPostID = imgFile.PostID ?? 0,
                 AdminImageFileID = 0
             };
-           
+
             listAdminImageFileDataModels.Add ( adminImageFileDataModel );
         } );
 
@@ -58,27 +65,27 @@ public class ManageAdminPostController : BaseController
     }
 
 
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> Index()
+    [Authorize ( Roles = "Admin" )]
+    public async Task<ActionResult> Index ( )
     {
         try
         {
             var listAdminPosts = await _adminPostService.GetAllAdminPosts();
 
-            List<AdminPostDisplayViewModel> listAdminPostDisplayViewModels 
+            List<AdminPostDisplayViewModel> listAdminPostDisplayViewModels
                         = AdminPostMapping.MapAdminPostDisplayViewModelList
-                                                        ( listAdminPosts );
-            
-            return View( listAdminPostDisplayViewModels );
+                                                        ( listAdminPosts, _tenantSetter.TenantName );
+
+            return View ( listAdminPostDisplayViewModels );
         }
         catch
         {
-            return View(new List<AdminPostDisplayViewModel>());
+            return View ( new List<AdminPostDisplayViewModel> ( ) );
         }
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize ( Roles = "Admin" )]
     public IActionResult NewContent ( )
     {
         try
@@ -86,22 +93,22 @@ public class ManageAdminPostController : BaseController
             ClearImageFileListSession ( );
 
             var objPostViewModel = new AdminPostViewModel();
-            
+
             objPostViewModel.PageName = "Add Admin Post";
 
-            return View( objPostViewModel );
+            return View ( objPostViewModel );
         }
         catch
         {
-            return View(new AdminPostViewModel());
+            return View ( new AdminPostViewModel ( ) );
         }
     }
 
 
     [HttpPost]
     [AutoValidateAntiforgeryToken]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> SaveContent(AdminPostViewModel collection)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<IActionResult> SaveContent ( AdminPostViewModel collection )
     {
         if ( !ModelState.IsValid )
         {
@@ -118,56 +125,65 @@ public class ManageAdminPostController : BaseController
 
             var result = await _adminPostService.SaveNewAdminPost(adminPostDataModel);
 
-            string? redirectUrl = Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" });
+            string? redirectUrl = Url.Action("Index", "ManageAdminPost", new
+            {
+                Area = "AdminContent"
+            });
 
-            return Ok( new { success = result, urlGo = redirectUrl } );
-        } 
-        catch (Exception ex)
+            return Ok ( new
+            {
+                success = result,urlGo = redirectUrl
+            } );
+        }
+        catch ( Exception ex )
         {
-            return BadRequest(new { success = false, message = ex.Message });
+            return BadRequest ( new
+            {
+                success = false,message = ex.Message
+            } );
         }
     }
-    
+
 
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> Edit(int id)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<ActionResult> Edit ( int id )
     {
         try
         {
             ClearImageFileListSession ( );
 
-            AdminPostDataModel adminPostDataModel = 
+            AdminPostDataModel adminPostDataModel =
                 await _adminPostService.GetAdminPostForEditPostID(id);
 
-            
+
             var adminPostViewModel = new AdminPostViewModel();
 
-            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel, adminPostViewModel);
+            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel,adminPostViewModel );
 
-            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList( adminPostDataModel.ListAdminPostFileImages ); 
+            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList ( adminPostDataModel.ListAdminPostFileImages );
 
             adminPostViewModel.PageName = "Edit Post";
-            
-            
-            return View(adminPostViewModel);
+
+
+            return View ( adminPostViewModel );
         }
         catch
         {
-            return View(new AdminPostViewModel());
+            return View ( new AdminPostViewModel ( ) );
         }
     }
 
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize ( Roles = "Admin" )]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(AdminPostViewModel collection)
+    public async Task<IActionResult> Edit ( AdminPostViewModel collection )
     {
-        if (!ModelState.IsValid)
-        {     
-            return BadRequest(ModelState);
+        if ( !ModelState.IsValid )
+        {
+            return BadRequest ( ModelState );
         }
 
         try
@@ -180,37 +196,46 @@ public class ManageAdminPostController : BaseController
 
             bool result = await _adminPostService.UpdateAdminPost(adminPostDataModel);
 
-            string? urlGo = Url.Action("Index", "ManageAdminPost", new { Area = "AdminContent" });
+            string? urlGo = Url.Action("Index", "ManageAdminPost", new
+            {
+                Area = "AdminContent"
+            });
 
-            return Ok(new { success = result, urlGo = urlGo });
+            return Ok ( new
+            {
+                success = result,urlGo = urlGo
+            } );
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            return BadRequest(new { success = false, message = ex.Message });
+            return BadRequest ( new
+            {
+                success = false,message = ex.Message
+            } );
         }
     }
 
 
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> Details(int id)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<ActionResult> Details ( int id )
     {
         try
         {
-            AdminPostDataModel adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id); 
+            AdminPostDataModel adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id);
 
             AdminPostViewModel adminPostViewModel = new AdminPostViewModel();
 
-            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel, adminPostViewModel );
+            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel,adminPostViewModel );
 
             adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList ( adminPostDataModel.ListAdminPostFileImages );
 
             adminPostViewModel.PageName = "Post Details";
 
-            return View(adminPostViewModel);
+            return View ( adminPostViewModel );
         }
         catch
         {
-            return View(new AdminPostViewModel());
+            return View ( new AdminPostViewModel ( ) );
         }
     }
 
@@ -283,32 +308,32 @@ public class ManageAdminPostController : BaseController
 
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize ( Roles = "Admin" )]
     public PartialViewResult LoadImage ( )
     {
         try
         {
             List<ImageFile> imageFileList = GetAllSessionImages();
 
-            if( imageFileList == null || imageFileList.Count == 0 )
+            if ( imageFileList == null || imageFileList.Count == 0 )
             {
                 return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ( ) );
             }
 
             ImageFile imageFile = imageFileList.Last();
 
-            return PartialView("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml", imageFile);
+            return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",imageFile );
         }
         catch
         {
-            return PartialView("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml", new ImageFile());
+            return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ( ) );
         }
     }
 
 
     [HttpDelete]
-    [Authorize(Roles = "Admin")]
-    public async Task<JsonResult> ImageRemove(int id, int postId)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<JsonResult> ImageRemove ( int id,int postId )
     {
         bool result = false;
 
@@ -316,22 +341,28 @@ public class ManageAdminPostController : BaseController
         {
             if ( postId != 0 )
             {
-                result = await _adminPostService.DeleteAdminPostImage(id, postId);
-            }  
-                
-            result = RemoveSessionImageFile ( id );  
+                result = await _adminPostService.DeleteAdminPostImage ( id,postId );
+            }
 
-            return Json(new { success = result } );
+            result = RemoveSessionImageFile ( id );
+
+            return Json ( new
+            {
+                success = result
+            } );
         }
         catch
         {
-            return Json(new { errors = false });
+            return Json ( new
+            {
+                errors = false
+            } );
         }
     }
 
 
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> Delete(int id)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<ActionResult> Delete ( int id )
     {
         try
         {
@@ -340,7 +371,7 @@ public class ManageAdminPostController : BaseController
             AdminPostViewModel adminPostViewModel = new AdminPostViewModel ();
             adminPostViewModel.AdminPostID = objAdminPostDataModel.AdminPostID;
 
-            return View( adminPostViewModel );
+            return View ( adminPostViewModel );
         }
         catch
         {
@@ -352,19 +383,22 @@ public class ManageAdminPostController : BaseController
     }
 
 
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> DeleteContent(int id, int fakeId)
+    [Authorize ( Roles = "Admin" )]
+    public async Task<ActionResult> DeleteContent ( int id,int fakeId )
     {
         try
         {
             bool result = await _adminPostService.DeleteAdminPost(id);
 
-            if (result)
+            if ( result )
             {
-                return RedirectToAction("Index");
+                return RedirectToAction ( "Index" );
             }
 
-            return RedirectToAction ( "Delete" , new { id = id }  );
+            return RedirectToAction ( "Delete",new
+            {
+                id = id
+            } );
 
         }
         catch

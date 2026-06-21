@@ -1,6 +1,4 @@
-﻿@inject IStringLocalizer<SharedResource> SharedLocalizer
-@inject ITenantSetter TenantSetter
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -59,7 +57,7 @@
             @await Component.InvokeAsync("BottomHeaderPanel") 
         </header>
 
-        @await Component.InvokeAsync("AdvancedSearchDesktop")
+        @await Component.InvokeAsync("AdvancedSearch")
         @await Component.InvokeAsync("ShoppingCartNotification") 
        
         <div id="layoutBodyContainer" class="body-content">

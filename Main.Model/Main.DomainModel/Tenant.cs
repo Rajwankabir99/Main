@@ -35,7 +35,7 @@ public class Tenant
     }
 
     [Required]
-    public EnumShopType ShopType
+    public EnumTenantStore ShopType
     {
         get; set;
     }
