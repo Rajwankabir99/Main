@@ -39,10 +39,14 @@
     <File Path="Docs/TaskRajwan1.txt" />
     <File Path="Docs/View Component Best Practices.txt" />
     <File Path="Docs/View Component.txt" />
+    <File Path="Multi Tenant Database Scheme Changes.txt" />
     <File Path="Multi Tenant Email Policy.txt" />
     <File Path="Multi Tenant ITenentContext.txt" />
+    <File Path="Multi Tenant Role .txt" />
+    <File Path="MultiTenant Tenant Role .txt" />
   </Folder>
   <Folder Name="/Docs/Website/">
+    <File Path="Content Project Goals.txt" />
     <File Path="Header CSS.txt" />
   </Folder>
   <Folder Name="/Solution Items/">

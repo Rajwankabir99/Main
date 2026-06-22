@@ -3,14 +3,14 @@ using Main.Infrastructure;
 using Main.Services;
 namespace WebAppCore.Helper;
 
-public class TenantService: ITenantSetter
+public class TenantSetter: ITenantSetter
 {
     public string CurrentTenantId
     {
         get; set;
     }
 
-    public EnumTenantStore TenantStore
+    public EnumStoreType TenantStore
     {
         get; set;
     }

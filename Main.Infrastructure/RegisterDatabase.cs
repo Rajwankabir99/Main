@@ -1,9 +1,11 @@
 ﻿using Domain.Model;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace Main.Infrastructure;
 
 public static class RegisterDatabase
@@ -18,7 +20,7 @@ public static class RegisterDatabase
             options.UseSqlServer ( connectionString );
         } );
 
-        services.AddIdentity<ApplicationUser,ApplicationRole> ( options =>
+        services.AddIdentity<ApplicationUser,IdentityRole> ( options =>
         {
             var identitySettings = configuration.GetSection("IdentitySettings");
             var password = identitySettings.GetSection("Password");
@@ -39,19 +41,29 @@ public static class RegisterDatabase
             options.User.RequireUniqueEmail = user.GetValue<bool> ( "RequireUniqueEmail" );
         } )
         .AddEntityFrameworkStores<ApplicationDbContext> ( )
+        .AddRoles<IdentityRole> ( )
         .AddDefaultTokenProviders ( );
 
         services.Configure<DataProtectionTokenProviderOptions>
-        ( options => options.TokenLifespan = TimeSpan.FromHours ( 3 ) );
-
-        services.AddScoped<IUserValidator<ApplicationUser>,TenantAwareUserValidator> ( );
+        ( options => options.TokenLifespan = TimeSpan.FromHours ( 2 ) );
 
         services.AddAuthorization ( options =>
         {
-            options.AddPolicy ( "RequireAdminRole",policy => policy.RequireRole ( "Admin" ) );
+            // Define unique policies maps to tenant roles
+            options.AddPolicy ( "TenantAdmin",policy => policy.Requirements.Add ( new TenantRoleRequirement ( "Admin" ) ) );
+            options.AddPolicy ( "TenantContentManager",policy => policy.Requirements.Add ( new TenantRoleRequirement ( "ContentManager" ) ) );
+            options.AddPolicy ( "TenantMember",policy => policy.Requirements.Add ( new TenantRoleRequirement ( "Member" ) ) );
         } );
 
         return services;
     }
 }
 
+public class TenantRoleRequirement: IAuthorizationRequirement
+{
+    public string AllowedRole
+    {
+        get;
+    }
+    public TenantRoleRequirement ( string allowedRole ) => AllowedRole = allowedRole;
+}

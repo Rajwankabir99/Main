@@ -87,7 +87,7 @@ public enum EnumPostType
     Product = 4
 }
 
-public enum EnumTenantStore
+public enum EnumStoreType
 {
     LifeStyles = 1,
     FineArts = 2,

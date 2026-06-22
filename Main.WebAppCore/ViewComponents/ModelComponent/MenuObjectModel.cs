@@ -15,14 +15,14 @@ public class MenuObjectModel
     {
     }
 
-    public MenuObjectModel ( bool isAdvancedSearch,EnumTenantStore store )
+    public MenuObjectModel ( bool isAdvancedSearch,EnumStoreType store )
     {
         AV_Category = DropDownListItems.GetCategoryList ( store );
 
         AV_SubCategory = DropDownListItems.GetSubCategoryList ( store );
     }
 
-    public MenuObjectModel ( EnumTenantStore store )
+    public MenuObjectModel ( EnumStoreType store )
     {
         TenantStore = store;
 
@@ -88,7 +88,7 @@ public class MenuObjectModel
         get; set;
     }
 
-    public EnumTenantStore TenantStore
+    public EnumStoreType TenantStore
     {
         get; set;
     }

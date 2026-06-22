@@ -9,7 +9,7 @@ public interface ITenantSetter
         get; set;
     }
 
-    EnumTenantStore TenantStore
+    EnumStoreType TenantStore
     {
         get; set;
     }

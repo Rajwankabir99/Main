@@ -307,6 +307,7 @@ public async Task<IActionResult> GetMyWorkspaces()
 
 Summary Checklist for the Workspace Strategy
 
+
 Validate Membership Every Time: Never trust a client request to change workspaces without checking the database junction table (UserTenants).
 
 Update Roles on the Fly: Remember that a single user can have a "role": "Admin" claim in Tenant A but only a "role": "Member" claim after switching to Tenant B.
@@ -538,7 +539,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasKey(ut => new { ut.UserId, ut.TenantId });
 
         // Optional: Ensure Email is uniquely enforced at the database level by ASP.NET Core Identity
-        builder.Entity<ApplicationUser>()
+        builder.Entity<ApplicationUser>()[
             .HasIndex(u => u.Email)
             .IsUnique();
     }

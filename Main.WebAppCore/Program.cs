@@ -1,16 +1,21 @@
 using Main.Infrastructure;
 using Main.Services;
 
+using Microsoft.AspNetCore.Authorization;
+
 using ResourceLibrary.Resources;
 
 using WebAppCore.Helper;
 public class Program
 {
-    private static void Main ( string[] args )
+    private static async Task Main ( string[] args )
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddScoped<ITenantSetter,TenantService> ( );
+        builder.Services.AddHttpContextAccessor ( );
+        builder.Services.AddTransient<IAuthorizationHandler,TenantRoleHandler> ( );
+        builder.Services.AddScoped<IUserContext,UserContext> ( );
+        builder.Services.AddScoped<ITenantSetter,TenantSetter> ( );
 
         AppSettings.Current = builder.Configuration.GetSection ( "MyAppSettings" )
                            .Get<MyConfigSettings> ( ) ?? new MyConfigSettings ( );
@@ -23,15 +28,12 @@ public class Program
 
         builder.Services.AddService ( builder.Configuration );
 
-        builder.Services.AddHttpContextAccessor ( );
-
-        builder.Services.AddScoped<IUserContext,WebAppCore.Helper.HttpContextAccessor> ( );
-
         builder.Services.AddCustomLocalization ( );
 
         builder.Services.AddControllersWithViews ( );
 
-        builder.Services.AddWebOptimizer ( pipeline => { pipeline.CompileLessFiles ( ); } );
+        builder.Services.AddWebOptimizer
+            ( pipeline => { pipeline.CompileLessFiles ( ); } );
 
         builder.Logging.ClearProviders ( );
 
@@ -81,10 +83,8 @@ public class Program
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}" );
 
 
-        app.MapControllerRoute (
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}" );
+        await DataSeeder.SeedDataAsync ( app.Services );
 
-        app.Run ( );
+        await app.RunAsync ( );
     }
 }

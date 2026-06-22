@@ -31,7 +31,7 @@ public class TenancyService: ITenancyService
     {
         await _tenantRepository.FindCurrentTenantAsync ( hostName );
 
-        Tenant? tenant = _tenantRepository.CurrentTenant;
+        TenantInfo? tenant = _tenantRepository.CurrentTenant;
 
         if ( tenant == null )
         {
@@ -41,7 +41,7 @@ public class TenancyService: ITenancyService
         else
         {
             CurrentTenant = new TenantDisplayDataModel ( tenant.TenantId,tenant.Name,
-                tenant.Domain,tenant.ShopType );
+                tenant.Domain,tenant.Store );
 
             TenancyFound = true;
         }
