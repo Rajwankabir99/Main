@@ -46,8 +46,9 @@
     <File Path="MultiTenant Tenant Role .txt" />
   </Folder>
   <Folder Name="/Docs/Website/">
-    <File Path="Content Project Goals.txt" />
+    <File Path="Content Current Me .txt" />
     <File Path="Header CSS.txt" />
+    <File Path="Project Goals.txt" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
