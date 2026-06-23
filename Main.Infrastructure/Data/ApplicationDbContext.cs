@@ -14,10 +14,10 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
 {
     public readonly ITenantSetter _tenantSetter;
 
-    public ApplicationDbContext ( DbContextOptions<ApplicationDbContext> options ) : base ( options ) { }
+    public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base (options) { }
 
-    public ApplicationDbContext ( DbContextOptions<ApplicationDbContext> options,ITenantSetter tenantSetter )
-        : base ( options )
+    public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options,ITenantSetter tenantSetter)
+        : base (options)
     {
         _tenantSetter = tenantSetter;
 
@@ -77,55 +77,55 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
         get; set;
     }
 
-    protected override void OnModelCreating ( ModelBuilder builder )
+    protected override void OnModelCreating (ModelBuilder builder)
     {
-        base.OnModelCreating ( builder );
+        base.OnModelCreating (builder);
 
-        builder.Entity<TenantInfo> ( )
-            .Property ( t => t.TenantId )
-            .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.GuidValueGenerator> ( );
-
-
-        builder.Entity<UserTenant> ( )
-            .HasKey ( ut => new { ut.UserId,ut.TenantId,ut.TenantRole } );
+        _ = builder.Entity<TenantInfo> ()
+            .Property (t => t.TenantId)
+            .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.GuidValueGenerator> ();
 
 
-        builder.Entity<ApplicationUser> ( )
-            .HasIndex ( u => u.Email )
-            .IsUnique ( );
+        _ = builder.Entity<UserTenant> ()
+            .HasKey (ut => new { ut.UserId,ut.TenantId,ut.TenantRole });
 
 
-        builder.Entity<UserTenant> ( )
-            .HasOne ( ut => ut.User )
-            .WithMany ( au => au.UserTenants )
-            .HasForeignKey ( ut => ut.UserId );
+        _ = builder.Entity<ApplicationUser> ()
+            .HasIndex (u => u.Email)
+            .IsUnique ();
 
 
-        builder.Entity<Post> ( b =>
+        _ = builder.Entity<UserTenant> ()
+            .HasOne (ut => ut.User)
+            .WithMany (au => au.UserTenants)
+            .HasForeignKey (ut => ut.UserId);
+
+
+        _ = builder.Entity<Post> (b =>
         {
-            b.Property ( p => p.Price )
-             .HasColumnType ( "decimal(18,2)" )
-             .IsRequired ( );
-        } );
+            _ = b.Property (p => p.Price)
+             .HasColumnType ("decimal(18,2)")
+             .IsRequired ();
+        });
 
 
-        builder.Entity<Product> ( b =>
+        _ = builder.Entity<Product> (b =>
         {
-            b.Property ( p => p.Price )
-             .HasColumnType ( "decimal(18,2)" )
-             .IsRequired ( );
+            _ = b.Property (p => p.Price)
+             .HasColumnType ("decimal(18,2)")
+             .IsRequired ();
 
-            b.Property ( p => p.Discount )
-             .HasColumnType ( "decimal(18,2)" );
+            _ = b.Property (p => p.Discount)
+             .HasColumnType ("decimal(18,2)");
 
-            b.Property ( p => p.SaleCommission )
-             .HasColumnType ( "decimal(18,2)" );
-        } );
+            _ = b.Property (p => p.SaleCommission)
+             .HasColumnType ("decimal(18,2)");
+        });
 
-        TenantQueryFilter ( builder );
+        TenantQueryFilter (builder);
     }
 
-    private void UserRoleSeed ( ModelBuilder builder,string userId,string tenantUserName,string tenant1Email,string password,string seedTenancyId,string roleId )
+    private void UserRoleSeed (ModelBuilder builder,string userId,string tenantUserName,string tenant1Email,string password,string seedTenancyId,string roleId)
     {
         var hasher = new PasswordHasher<IdentityUser>();
 
@@ -140,51 +140,51 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
             SecurityStamp = Guid.NewGuid().ToString("D")
         };
 
-        user.PasswordHash = hasher.HashPassword ( user,password );
-        builder.Entity<ApplicationUser> ( ).HasData ( user );
+        user.PasswordHash = hasher.HashPassword (user,password);
+        _ = builder.Entity<ApplicationUser> ().HasData (user);
     }
 
-    private void TenantQueryFilter ( ModelBuilder builder )
+    private void TenantQueryFilter (ModelBuilder builder)
     {
         // Apply global query filter for data isolation across multi-tenant tables
         string currentTenant = _tenantSetter.CurrentTenantId;
 
-        builder.Entity<Product> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<Product> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<ProductImageFile> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<ProductImageFile> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<ProductComment> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<ProductComment> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<AdminPost> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<AdminPost> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<AdminImageFile> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<AdminImageFile> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<AdminPostComment> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<AdminPostComment> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<Post> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<Post> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<Panel> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<Panel> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<Page> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<Page> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
 
-        builder.Entity<AValue> ( ).HasQueryFilter ( p => p.TenantId == _tenantSetter.CurrentTenantId );
+        _ = builder.Entity<AValue> ().HasQueryFilter (p => p.TenantId == _tenantSetter.CurrentTenantId);
     }
 
-    public override int SaveChanges ( bool acceptAllChangesOnSuccess )
+    public override int SaveChanges (bool acceptAllChangesOnSuccess)
     {
-        ApplyTenantId ( );
+        ApplyTenantId ();
 
-        return base.SaveChanges ( acceptAllChangesOnSuccess );
+        return base.SaveChanges (acceptAllChangesOnSuccess);
     }
 
-    public override Task<int> SaveChangesAsync ( bool acceptAllChangesOnSuccess,CancellationToken cancellationToken = default )
+    public override Task<int> SaveChangesAsync (bool acceptAllChangesOnSuccess,CancellationToken cancellationToken = default)
     {
-        ApplyTenantId ( );
+        ApplyTenantId ();
 
-        return base.SaveChangesAsync ( acceptAllChangesOnSuccess,cancellationToken );
+        return base.SaveChangesAsync (acceptAllChangesOnSuccess,cancellationToken);
     }
 
-    private void ApplyTenantId ( )
+    private void ApplyTenantId ()
     {
         var entries = ChangeTracker.Entries()
             .Where(e => e.State == EntityState.Added && e.Entity is IMustHaveTenant);
@@ -195,15 +195,15 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
         }
     }
 
-    private void TenantSeed ( ModelBuilder builder,string seedTenantId,string name,string domain,EnumStoreType shopType )
+    private void TenantSeed (ModelBuilder builder,string seedTenantId,string name,string domain,EnumStoreType shopType)
     {
-        builder.Entity<TenantInfo> ( ).HasData (
-            new TenantInfo ( seedTenantId )
+        _ = builder.Entity<TenantInfo> ().HasData (
+            new TenantInfo (seedTenantId)
             {
                 Name = name,
                 Domain = domain,
                 Store = shopType
-            } );
+            });
     }
 
 }

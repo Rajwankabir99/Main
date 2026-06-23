@@ -14,8 +14,8 @@ using WebAppCore.ViewModel.Extensions;
 
 namespace Main.WebAppCore;
 
-[Area ( "AdminContent" )]
-[Authorize ( Roles = "Admin" )]
+[Area ("AdminContent")]
+[Authorize (Roles = "Admin")]
 public class ManageAdminPostController: BaseController
 {
     private readonly IAdminPostService _adminPostService;
@@ -28,7 +28,7 @@ public class ManageAdminPostController: BaseController
         IMemoryCache cache,
         ILogger<ManageAdminPostController> logger,
         IUserContext userContext,
-        ITenantSetter tenantSetter )
+        ITenantSetter tenantSetter)
     {
         _adminPostService = adminPostService;
         _logger = logger;
@@ -36,123 +36,117 @@ public class ManageAdminPostController: BaseController
         _tenantSetter = tenantSetter;
     }
 
-    private void SetImageInDataModel ( AdminPostDataModel adminPostDataModel )
+    private void SetImageInDataModel (AdminPostDataModel adminPostDataModel)
     {
-        List<AdminImageFileDataModel> listAdminImageFileDataModels
-                                      = new List<AdminImageFileDataModel>();
-
         BaseDataModel baseDataModel = _userContext.GetCreateBaseDataModel ( );
-
-        AdminImageFileDataModel adminImageFileDataModel;
 
         List<ImageFile> listSessionImageFiles = GetAllSessionImages();
 
-        listSessionImageFiles.ForEach ( imgFile =>
+        listSessionImageFiles.ForEach (imgFile =>
         {
-            adminImageFileDataModel = new AdminImageFileDataModel ( baseDataModel )
+            AdminImageFileDataModel adminImageFileDataModel= new( baseDataModel )
             {
                 ImageFileContent = imgFile.FileContent,
                 AdminPostID = imgFile.PostID ?? 0,
                 AdminImageFileID = 0
             };
 
-            listAdminImageFileDataModels.Add ( adminImageFileDataModel );
-        } );
+            new List<AdminImageFileDataModel> ().Add (adminImageFileDataModel);
+        });
 
-        adminPostDataModel.ListAdminPostFileImages = listAdminImageFileDataModels;
+        adminPostDataModel.ListAdminPostFileImages = new List<AdminImageFileDataModel> ();
 
-        ClearImageFileListSession ( );
+        ClearImageFileListSession ();
     }
 
 
-    [Authorize ( Roles = "Admin" )]
-    public async Task<ActionResult> Index ( )
+    [Authorize (Roles = "Admin")]
+    public async Task<ActionResult> Index ()
     {
         try
         {
-            var listAdminPosts = await _adminPostService.GetAllAdminPosts();
+            List<AdminPostDisplayModel> listAdminPosts = await _adminPostService.GetAllAdminPosts();
 
-            List<AdminPostDisplayViewModel> listAdminPostDisplayViewModels
-                        = AdminPostMapping.MapAdminPostDisplayViewModelList
-                                                        ( listAdminPosts, _tenantSetter.TenantName );
-
-            return View ( listAdminPostDisplayViewModels );
+            return View (model: AdminPostMapping
+                .MapAdminPostDisplayViewModelList (
+                listAdminPosts,
+                _tenantSetter.TenantName));
         }
         catch
         {
-            return View ( new List<AdminPostDisplayViewModel> ( ) );
+            return View (new List<AdminPostDisplayViewModel> ());
         }
     }
 
     [HttpGet]
-    [Authorize ( Roles = "Admin" )]
-    public IActionResult NewContent ( )
+    [Authorize (Roles = "Admin")]
+    public IActionResult NewContent ()
     {
         try
         {
-            ClearImageFileListSession ( );
+            ClearImageFileListSession ();
 
-            var objPostViewModel = new AdminPostViewModel();
+            var objPostViewModel = new AdminPostViewModel
+            {
+                PageName = "Add Admin Post"
+            };
 
-            objPostViewModel.PageName = "Add Admin Post";
-
-            return View ( objPostViewModel );
+            return View (objPostViewModel);
         }
         catch
         {
-            return View ( new AdminPostViewModel ( ) );
+            return View (new AdminPostViewModel ());
         }
     }
 
 
     [HttpPost]
     [AutoValidateAntiforgeryToken]
-    [Authorize ( Roles = "Admin" )]
-    public async Task<IActionResult> SaveContent ( AdminPostViewModel collection )
+    [Authorize (Roles = "Admin")]
+    public async Task<IActionResult> SaveContent (AdminPostViewModel collection)
     {
         if ( !ModelState.IsValid )
         {
-            return BadRequest ( error: "Invalid model state" );
+            return BadRequest (error: "Invalid model state");
         }
 
         try
         {
-            AdminPostDataModel adminPostDataModel = AdminPostMapping.MapNewDataModel ( collection );
 
-            adminPostDataModel.BaseDataModel = _userContext.GetCreateBaseDataModel ( );
+            AdminPostMapping.MapNewDataModel (collection).BaseDataModel = _userContext.GetCreateBaseDataModel ();
 
-            SetImageInDataModel ( adminPostDataModel );
+            SetImageInDataModel (AdminPostMapping.MapNewDataModel (collection));
 
-            var result = await _adminPostService.SaveNewAdminPost(adminPostDataModel);
+            bool result = await _adminPostService.SaveNewAdminPost( postDataModel: AdminPostMapping.MapNewDataModel ( collection ) );
 
             string? redirectUrl = Url.Action("Index", "ManageAdminPost", new
             {
                 Area = "AdminContent"
             });
 
-            return Ok ( new
+            return Ok (new
             {
                 success = result,urlGo = redirectUrl
-            } );
+            });
         }
         catch ( Exception ex )
         {
-            return BadRequest ( new
+            return BadRequest (new
             {
                 success = false,message = ex.Message
-            } );
+            });
         }
     }
 
 
 
     [HttpGet]
-    [Authorize ( Roles = "Admin" )]
-    public async Task<ActionResult> Edit ( int id )
+    [Authorize (Roles = "Admin")]
+    public async Task<ActionResult> Edit (int id)
     {
         try
         {
-            ClearImageFileListSession ( );
+            ClearImageFileListSession ();
 
             AdminPostDataModel adminPostDataModel =
                 await _adminPostService.GetAdminPostForEditPostID(id);
@@ -160,39 +154,39 @@ public class ManageAdminPostController: BaseController
 
             var adminPostViewModel = new AdminPostViewModel();
 
-            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel,adminPostViewModel );
+            AdminPostMapping.MapAdminPostViewModel (adminPostDataModel,adminPostViewModel);
 
-            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList ( adminPostDataModel.ListAdminPostFileImages );
+            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList (adminPostDataModel.ListAdminPostFileImages);
 
             adminPostViewModel.PageName = "Edit Post";
 
 
-            return View ( adminPostViewModel );
+            return View (adminPostViewModel);
         }
         catch
         {
-            return View ( new AdminPostViewModel ( ) );
+            return View (new AdminPostViewModel ());
         }
     }
 
 
     [HttpPost]
-    [Authorize ( Roles = "Admin" )]
+    [Authorize (Roles = "Admin")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit ( AdminPostViewModel collection )
+    public async Task<IActionResult> Edit (AdminPostViewModel collection)
     {
         if ( !ModelState.IsValid )
         {
-            return BadRequest ( ModelState );
+            return BadRequest (ModelState);
         }
 
         try
         {
             AdminPostDataModel adminPostDataModel = AdminPostMapping.MapAdminPostDataModel ( collection );
 
-            SetImageInDataModel ( adminPostDataModel );
+            SetImageInDataModel (adminPostDataModel);
 
-            adminPostDataModel.BaseDataModel = _userContext.GetUpdateBaseDataModel ( );
+            adminPostDataModel.BaseDataModel = _userContext.GetUpdateBaseDataModel ();
 
             bool result = await _adminPostService.UpdateAdminPost(adminPostDataModel);
 
@@ -201,57 +195,57 @@ public class ManageAdminPostController: BaseController
                 Area = "AdminContent"
             });
 
-            return Ok ( new
+            return Ok (new
             {
                 success = result,urlGo = urlGo
-            } );
+            });
         }
         catch ( Exception ex )
         {
-            return BadRequest ( new
+            return BadRequest (new
             {
                 success = false,message = ex.Message
-            } );
+            });
         }
     }
 
 
-    [Authorize ( Roles = "Admin" )]
-    public async Task<ActionResult> Details ( int id )
+    [Authorize (Roles = "Admin")]
+    public async Task<ActionResult> Details (int id)
     {
         try
         {
             AdminPostDataModel adminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id);
 
-            AdminPostViewModel adminPostViewModel = new AdminPostViewModel();
+            AdminPostViewModel adminPostViewModel = new();
 
-            AdminPostMapping.MapAdminPostViewModel ( adminPostDataModel,adminPostViewModel );
+            AdminPostMapping.MapAdminPostViewModel (adminPostDataModel,adminPostViewModel);
 
-            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList ( adminPostDataModel.ListAdminPostFileImages );
+            adminPostViewModel.ListAdminPostFileImages = AdminPostMapping.MapAdminImageFileViewModelList (adminPostDataModel.ListAdminPostFileImages);
 
             adminPostViewModel.PageName = "Post Details";
 
-            return View ( adminPostViewModel );
+            return View (adminPostViewModel);
         }
         catch
         {
-            return View ( new AdminPostViewModel ( ) );
+            return View (new AdminPostViewModel ());
         }
     }
 
 
     [HttpPost]
-    [Authorize ( Roles = "Admin" )]
-    public JsonResult UploadImage ( IFormFile file )
+    [Authorize (Roles = "Admin")]
+    public JsonResult UploadImage (IFormFile file)
     {
         if ( file != null && file.Length > 0 )
         {
             if ( file == null || file.Length > AppSettings.Current.PostImageSize )
             {
-                return Json ( new
+                return Json (new
                 {
                     success = false
-                } );
+                });
             }
             else
             {
@@ -259,40 +253,40 @@ public class ManageAdminPostController: BaseController
 
                 if ( imageFile.IsNew )
                 {
-                    SetSessionImageFile ( imageFile );
+                    SetSessionImageFile (imageFile);
                 }
 
-                return Json ( new
+                return Json (new
                 {
                     success = true
-                } );
+                });
             }
         }
 
-        return Json ( new
+        return Json (new
         {
             success = false
-        } );
+        });
     }
 
 
-    private ImageFile ReadImage ( IFormFile file )
+    private ImageFile ReadImage (IFormFile file)
     {
-        if ( !string.IsNullOrEmpty ( file.ContentType ) && file.FileName != null )
+        if ( !string.IsNullOrEmpty (file.ContentType) && file.FileName != null )
         {
             string extension = Path.GetExtension(file.FileName).ToLower();
 
-            if ( extension.Equals ( ".jpg" ) || extension.Equals ( ".jpeg" )
+            if ( extension.Equals (".jpg") || extension.Equals (".jpeg")
 
-                || extension.Equals ( ".png" ) || extension.Equals ( ".gif" ) )
+                || extension.Equals (".png") || extension.Equals (".gif") )
             {
                 var imgByte = new Byte[file.Length];
 
                 var stream = file.OpenReadStream();
 
-                var result = stream.Read(imgByte);
+                _ = stream.Read (imgByte);
 
-                ImageFile objFile = new ImageFile ()
+                ImageFile objFile = new()
                 {
                     FileContent = imgByte ,
                     IsNew = true ,
@@ -303,13 +297,13 @@ public class ManageAdminPostController: BaseController
             }
         }
 
-        return new ImageFile ( );
+        return new ImageFile ();
     }
 
 
     [HttpGet]
-    [Authorize ( Roles = "Admin" )]
-    public PartialViewResult LoadImage ( )
+    [Authorize (Roles = "Admin")]
+    public PartialViewResult LoadImage ()
     {
         try
         {
@@ -317,74 +311,73 @@ public class ManageAdminPostController: BaseController
 
             if ( imageFileList == null || imageFileList.Count == 0 )
             {
-                return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ( ) );
+                return PartialView ("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ());
             }
 
             ImageFile imageFile = imageFileList.Last();
 
-            return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",imageFile );
+            return PartialView ("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",imageFile);
         }
         catch
         {
-            return PartialView ( "~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ( ) );
+            return PartialView ("~/Areas/AdminContent/Views/ManageAdminPost/_Image.cshtml",new ImageFile ());
         }
     }
 
 
     [HttpDelete]
-    [Authorize ( Roles = "Admin" )]
-    public async Task<JsonResult> ImageRemove ( int id,int postId )
+    [Authorize (Roles = "Admin")]
+    public async Task<JsonResult> ImageRemove (int id,int postId)
     {
-        bool result = false;
-
         try
         {
+            bool result;
             if ( postId != 0 )
             {
-                result = await _adminPostService.DeleteAdminPostImage ( id,postId );
+                result = await _adminPostService.DeleteAdminPostImage (id,postId);
             }
 
-            result = RemoveSessionImageFile ( id );
+            result = RemoveSessionImageFile (id);
 
-            return Json ( new
+            return Json (new
             {
                 success = result
-            } );
+            });
         }
         catch
         {
-            return Json ( new
+            return Json (new
             {
                 errors = false
-            } );
+            });
         }
     }
 
 
-    [Authorize ( Roles = "Admin" )]
-    public async Task<ActionResult> Delete ( int id )
+    [Authorize (Roles = "Admin")]
+    public async Task<ActionResult> Delete (int id)
     {
         try
         {
             var objAdminPostDataModel = await _adminPostService.GetAdminPostForEditPostID(id);
 
-            AdminPostViewModel adminPostViewModel = new AdminPostViewModel ();
+            AdminPostViewModel adminPostViewModel = new();
             adminPostViewModel.AdminPostID = objAdminPostDataModel.AdminPostID;
 
-            return View ( adminPostViewModel );
+            return View (adminPostViewModel);
         }
         catch
         {
-            return BadRequest ( new
+            return BadRequest (new
             {
                 success = false
-            } );
+            });
         }
     }
 
 
-    [Authorize ( Roles = "Admin" )]
-    public async Task<ActionResult> DeleteContent ( int id,int fakeId )
+    [Authorize (Roles = "Admin")]
+    public async Task<ActionResult> DeleteContent (int id,int fakeId)
     {
         try
         {
@@ -392,21 +385,21 @@ public class ManageAdminPostController: BaseController
 
             if ( result )
             {
-                return RedirectToAction ( "Index" );
+                return RedirectToAction ("Index");
             }
 
-            return RedirectToAction ( "Delete",new
+            return RedirectToAction ("Delete",new
             {
                 id = id
-            } );
+            });
 
         }
         catch
         {
-            return BadRequest ( new
+            return BadRequest (new
             {
                 success = false
-            } );
+            });
         }
     }
 }
