@@ -40,7 +40,6 @@
     <File Path="Docs/View Component Best Practices.txt" />
     <File Path="Docs/View Component.txt" />
     <File Path="Github Contribution Note.txt" />
-    <File Path="index.html" />
     <File Path="learning.html" />
     <File Path="Multi Tenant Database Scheme Changes.txt" />
     <File Path="Multi Tenant Email Policy.txt" />
@@ -51,6 +50,14 @@
     <File Path="Website Content Current Me .txt" />
     <File Path="Website Header CSS.txt" />
     <File Path="Website Project Goals.txt" />
+  </Folder>
+  <Folder Name="/Docs/Website/">
+    <File Path="Docs/Website/learning.html" />
+    <File Path="Docs/Website/site-github.css" />
+    <File Path="Docs/Website/Text Current Me .txt" />
+    <File Path="Docs/Website/Text Header CSS.txt" />
+    <File Path="Docs/Website/Text Project Goals.txt" />
+    <File Path="index.html" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
