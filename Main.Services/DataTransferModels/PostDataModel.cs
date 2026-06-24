@@ -1,13 +1,12 @@
 ﻿using Main.Common;
-using Main.Common;
 
 namespace DataTransferModel;
 
 public class PostDataModel: DataModel
 {
-    public PostDataModel ( )
+    public PostDataModel ()
     {
-        BaseDataModel = new BaseDataModel ( );
+        BaseDataModel = new BaseDataModel ();
     }
 
     public int PanelPostID

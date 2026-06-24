@@ -1,5 +1,4 @@
 ﻿using Main.Common;
-using Main.Common;
 using Main.Services;
 
 using System.Security.Claims;
@@ -9,7 +8,7 @@ public class UserContext: IUserContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserContext ( IHttpContextAccessor httpContextAccessor )
+    public UserContext (IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }
@@ -17,7 +16,7 @@ public class UserContext: IUserContext
     public ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 
     public string IdentityId
-                  => User?.FindFirst ( ClaimTypes.NameIdentifier )?.Value ?? string.Empty;
+                  => User?.FindFirst (ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
     public EnumCurrency EnumCurrency => AppSettings.Current.EnumCurrency;
 
@@ -30,16 +29,16 @@ public class UserContext: IUserContext
         get => User;
     }
 
-    public DateTime GetLocalNow ( )
+    public DateTime GetLocalNow ()
     {
         string timeZoneId = "Bangladesh Standard Time";
         TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-        return TimeZoneInfo.ConvertTimeFromUtc ( DateTime.UtcNow,userTimeZone );
+        return TimeZoneInfo.ConvertTimeFromUtc (DateTime.UtcNow,userTimeZone);
     }
 
-    public BaseDataModel GetCreateBaseDataModel ( )
+    public BaseDataModel GetCreateBaseDataModel ()
     {
-        BaseDataModel baseDataModel = new BaseDataModel
+        BaseDataModel baseDataModel = new ()
         {
             ModifiedDate = GetLocalNow ( ),
             CreatedDate = GetLocalNow ( ),
@@ -53,9 +52,9 @@ public class UserContext: IUserContext
         return baseDataModel;
     }
 
-    public BaseDataModel GetUpdateBaseDataModel ( )
+    public BaseDataModel GetUpdateBaseDataModel ()
     {
-        BaseDataModel baseDataModel = new BaseDataModel
+        BaseDataModel baseDataModel = new ()
         {
             ModifiedDate = GetLocalNow ( ),
             HostCountry = EnumCountry,

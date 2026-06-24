@@ -1,5 +1,4 @@
 ﻿using Main.Common;
-using Main.Common;
 
 using System.Security.Claims;
 namespace Main.Services;
@@ -27,9 +26,9 @@ public interface IUserContext
     }
 
 
-    DateTime GetLocalNow ( );
+    DateTime GetLocalNow ();
 
-    BaseDataModel GetCreateBaseDataModel ( );
+    BaseDataModel GetCreateBaseDataModel ();
 
-    BaseDataModel GetUpdateBaseDataModel ( );
+    BaseDataModel GetUpdateBaseDataModel ();
 }
