@@ -1,29 +1,27 @@
-﻿using Main.Common.Enums;
+﻿using System.Text.RegularExpressions;
 
-using System.Text.RegularExpressions;
-
-namespace Main.Common.HelperRelated;
+namespace Main.Common;
 
 public static class ValidationRelated
 {
-    public static bool IsValidEmail ( string email )
+    public static bool IsValidEmail (string email)
     {
         var r = new Regex(@"^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$");
-        return !string.IsNullOrEmpty ( email ) && r.IsMatch ( email );
+        return !string.IsNullOrEmpty (email) && r.IsMatch (email);
     }
 
 
-    public static bool IsNumeric ( string number )
+    public static bool IsNumeric (string number)
     {
         foreach ( var c in number )
         {
-            if ( !char.IsDigit ( c ) )
+            if ( !char.IsDigit (c) )
                 return false;
         }
         return true;
     }
 
-    public static EnumIsValidTemplate IsValidTemplate ( int countActual,EnumPanelTemplate enumPanelTemplate )
+    public static EnumIsValidTemplate IsValidTemplate (int countActual,EnumPanelTemplate enumPanelTemplate)
     {
         int enumPostCount = (int) GetPostCount (enumPanelTemplate);
 
@@ -98,7 +96,7 @@ public static class ValidationRelated
         return EnumIsValidTemplate.Invalid;
     }
 
-    public static int GetPostCount ( EnumPanelTemplate panelTemplate )
+    public static int GetPostCount (EnumPanelTemplate panelTemplate)
     {
         if ( panelTemplate == EnumPanelTemplate.AdminSingleBanner )
         {

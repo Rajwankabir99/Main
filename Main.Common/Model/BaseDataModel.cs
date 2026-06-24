@@ -1,10 +1,10 @@
-﻿using Main.Common.Enums;
+﻿
 
-namespace Main.Common.Model;
+namespace Main.Common;
 
 public class BaseDataModel
 {
-    public BaseDataModel ( )
+    public BaseDataModel ()
     {
     }
 

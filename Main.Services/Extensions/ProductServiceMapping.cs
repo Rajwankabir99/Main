@@ -1,6 +1,6 @@
 ﻿using DataTransferModel;
 using Domain.Model;
-using Main.Common.Enums;
+using Main.Common;
 
 namespace Main.Services.Extensions;
 

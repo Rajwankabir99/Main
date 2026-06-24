@@ -1,6 +1,6 @@
 ﻿using Domain.Model;
 
-using Main.Common.Enums;
+using Main.Common;
 using Main.Infrastructure;
 
 using Microsoft.AspNetCore.Identity;

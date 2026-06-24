@@ -1,18 +1,17 @@
-﻿using Main.Common.Enums;
-using Main.Common.Model;
+﻿using Main.Common;
 
 namespace Domain.Model;
 
 public class BaseEntity: IMustHaveTenant
 {
-    public BaseEntity ( )
+    public BaseEntity ()
     {
         IsActive = true;
     }
 
-    public void CreateBaseData ( BaseDataModel modelBase )
+    public void CreateBaseData (BaseDataModel modelBase)
     {
-        IdentityUserId = modelBase.Id.Trim ( );
+        IdentityUserId = modelBase.Id.Trim ();
 
         CreatedDate = modelBase.CreatedDate;
         CreatedBy = modelBase.CreatedBy;
@@ -25,7 +24,7 @@ public class BaseEntity: IMustHaveTenant
         IsActive = true;
     }
 
-    public void ModifyBaseData ( BaseDataModel modelBase )
+    public void ModifyBaseData (BaseDataModel modelBase)
     {
         ModifiedDate = modelBase.ModifiedDate;
         ModifiedBy = modelBase.ModifiedBy;

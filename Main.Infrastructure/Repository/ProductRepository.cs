@@ -1,13 +1,13 @@
 ﻿
 using Domain.Model;
 
-using IRepository;
+using Main.IRepository;
 
 using Main.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace Main.Repository;
 
 public class ProductRepository: IProductRepository
 {

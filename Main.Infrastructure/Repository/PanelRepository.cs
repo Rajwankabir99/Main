@@ -1,11 +1,11 @@
 ﻿
 using Domain.Model;
 
-using IRepository;
+using Main.IRepository;
 
 using Main.Infrastructure;
 
-namespace Repository;
+namespace Main.Repository;
 
 public class PanelRepository: IPanelRepository
 {

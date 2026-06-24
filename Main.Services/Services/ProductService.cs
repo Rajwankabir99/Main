@@ -1,6 +1,6 @@
 ﻿using DataTransferModel;
 using Domain.Model;
-using IRepository;
+using Main.IRepository;
 using Main.Services.Extensions;
 
 namespace Main.Services;

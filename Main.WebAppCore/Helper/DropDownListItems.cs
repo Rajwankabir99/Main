@@ -1,7 +1,4 @@
-﻿using Main.Common.Enums;
-using Main.Common.HelperServices;
-using Main.Common.Model;
-
+﻿using Main.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,35 +6,35 @@ namespace WebAppCore.Helper;
 
 public class DropDownListItems
 {
-    public DropDownListItems ( )
+    public DropDownListItems ()
     {
     }
 
 
     //   [ResponseCache(CacheProfileName = "Cache1dayServerNBrowser")]
-    public static IEnumerable<SelectListItem> GetPostTypeList ( )
+    public static IEnumerable<SelectListItem> GetPostTypeList ()
     {
         var listCountries = ListEnum.GetPostTypeList().OrderBy(a => a.Text).ToList();
-        List<SelectListItem> objOfferTypeListItems = new List<SelectListItem>();
+        List<SelectListItem> objOfferTypeListItems = new();
         foreach ( var item in listCountries )
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = item.Text,
                 Value = item.ValueID.ToString ( )
             };
-            objOfferTypeListItems.Add ( objItem );
+            objOfferTypeListItems.Add (objItem);
         }
-        return objOfferTypeListItems.AsEnumerable ( );
+        return objOfferTypeListItems.AsEnumerable ();
     }
 
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetAdminPostTypeList ( )
+    [ResponseCache (CacheProfileName = "Cache1dayServerNBrowser")]
+    public static IEnumerable<SelectListItem> GetAdminPostTypeList ()
     {
         var listCountries = ListEnum.GetAdminPostTypeList().ToList();
 
-        List<SelectListItem> objOfferTypeListItems = new List<SelectListItem>();
+        List<SelectListItem> objOfferTypeListItems = new();
         SelectListItem objItem;
 
         foreach ( var item in listCountries )
@@ -45,63 +42,63 @@ public class DropDownListItems
             objItem = new SelectListItem
             {
                 Text = item.Text,
-                Value = item.ValueID.ToString ( )
+                Value = item.ValueID.ToString ()
             };
-            objOfferTypeListItems.Add ( objItem );
+            objOfferTypeListItems.Add (objItem);
         }
 
-        return objOfferTypeListItems.AsEnumerable ( );
+        return objOfferTypeListItems.AsEnumerable ();
     }
 
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetPageList ( )
+    [ResponseCache (CacheProfileName = "Cache1dayServerNBrowser")]
+    public static IEnumerable<SelectListItem> GetPageList ()
     {
         var listCountries = ListEnum.GetPublicPages().OrderBy(a => a.Text).ToList();
-        List<SelectListItem> objCoutryListItems = new List<SelectListItem>();
+        List<SelectListItem> objCoutryListItems = new();
         foreach ( var item in listCountries )
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = item.Text,
                 Value = item.ValueID.ToString ( )
             };
-            objCoutryListItems.Add ( objItem );
+            objCoutryListItems.Add (objItem);
         }
-        return objCoutryListItems.AsEnumerable ( );
+        return objCoutryListItems.AsEnumerable ();
     }
 
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetPanelTempletList ( )
+    [ResponseCache (CacheProfileName = "Cache1dayServerNBrowser")]
+    public static IEnumerable<SelectListItem> GetPanelTempletList ()
     {
         var listColumns = ListEnum.GetPanelTempletList().OrderBy(a => a.Text).ToList();
 
-        List<SelectListItem> objCurrencyListItems = new List<SelectListItem>();
+        List<SelectListItem> objCurrencyListItems = new();
 
         foreach ( var item in listColumns )
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = item.Text,
                 Value = item.ValueID.ToString()
             };
-            objCurrencyListItems.Add ( objItem );
+            objCurrencyListItems.Add (objItem);
         }
 
-        SelectListItem objItem1 = new SelectListItem
+        SelectListItem objItem1 = new ()
         {
             Text = "",
             Value = ""
         };
 
-        objCurrencyListItems.Add ( objItem1 );
+        objCurrencyListItems.Add (objItem1);
 
-        return objCurrencyListItems.AsEnumerable ( );
+        return objCurrencyListItems.AsEnumerable ();
     }
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetCurrencyList ( )
+    [ResponseCache (CacheProfileName = "Cache1dayServerNBrowser")]
+    public static IEnumerable<SelectListItem> GetCurrencyList ()
     {
         var listCurrency = ListEnum.GetCurrencyList().OrderBy(a => a.Text).ToList();
 
@@ -109,79 +106,79 @@ public class DropDownListItems
 
         foreach ( TenantVariableModel? item in listCurrency )
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = item.Text,
                 Value = item.ValueID.ToString ( )
             };
-            objCurrencyListItems.Add ( objItem );
+            objCurrencyListItems.Add (objItem);
         }
 
-        return objCurrencyListItems.AsEnumerable ( );
+        return objCurrencyListItems.AsEnumerable ();
     }
 
-    [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetCountryList ( )
+    [ResponseCache (CacheProfileName = "Cache1dayServerNBrowser")]
+    public static IEnumerable<SelectListItem> GetCountryList ()
     {
         var listCountries = ListEnum.GetCountryList().OrderBy(a => a.Text).ToList();
 
-        List<SelectListItem> objCountryListItems = new List<SelectListItem>();
+        List<SelectListItem> objCountryListItems = new();
 
         foreach ( TenantVariableModel? item in listCountries )
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = item.Text,
                 Value = item.ValueID.ToString ( )
             };
 
-            objCountryListItems.Add ( objItem );
+            objCountryListItems.Add (objItem);
         }
 
-        return objCountryListItems.AsEnumerable ( );
+        return objCountryListItems.AsEnumerable ();
     }
 
     // [ResponseCache(CacheProfileName = "Cache30Mins")]
-    public static IEnumerable<SelectListItem> GetSubCategoryList ( EnumStoreType store )
+    public static IEnumerable<SelectListItem> GetSubCategoryList (EnumStoreType store)
     {
-        var listSubCat = new List<TenantVariableModel>();
+        _ = new List<TenantVariableModel> ();
 
-        return GetSelectList ( TenantStoreHelper.GetSubCategoryList ( store ),"" );
+        return GetSelectList (TenantStoreHelper.GetSubCategoryList (store),"");
     }
 
     //[ResponseCache ( CacheProfileName = "Cache30Mins" )]
     public static IEnumerable<SelectListItem> GetSubCategories
-    ( EnumStoreType store,int categoryId )
+    (EnumStoreType store,int categoryId)
     {
         return GetSelectList
-        ( TenantStoreHelper.GetSubCategoryListByID ( categoryId,store ),"" );
+        (TenantStoreHelper.GetSubCategoryListByID (categoryId,store),"");
     }
 
     // [ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetShowHideList ( )
+    public static IEnumerable<SelectListItem> GetShowHideList ()
     {
         var listShowHideList = ListEnum.GetShowHideList();
 
-        List<SelectListItem> objListItems = new List<SelectListItem>();
+        List<SelectListItem> objListItems = new();
 
-        listShowHideList.ForEach ( a =>
+        listShowHideList.ForEach (a =>
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = a.Text.Trim(),
                 Value = a.ValueID.ToString().Trim()
             };
 
-            objListItems.Add ( objItem );
-        } );
+            objListItems.Add (objItem);
+        });
 
-        return objListItems.AsEnumerable ( );
+        return objListItems.AsEnumerable ();
     }
 
-    private static IEnumerable<SelectListItem> GetSelectList ( List<TenantVariableModel> listTenantVariableModel,string selectText )
+    private static IEnumerable<SelectListItem> GetSelectList (List<TenantVariableModel> listTenantVariableModel,string selectText)
     {
         List<SelectListItem> objList =
-            new List<SelectListItem>()
+            new()
             {
                 new SelectListItem() {
                     Text = selectText,
@@ -189,56 +186,56 @@ public class DropDownListItems
                     Selected = true
                 } };
 
-        listTenantVariableModel.ForEach ( a =>
+        listTenantVariableModel.ForEach (a =>
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = a.Text.Trim(),
                 Value = a.ValueID.ToString().Trim()
             };
 
-            objList.Add ( objItem );
-        } );
+            objList.Add (objItem);
+        });
 
-        return objList.AsEnumerable ( );
+        return objList.AsEnumerable ();
     }
 
-    public static IEnumerable<SelectListItem> GetSelectList ( List<TenantVariableModel> listTenantVariableModel )
+    public static IEnumerable<SelectListItem> GetSelectList (List<TenantVariableModel> listTenantVariableModel)
     {
         List<SelectListItem> objList =
-                            new List<SelectListItem>
+                            new ()
                             {
                                 new SelectListItem() { Text = "", Value = "" }
                             };
 
-        listTenantVariableModel.ForEach ( a =>
+        listTenantVariableModel.ForEach (a =>
         {
-            SelectListItem objItem = new SelectListItem
+            SelectListItem objItem = new ()
             {
                 Text = a.Text.Trim ( ),
                 Value = a.ValueID.ToString ( ).Trim ( )
             };
 
-            objList.Add ( objItem );
+            objList.Add (objItem);
 
-        } );
+        });
 
-        return objList.AsEnumerable ( );
+        return objList.AsEnumerable ();
     }
 
     //[ResponseCache ( CacheProfileName = "Cache1dayServerNBrowser" )]
-    public static IEnumerable<SelectListItem> GetCategoryList ( EnumStoreType store )
+    public static IEnumerable<SelectListItem> GetCategoryList (EnumStoreType store)
     {
-        return GetSelectList ( TenantStoreHelper.GetCategoryList ( store ) );
+        return GetSelectList (TenantStoreHelper.GetCategoryList (store));
     }
 
-    public static string GetCategoryText ( EnumStoreType store,int categoryId )
+    public static string GetCategoryText (EnumStoreType store,int categoryId)
     {
-        return TenantStoreHelper.GetTextForCategoryId ( categoryId,store );
+        return TenantStoreHelper.GetTextForCategoryId (categoryId,store);
     }
 
-    public static string GetSubCategoryText ( EnumStoreType store,int subCategoryId )
+    public static string GetSubCategoryText (EnumStoreType store,int subCategoryId)
     {
-        return TenantStoreHelper.GetTextForSubCategoryId ( subCategoryId,store );
+        return TenantStoreHelper.GetTextForSubCategoryId (subCategoryId,store);
     }
 }

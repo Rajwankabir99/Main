@@ -1,6 +1,6 @@
 ﻿using DataTransferModel;
 
-using Main.Common.Enums;
+using Main.Common;
 
 using WebAppCore.Helper;
 namespace WebAppCore.ViewModel.Extensions;

@@ -2,7 +2,7 @@
 
 using Domain.Model;
 
-using Main.Common.Model;
+using Main.Common;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

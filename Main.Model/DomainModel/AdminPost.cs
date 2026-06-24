@@ -1,4 +1,4 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +6,7 @@ namespace Domain.Model;
 
 public class AdminPost: BaseEntity
 {
-    public AdminPost ( )
+    public AdminPost ()
     {
 
     }
@@ -37,22 +37,22 @@ public class AdminPost: BaseEntity
 
 
     //Nullable
-    [StringLength ( 11 )]
-    [DataType ( DataType.PhoneNumber )]
+    [StringLength (11)]
+    [DataType (DataType.PhoneNumber)]
     public string? PosterContactNumber
     {
         get; set;
     }
 
 
-    [DataType ( DataType.Url )]
+    [DataType (DataType.Url)]
     public string? WebsiteUrl
     {
         get; set;
     }
 
 
-    [MaxLength ( 4000 )]
+    [MaxLength (4000)]
     public string? ShortNote
     {
         get; set;
@@ -65,8 +65,8 @@ public class AdminPost: BaseEntity
     }
 
 
-    public virtual ICollection<AdminImageFile> ListAdminImageFiles { get; set; } = new HashSet<AdminImageFile> ( );
+    public virtual ICollection<AdminImageFile> ListAdminImageFiles { get; set; } = new HashSet<AdminImageFile> ();
 
-    public virtual ICollection<AdminPostComment> ListAdminPostComments { get; set; } = new HashSet<AdminPostComment> ( );
+    public virtual ICollection<AdminPostComment> ListAdminPostComments { get; set; } = new HashSet<AdminPostComment> ();
 
 }

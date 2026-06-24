@@ -1,9 +1,7 @@
-﻿using Main.Common.Model;
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Main.Common.Enums;
+namespace Main.Common;
 
 public class ListEnum
 {
@@ -12,20 +10,20 @@ public class ListEnum
         { EnumCountry.Bangladesh, EnumCurrency.BDT}
     };
 
-    public static EnumCurrency GetCountryCurrency ( EnumCountry countryName )
+    public static EnumCurrency GetCountryCurrency (EnumCountry countryName)
     {
         var item = objCountryCurrencyList[countryName];
         return item;
     }
 
-    public static string GetCountryCurrencyDescription ( EnumCountry countryName )
+    public static string GetCountryCurrencyDescription (EnumCountry countryName)
     {
         var currency = GetCountryCurrency(countryName);
 
-        return GetCurrencyDescription ( currency );
+        return GetCurrencyDescription (currency);
     }
 
-    public static string GetCurrencyDescription ( EnumCurrency currencyEnum )
+    public static string GetCurrencyDescription (EnumCurrency currencyEnum)
     {
         Type enumType = typeof(EnumCurrency);
         var enumValues = enumType.GetEnumValues();
@@ -44,7 +42,7 @@ public class ListEnum
                 }
                 else
                 {
-                    return value.ToString ( );
+                    return value.ToString ();
                 }
             }
         }
@@ -52,7 +50,7 @@ public class ListEnum
         return "";
     }
 
-    public static string GetCountryDescription ( EnumCountry countryEnum )
+    public static string GetCountryDescription (EnumCountry countryEnum)
     {
         Type enumType = typeof(EnumCountry);
         var enumValues = enumType.GetEnumValues();
@@ -71,7 +69,7 @@ public class ListEnum
                 }
                 else
                 {
-                    return value.ToString ( );
+                    return value.ToString ();
                 }
             }
         }
@@ -79,7 +77,7 @@ public class ListEnum
         return "";
     }
 
-    public static List<TenantVariableModel> GetCountryList ( )
+    public static List<TenantVariableModel> GetCountryList ()
     {
         List<TenantVariableModel> objCountryList = new List<TenantVariableModel>();
 
@@ -103,17 +101,17 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
             if ( objPair.ValueID != 0 )
             {
-                objCountryList.Add ( objPair );
+                objCountryList.Add (objPair);
             }
         }
         return objCountryList;
     }
 
-    public static List<TenantVariableModel> GetCurrencyList ( )
+    public static List<TenantVariableModel> GetCurrencyList ()
     {
         List<TenantVariableModel> objCurrencyList = new List<TenantVariableModel>();
 
@@ -139,16 +137,16 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
 
-            objCurrencyList.Add ( objPair );
+            objCurrencyList.Add (objPair);
 
         }
         return objCurrencyList;
     }
 
-    public static List<TenantVariableModel> GetShowHideList ( )
+    public static List<TenantVariableModel> GetShowHideList ()
     {
         List<TenantVariableModel> objPackageTypeList = new List<TenantVariableModel>();
 
@@ -172,15 +170,15 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
-            objPackageTypeList.Add ( objPair );
+            objPackageTypeList.Add (objPair);
         }
 
         return objPackageTypeList;
     }
 
-    public static List<TenantVariableModel> GetPanelTempletList ( )
+    public static List<TenantVariableModel> GetPanelTempletList ()
     {
         List<TenantVariableModel> objColumnList = new List<TenantVariableModel>();
 
@@ -204,16 +202,16 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
 
-            objColumnList.Add ( objPair );
+            objColumnList.Add (objPair);
         }
 
         return objColumnList;
     }
 
-    public static List<TenantVariableModel> GetPublicPages ( )
+    public static List<TenantVariableModel> GetPublicPages ()
     {
         List<TenantVariableModel> objColumnList = new List<TenantVariableModel>();
 
@@ -238,15 +236,15 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
 
-            objColumnList.Add ( objPair );
+            objColumnList.Add (objPair);
         }
 
         return objColumnList;
     }
-    public static List<TenantVariableModel> GetPostTypeList ( )
+    public static List<TenantVariableModel> GetPostTypeList ()
     {
         List<TenantVariableModel> objCountryList = new List<TenantVariableModel>();
 
@@ -273,19 +271,19 @@ public class ListEnum
             }
             else
             {
-                objPair.Text = value.ToString ( );
+                objPair.Text = value.ToString ();
             }
 
             if ( objPair != null )
             {
-                objCountryList.Add ( objPair );
+                objCountryList.Add (objPair);
             }
         }
 
         return objCountryList;
     }
 
-    public static List<TenantVariableModel> GetAdminPostTypeList ( )
+    public static List<TenantVariableModel> GetAdminPostTypeList ()
     {
         List<TenantVariableModel> objAdminPostTypeList = new List<TenantVariableModel>();
 
@@ -316,14 +314,14 @@ public class ListEnum
 
             if ( objPair != null && objPair.ValueID != 0 )
             {
-                objAdminPostTypeList.Add ( objPair );
+                objAdminPostTypeList.Add (objPair);
             }
         }
 
         return objAdminPostTypeList;
     }
 
-    public static string GetPageDescription ( EnumPublicPage page )
+    public static string GetPageDescription (EnumPublicPage page)
     {
         Type enumType = typeof(EnumPublicPage);
         var enumValues = enumType.GetEnumValues();
@@ -342,7 +340,7 @@ public class ListEnum
                 }
                 else
                 {
-                    return value.ToString ( );
+                    return value.ToString ();
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common;
 
 using System.ComponentModel.DataAnnotations;
 namespace WebAppCore.ViewModel;

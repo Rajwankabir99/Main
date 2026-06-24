@@ -2,8 +2,8 @@
 
 using Domain.Model;
 
-using Main.Common.Enums;
-using Main.Common.HelperRelated;
+using Main.Common;
+using Main.Common;
 
 namespace Main.Services.Extensions;
 

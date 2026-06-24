@@ -1,10 +1,7 @@
 ﻿using DataTransferModel;
-
 using Domain.Model;
-
-using IRepository;
-
-using Main.Common.Model;
+using Main.Common;
+using Main.IRepository;
 using Main.Services.Extensions;
 namespace Main.Services;
 

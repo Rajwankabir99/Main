@@ -1,6 +1,6 @@
 ﻿using DataTransferModel;
 
-using Main.Common.Model;
+using Main.Common;
 namespace Main.Services;
 
 public interface IPageService

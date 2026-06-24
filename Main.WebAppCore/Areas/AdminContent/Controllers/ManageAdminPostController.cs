@@ -1,6 +1,6 @@
 ﻿using DataTransferModel;
 
-using Main.Common.Model;
+using Main.Common;
 using Main.Infrastructure;
 using Main.Services;
 

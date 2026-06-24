@@ -5,12 +5,12 @@ namespace Domain.Model;
 
 public class AdminImageFile: BaseEntity
 {
-    public AdminImageFile ( )
+    public AdminImageFile ()
     {
 
     }
 
-    public AdminImageFile ( byte[] ImageContent )
+    public AdminImageFile (byte[] ImageContent)
     {
         ImageFileContent = ImageContent;
     }
@@ -37,7 +37,7 @@ public class AdminImageFile: BaseEntity
     }
 
 
-    [ForeignKey ( "AdminPostID" )]
+    [ForeignKey ("AdminPostID")]
     public virtual AdminPost AdminPost
     {
         get; set;

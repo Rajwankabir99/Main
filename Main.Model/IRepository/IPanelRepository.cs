@@ -1,5 +1,5 @@
 ﻿
-namespace IRepository;
+namespace Main.IRepository;
 
 public interface IPanelRepository
 {

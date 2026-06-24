@@ -1,4 +1,4 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +7,7 @@ namespace Domain.Model;
 
 public class Post: BaseEntity
 {
-    public Post ( )
+    public Post ()
     {
         Price = 0;
         WebsiteUrl = "www.dummy.com";
@@ -63,13 +63,13 @@ public class Post: BaseEntity
     }
 
     [Required]
-    [DataType ( DataType.Currency )]
+    [DataType (DataType.Currency)]
     public decimal Price
     {
         get; set;
     }
 
-    [Required, DataType ( DataType.Url )]
+    [Required, DataType (DataType.Url)]
     public string WebsiteUrl
     {
         get; set;
@@ -82,7 +82,7 @@ public class Post: BaseEntity
     }
 
 
-    [ForeignKey ( "PanelID" )]
+    [ForeignKey ("PanelID")]
     public virtual Panel Panel
     {
         get; set;

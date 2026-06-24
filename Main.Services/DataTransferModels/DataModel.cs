@@ -1,4 +1,4 @@
-﻿using Main.Common.Model;
+﻿using Main.Common;
 namespace DataTransferModel;
 
 public class DataModel

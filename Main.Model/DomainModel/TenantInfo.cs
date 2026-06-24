@@ -1,4 +1,4 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common;
 
 using System.ComponentModel.DataAnnotations;
 namespace Domain.Model;
@@ -6,12 +6,12 @@ namespace Domain.Model;
 public class TenantInfo
 {
     // seed
-    public TenantInfo ( string key )
+    public TenantInfo (string key)
     {
         TenantId = key;
     }
 
-    public TenantInfo ( )
+    public TenantInfo ()
     {
     }
 

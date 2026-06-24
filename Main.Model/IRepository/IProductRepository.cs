@@ -1,5 +1,5 @@
 ﻿using Domain.Model;
-namespace IRepository;
+namespace Main.IRepository;
 
 public interface IProductRepository
 {

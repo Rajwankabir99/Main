@@ -1,5 +1,5 @@
-﻿using Main.Common.Enums;
-using Main.Common.Model;
+﻿using Main.Common;
+using Main.Common;
 using Main.Services;
 
 using System.Security.Claims;

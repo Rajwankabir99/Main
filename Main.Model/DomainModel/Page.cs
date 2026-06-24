@@ -1,24 +1,23 @@
-﻿using Main.Common.Enums;
-
+﻿using Main.Common;
 using System.ComponentModel.DataAnnotations;
 namespace Domain.Model;
 
 public class Page: BaseEntity
 {
-    public Page ( )
+    public Page ()
     {
-        ListPanels = new List<Panel> ( );
+        ListPanels = new List<Panel> ();
     }
 
-    public Page ( EnumPublicPage enumPublicPage )
+    public Page (EnumPublicPage enumPublicPage)
     {
-        ListPanels = new List<Panel> ( );
+        ListPanels = new List<Panel> ();
         EnumPublicPage = enumPublicPage;
     }
 
-    public Page ( EnumPublicPage enumPublicPage,string tenantId,bool isSeed )
+    public Page (EnumPublicPage enumPublicPage,string tenantId,bool isSeed)
     {
-        ListPanels = new List<Panel> ( );
+        ListPanels = new List<Panel> ();
         EnumPublicPage = enumPublicPage;
         TenantId = tenantId;
         ModifiedBy = "e02fd0e4-00fd-000a-ca30-0F00a0898ba1";
@@ -46,19 +45,16 @@ public class Page: BaseEntity
         get; set;
     }
 
-    public virtual ICollection<Panel> ListPanels { get; set; } = new HashSet<Panel> ( );
+    public virtual ICollection<Panel> ListPanels { get; set; } = new HashSet<Panel> ();
 
 
-    public void CreatePanel ( Panel panel )
+    public void CreatePanel (Panel panel)
     {
-        if ( ListPanels == null )
-        {
-            ListPanels = new List<Panel> ( );
-        }
+        ListPanels ??= new List<Panel> ();
 
         if ( panel != null )
         {
-            if ( ListPanels.Any<Panel> ( ) )
+            if ( ListPanels.Any<Panel> () )
             {
                 int position = ListPanels.OrderBy ( a => a.PanelPosition ).Last().PanelPosition;
                 panel.PanelPosition = position + 1;
@@ -70,7 +66,7 @@ public class Page: BaseEntity
                 panel.PageID = PageID;
             }
 
-            ListPanels.Add ( panel );
+            ListPanels.Add (panel);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Main.Common.Enums;
-
-namespace Main.Common.HelperRelated;
+﻿namespace Main.Common;
 
 public static class HelperTemplate
 {

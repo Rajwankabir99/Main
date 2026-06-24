@@ -1,4 +1,4 @@
-﻿using Main.Common.Enums;
+﻿using Main.Common;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +7,11 @@ namespace Domain.Model;
 
 public class Panel: BaseEntity
 {
-    public Panel ( )
+    public Panel ()
     {
     }
 
-    public Panel ( int pageId,EnumPanelTemplate panelTemplate,string panelTitle )
+    public Panel (int pageId,EnumPanelTemplate panelTemplate,string panelTitle)
     {
         PageID = pageId;
         PanelTemplate = panelTemplate;
@@ -50,28 +50,25 @@ public class Panel: BaseEntity
     }
 
 
-    [ForeignKey ( "PageID" )]
+    [ForeignKey ("PageID")]
     public virtual Page Page
     {
         get; set;
     }
 
-    public virtual ICollection<Post> ListPosts { get; set; } = new HashSet<Post> ( );
+    public virtual ICollection<Post> ListPosts { get; set; } = new HashSet<Post> ();
 
-    public void CreatePost ( Post post )
+    public void CreatePost (Post post)
     {
         if ( post == null )
         {
             return;
         }
 
-        if ( ListPosts == null )
-        {
-            ListPosts = new List<Post> ( );
-        }
+        ListPosts ??= new List<Post> ();
 
 
-        if ( ListPosts.Any ( ) )
+        if ( ListPosts.Any () )
         {
             int order = ListPosts.ToList<Post>().OrderBy (a=> a.Order).Last<Post>().Order;
             post.Order = order + 1;
@@ -83,6 +80,6 @@ public class Panel: BaseEntity
             post.PanelID = PanelID;
         }
 
-        ListPosts.Add ( post );
+        ListPosts.Add (post);
     }
 }

@@ -2,7 +2,7 @@
 
 using Domain.Model;
 
-using IRepository;
+using Main.IRepository;
 
 namespace Main.Services;
 

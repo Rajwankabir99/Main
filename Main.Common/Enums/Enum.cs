@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Main.Common.Enums;
+namespace Main.Common;
 
 public enum EnumShowOrHide
 {

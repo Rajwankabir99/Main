@@ -1,9 +1,9 @@
-﻿using Main.Common.Enums;
-namespace Main.Common.Model;
+﻿
+namespace Main.Common;
 
 public class TenantVariableModel
 {
-    public TenantVariableModel ( )
+    public TenantVariableModel ()
     {
     }
 
