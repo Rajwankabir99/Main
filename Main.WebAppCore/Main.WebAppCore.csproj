@@ -66,7 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\lib\Images\TenantBanners\" />
+	  <Folder Include="wwwroot\lib\Images\Home\English\" />
 	</ItemGroup>
 
 </Project>
